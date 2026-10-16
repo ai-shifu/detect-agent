@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 — 2026-10-16
+
+- Define declaration trimming as U+0009 through U+000D and U+0020 at string boundaries.
+- Add ASCII whitespace, retained NBSP, internal whitespace and control-character cases.
+
 ## 0.1.1 — 2026-10-16
 
 - Define declaration normalization as locale-independent ASCII lowercase.

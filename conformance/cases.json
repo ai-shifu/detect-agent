@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.1",
+  "spec_version": "0.1.2",
   "cases": [
     {
       "name": "empty environment",
@@ -1312,6 +1312,96 @@
       "name": "Unicode Kelvin sign is not folded to ASCII K",
       "env": {
         "AI_AGENT": "\u212aIMI"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "all ASCII trim characters are removed at declaration boundaries",
+      "env": {
+        "AI_AGENT": "\t\n\u000b\f\r HI \r\f\u000b\n\t"
+      },
+      "expected": {
+        "agent_id": "hi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "ASCII whitespace-only declaration allows fallback",
+      "env": {
+        "AI_AGENT": "\t\n\u000b\f\r ",
+        "AGENT": "kimi",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "kimi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "internal ASCII whitespace is retained in a declaration",
+      "env": {
+        "AI_AGENT": "ki\tmi",
+        "AGENT": "manus",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "NBSP-only declaration blocks fallback",
+      "env": {
+        "AI_AGENT": "\u00a0",
+        "AGENT": "manus",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "NBSP padding is retained in a declaration",
+      "env": {
+        "AI_AGENT": "\u00a0hi\u00a0",
+        "AGENT": "manus"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "control before ASCII trim range is retained",
+      "env": {
+        "AI_AGENT": "\u0008hi\u0008",
+        "AGENT": "manus"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "control after ASCII trim range is retained",
+      "env": {
+        "AI_AGENT": "\u000ehi\u000e",
+        "AGENT": "manus"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "file separator control is retained in a declaration",
+      "env": {
+        "AI_AGENT": "\u001chi\u001c",
+        "AGENT": "manus"
       },
       "expected": {
         "agent_id": null,

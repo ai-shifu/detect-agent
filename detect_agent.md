@@ -1,6 +1,6 @@
 # detect_agent.md
 
-Version: **0.1.1** · Evidence reviewed: **2026-10-16** · License: **MIT**
+Version: **0.1.2** · Evidence reviewed: **2026-10-16** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -57,7 +57,14 @@ The environment input is a string-to-string mapping; absent keys have no value.
    rule, `"true"`, `"01"`, `" 1"`, and `"1\n"` all fail.
 4. **OR** requires at least one complete alternative. **AND** requires all
    conditions in that parenthesized group, from the same environment snapshot.
-5. Only explicit ID declarations are trimmed and ASCII-lowercased for lookup.
+5. Only explicit ID declarations are ASCII-trimmed and ASCII-lowercased for lookup.
+   **ASCII trim** removes the longest leading and trailing runs consisting only
+   of U+0009 through U+000D (tab, line feed, vertical tab, form feed, carriage
+   return) and U+0020 (space). It leaves all other characters and internal
+   whitespace unchanged. Do not substitute a language's default trim/strip
+   operation unless it removes exactly this character set. In particular,
+   non-breaking space (U+00A0) is retained: an NBSP-only declaration is non-empty
+   and blocks fallback.
    **ASCII lowercase** maps each `A` through `Z` to the corresponding `a`
    through `z` and leaves every other character unchanged. This operation MUST
    be independent of the host locale; do not use a locale-sensitive lowercase
@@ -76,8 +83,8 @@ The environment input is a string-to-string mapping; absent keys have no value.
 ```text
 DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
     for key in [AI_AGENT, AGENT], in that order:
-        if key exists and trim(environment[key]) is not empty:
-            id = ASCII_LOWERCASE(trim(environment[key]))
+        if key exists and ASCII_TRIM(environment[key]) is not empty:
+            id = ASCII_LOWERCASE(ASCII_TRIM(environment[key]))
             id = map documented compatibility aliases to canonical IDs
             if id is in the canonical catalog:
                 return {agent_id: id, evidence: declared}
@@ -227,6 +234,8 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `AI_AGENT="KIMI"` (U+212A Kelvin sign) | `(null, declared)` |
 | `AI_AGENT="unregistered-example"`, `CURSOR_AGENT="1"` | `(null, declared)` |
 | `AI_AGENT=" "`, `AGENT="manus"` | `(manus, declared)` |
+| `AI_AGENT="\t\r\nHI\v\f "` | `(hi, declared)` |
+| `AI_AGENT="\u00A0"`, `AGENT="manus"`, `CURSOR_AGENT="1"` | `(null, declared)` |
 | `QODER_WORK_INTEGRATION_PRODUCT="another-name"` | `(qwenwork, runtime-marker)` |
 | `QODER_WORK_INTEGRATION_PRODUCT=""` | `(null, none)` |
 | `DOUBAO_OFFICE_AGENT_NAME=" "` | `(doubao-work, runtime-marker)` |
