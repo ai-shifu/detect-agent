@@ -1,0 +1,542 @@
+{
+  "spec_version": "0.1.0",
+  "cases": [
+    {
+      "name": "empty environment",
+      "env": {},
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "known declaration wins inherited marker",
+      "env": {
+        "AI_AGENT": " codex_cli ",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "first unknown declaration blocks fallback",
+      "env": {
+        "AI_AGENT": "unregistered-example",
+        "AGENT": "manus",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "empty first declaration uses second",
+      "env": {
+        "AI_AGENT": " ",
+        "AGENT": "MANUS"
+      },
+      "expected": {
+        "agent_id": "manus",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "declaration-only product",
+      "env": {
+        "AGENT": "hi"
+      },
+      "expected": {
+        "agent_id": "hi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "declaration can identify a context-only product",
+      "env": {
+        "AGENT": "zed"
+      },
+      "expected": {
+        "agent_id": "zed",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "qwen arbitrary non-empty value",
+      "env": {
+        "QODER_WORK_INTEGRATION_PRODUCT": "another-name"
+      },
+      "expected": {
+        "agent_id": "qwenwork",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "qwen whitespace counts",
+      "env": {
+        "QODER_WORK_INTEGRATION_PRODUCT": " \t "
+      },
+      "expected": {
+        "agent_id": "qwenwork",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "qwen empty fails",
+      "env": {
+        "QODER_WORK_INTEGRATION_PRODUCT": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "qwen configuration alone fails",
+      "env": {
+        "QODERWORK_IS_CN": "true",
+        "QODER_SITE": "cn",
+        "QODERWORK_EXECUTION_ENV": "local",
+        "QWENWORK_BASE_URL": "https://service.example.invalid"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "doubao arbitrary name",
+      "env": {
+        "DOUBAO_OFFICE_AGENT_NAME": "synthetic-agent"
+      },
+      "expected": {
+        "agent_id": "doubao-work",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "doubao whitespace counts",
+      "env": {
+        "DOUBAO_OFFICE_AGENT_NAME": " "
+      },
+      "expected": {
+        "agent_id": "doubao-work",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "doubao empty fails",
+      "env": {
+        "DOUBAO_OFFICE_AGENT_NAME": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "doubao configuration alone fails",
+      "env": {
+        "DOUBAO_OFFICE_APP_ID": "synthetic-app",
+        "DOUBAO_OFFICE_MARKET": "synthetic-market",
+        "DOUBAO_OFFICE_CLI_TOKEN": "synthetic-test-token"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "workbuddy exact name",
+      "env": {
+        "WORKBUDDY_APP_NAME": "WorkBuddy"
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy wrong case fails",
+      "env": {
+        "WORKBUDDY_APPLICATION_NAME": "workbuddy"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "workbuddy packaging alone fails",
+      "env": {
+        "WORKBUDDY_IS_PACKAGED": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "grok bot local precedes cursor",
+      "env": {
+        "SAND_AGENT": "1",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok bot cloud all members",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud missing supervisor falls back",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud missing manifest falls back",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud no cursor fails",
+      "env": {
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cloud wrong sentinel falls back",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "true",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok build exact sentinel",
+      "env": {
+        "GROK_AGENT": "1",
+        "CLAUDECODE": "1"
+      },
+      "expected": {
+        "agent_id": "grok-build",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok selector alone fails",
+      "env": {
+        "GROK_AGENT": "other-selector"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cue is separate from manus",
+      "env": {
+        "MANUS_LONG_DESKTOP_WORKER": "1"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue wrong sentinel fails",
+      "env": {
+        "MANUS_LONG_DESKTOP_WORKER": "true"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "manus descriptor",
+      "env": {
+        "MANUS_ADDON_RUNTIME_SPECS_REVISION": "synthetic-revision"
+      },
+      "expected": {
+        "agent_id": "manus",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "manus enabled flags alone fail",
+      "env": {
+        "MANUS_ADDON_REGISTRY_ENABLED": "1",
+        "MANUS_GROUP_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "muse tool context",
+      "env": {
+        "JARVIS_TOOL_CALL_ID": "synthetic-tool"
+      },
+      "expected": {
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse active assignment",
+      "env": {
+        "JARVIS_IS_ASSIGNED": "1"
+      },
+      "expected": {
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse session metadata alone fails",
+      "env": {
+        "JARVIS_HATCHLING_ID": "synthetic-vm",
+        "JARVIS_SESSION_ID": "synthetic-session",
+        "JARVIS_TIER": "synthetic-tier"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cowork precedes claude",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "1"
+      },
+      "expected": {
+        "agent_id": "cowork",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cowork without claude fails",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "zed is context only",
+      "env": {
+        "ZED_TERM": "1"
+      },
+      "expected": {
+        "agent_id": "zed",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "runtime wins editor context",
+      "env": {
+        "ZED_TERM": "1",
+        "CURSOR_TRACE_ID": "synthetic-trace",
+        "CODEX_THREAD_ID": "synthetic-thread"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cursor cli wins editor context",
+      "env": {
+        "CURSOR_TRACE_ID": "synthetic-trace",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "goose provider is context only",
+      "env": {
+        "GOOSE_PROVIDER": "synthetic-provider"
+      },
+      "expected": {
+        "agent_id": "goose",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "goose terminal is runtime",
+      "env": {
+        "GOOSE_TERMINAL": "0"
+      },
+      "expected": {
+        "agent_id": "goose",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "copilot token is context only",
+      "env": {
+        "COPILOT_GITHUB_TOKEN": "synthetic-test-token"
+      },
+      "expected": {
+        "agent_id": "github-copilot",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "kiro with tty unavailable",
+      "env": {
+        "TERM_PROGRAM": "kiro"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "kiro non-tty is context",
+      "env": {
+        "TERM_PROGRAM": "kiro"
+      },
+      "stdout_is_tty": false,
+      "expected": {
+        "agent_id": "kiro",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "kiro human terminal not matched",
+      "env": {
+        "TERM_PROGRAM": "kiro"
+      },
+      "stdout_is_tty": true,
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "devin file probe unavailable",
+      "env": {},
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "devin file probe available",
+      "env": {},
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "pi path components",
+      "env": {
+        "PATH": "/tmp/.pi/agent/bin:/usr/bin"
+      },
+      "path_separator": ":",
+      "expected": {
+        "agent_id": "pi",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "pi similar component fails",
+      "env": {
+        "PATH": "/tmp/.pi/agents/bin:/usr/bin"
+      },
+      "path_separator": ":",
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "non-empty false string is not boolean",
+      "env": {
+        "CRUSH": "false"
+      },
+      "expected": {
+        "agent_id": "crush",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "case-sensitive variable names",
+      "env": {
+        "crush": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "exact sentinel does not trim",
+      "env": {
+        "VTCODE": "1\n"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "deterministic simultaneous runtime order",
+      "env": {
+        "CRUSH": "1",
+        "HERMES_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "crush",
+        "evidence": "runtime-marker"
+      }
+    }
+  ]
+}
