@@ -1,6 +1,6 @@
 # detect_agent.md
 
-Version: **0.1.0** · Evidence reviewed: **2026-10-16** · License: **MIT**
+Version: **0.1.1** · Evidence reviewed: **2026-10-16** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -57,8 +57,14 @@ The environment input is a string-to-string mapping; absent keys have no value.
    rule, `"true"`, `"01"`, `" 1"`, and `"1\n"` all fail.
 4. **OR** requires at least one complete alternative. **AND** requires all
    conditions in that parenthesized group, from the same environment snapshot.
-5. Only explicit ID declarations are trimmed and lowercased for lookup.
-   This normalization does not apply to runtime-marker values.
+5. Only explicit ID declarations are trimmed and ASCII-lowercased for lookup.
+   **ASCII lowercase** maps each `A` through `Z` to the corresponding `a`
+   through `z` and leaves every other character unchanged. This operation MUST
+   be independent of the host locale; do not use a locale-sensitive lowercase
+   operation or Unicode case folding as a substitute. For example, `HI` becomes
+   `hi`, while dotless `hı` (U+0131) and `KIMI` (U+212A Kelvin sign) remain
+   unrecognized declarations. This normalization does not apply to
+   runtime-marker values.
 6. Evaluate the current environment when the function is called. Do not cache
    a detection result for the process lifetime: tool-call markers can change.
 7. Read only listed variables. Do not enumerate, log, transmit or persist the
@@ -71,7 +77,7 @@ The environment input is a string-to-string mapping; absent keys have no value.
 DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
     for key in [AI_AGENT, AGENT], in that order:
         if key exists and trim(environment[key]) is not empty:
-            id = lowercase(trim(environment[key]))
+            id = ASCII_LOWERCASE(trim(environment[key]))
             id = map documented compatibility aliases to canonical IDs
             if id is in the canonical catalog:
                 return {agent_id: id, evidence: declared}
@@ -196,6 +202,13 @@ Accept these compatibility spellings in **declarations only**:
 | `open_code` | `opencode` |
 | `grok` | `grok-build` |
 
+Declaration results MUST stay identical across host locales, including Turkish.
+When testing a language runtime with configurable default locales, run the same
+conformance cases under each locale; the fixtures do not define a `locale` field
+and changing the supplied environment alone is not a substitute for configuring
+the host runtime. The [Java String documentation](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#toLowerCase())
+illustrates why a default-locale lowercase operation can change ASCII `I`.
+
 The `grok` alias records the Together/Vercel detector's historical Grok Build ID;
 it does not mean that every product named Grok is Grok Build. Product names such
 as Manus and Doubao Work have canonical IDs `manus` and `doubao-work`.
@@ -209,6 +222,9 @@ All values below are synthetic, except fixed product/sentinel constants.
 | --- | --- |
 | `{}` | `(null, none)` |
 | `AI_AGENT=" codex_cli "`, `CURSOR_AGENT="1"` | `(codex, declared)` |
+| `AI_AGENT="HI"` | `(hi, declared)` |
+| `AGENT="KIMI"` | `(kimi, declared)` |
+| `AI_AGENT="KIMI"` (U+212A Kelvin sign) | `(null, declared)` |
 | `AI_AGENT="unregistered-example"`, `CURSOR_AGENT="1"` | `(null, declared)` |
 | `AI_AGENT=" "`, `AGENT="manus"` | `(manus, declared)` |
 | `QODER_WORK_INTEGRATION_PRODUCT="another-name"` | `(qwenwork, runtime-marker)` |

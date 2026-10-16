@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.0",
+  "spec_version": "0.1.1",
   "cases": [
     {
       "name": "empty environment",
@@ -1266,6 +1266,56 @@
       "expected": {
         "agent_id": null,
         "evidence": "none"
+      }
+    },
+    {
+      "name": "ASCII uppercase I declaration is locale independent",
+      "env": {
+        "AI_AGENT": "HI"
+      },
+      "expected": {
+        "agent_id": "hi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "Kimi uppercase I declaration is locale independent",
+      "env": {
+        "AGENT": "KIMI"
+      },
+      "expected": {
+        "agent_id": "kimi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "ASCII uppercase compatibility alias",
+      "env": {
+        "AI_AGENT": "GEMINI_CLI"
+      },
+      "expected": {
+        "agent_id": "gemini-cli",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "dotless i is not folded to ASCII i",
+      "env": {
+        "AGENT": "h\u0131"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "Unicode Kelvin sign is not folded to ASCII K",
+      "env": {
+        "AI_AGENT": "\u212aIMI"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
       }
     }
   ]
