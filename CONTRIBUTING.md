@@ -25,4 +25,8 @@ markers, local relative links resolve, and conformance data is valid JSON with
 unique case names. Run an implementation against controlled mappings only;
 never infer conformance from the contributor's real environment.
 
+Keep an isolated positive case for every canonical ID; cover `runtime-marker`
+and `context-hint` separately when both apply, and use declaration positives for
+declaration-only products.
+
 Contributions to original project content are made under the MIT license.
