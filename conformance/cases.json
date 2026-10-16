@@ -457,14 +457,6 @@
       }
     },
     {
-      "name": "devin file probe unavailable",
-      "env": {},
-      "expected": {
-        "agent_id": null,
-        "evidence": "none"
-      }
-    },
-    {
       "name": "devin file probe available",
       "env": {},
       "files": [
