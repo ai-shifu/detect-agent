@@ -1,6 +1,6 @@
 # detect_agent.md
 
-Version: **0.1.2** · Evidence reviewed: **2026-10-16** · License: **MIT**
+Version: **0.1.3** · Evidence reviewed: **2026-10-16** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -46,11 +46,15 @@ or `runtime-marker`. Keep `agent_id` and `evidence` available to callers.
 
 ## 2. Matching semantics
 
-The environment input is a string-to-string mapping; absent keys have no value.
+The environment input is a string-to-string lookup provider; absent keys have
+no value. A caller-supplied mapping is also a provider.
 
-1. Environment variable **names are case-sensitive**. Check only the complete
-   names listed here. A missing key and a key with an empty string both fail a
-   non-empty check.
+1. Look up only the complete variable names listed here through the supplied
+   provider. **Preserve the provider's name-lookup semantics**: native Windows
+   lookups are case-insensitive, while ordinary mappings and some runtime-specific
+   copies can be case-sensitive. Do not enumerate or copy the full native
+   environment to normalize names. A missing key and a key with an empty string
+   both fail a non-empty check. Name lookup does not alter value comparisons.
 2. **Non-empty** means string length greater than zero. Do not trim values:
    `"0"`, `"false"`, and `" "` all pass. Do not parse these values as booleans.
 3. **Equals** means a case-sensitive, whole-string comparison. For an exact `1`
@@ -79,6 +83,9 @@ The environment input is a string-to-string mapping; absent keys have no value.
    constants. Session IDs, paths and credentials are never result fields.
 
 ## 3. Detection algorithm and priority
+
+Every key-existence check, `environment[key]` access, and runtime/context variable
+lookup below uses the same supplied provider and its name-lookup semantics.
 
 ```text
 DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
@@ -259,12 +266,20 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `TERM_PROGRAM="kiro"`, TTY state unavailable | `(null, none)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
-input/output data, not another source of rules. A case's absent `files` or
-`stdout_is_tty` field means the capability is unavailable. An optional
-`path_separator` case field selects the emulated platform's PATH-list separator,
-so tests do not depend on the host platform. `files: []` means
-an available probe that reports no listed paths exist. Never use the machine's
-actual environment, filesystem, or terminal state when running these cases.
+input/output data, not another source of rules. The optional `env_name_case`
+field selects the synthetic mapping adapter: `sensitive` (the default), or
+`ascii-insensitive`. The latter compares names after mapping ASCII `A` through
+`Z` to `a` through `z`, leaving other characters unchanged. Fixtures in this
+mode MUST NOT contain keys that collide under that transformation. It models
+ASCII name casing only, not every native Windows name-equivalence rule; it does
+not depend on the test host and does not change production provider semantics.
+
+A case's absent `files` or `stdout_is_tty` field means the capability is
+unavailable. An optional `path_separator` case field selects the emulated
+platform's PATH-list separator, so tests do not depend on the host platform.
+`files: []` means an available probe that reports no listed paths exist. Never use
+the machine's actual environment, filesystem, or terminal state when running
+these cases.
 
 ## 8. Evidence, coverage and references
 
@@ -284,6 +299,18 @@ contributions are not claims of upstream acceptance or deployed availability.
   independently reproduced and are not public stability guarantees.
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
+
+### Environment provider references
+
+- [Microsoft Environment.GetEnvironmentVariable](https://learn.microsoft.com/en-us/dotnet/api/system.environment.getenvironmentvariable?view=net-9.0#remarks)
+  documents case-sensitive name lookup on Unix-like systems and case-insensitive
+  name lookup on Windows.
+- [Python os.environ](https://docs.python.org/3.14/library/os.html#os.environ)
+  documents uppercase key conversion for its Windows environment mapping.
+- [Node.js process.env](https://nodejs.org/api/process.html#processenv) documents
+  case-insensitive Windows lookups in the main thread, but a case-sensitive
+  environment copy in a Worker. Select semantics for the actual provider rather
+  than inferring them solely from the host OS.
 
 ### Detector snapshots and attribution
 

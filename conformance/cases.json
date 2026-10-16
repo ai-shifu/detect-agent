@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.2",
+  "spec_version": "0.1.3",
   "cases": [
     {
       "name": "empty environment",
@@ -1301,7 +1301,7 @@
     {
       "name": "dotless i is not folded to ASCII i",
       "env": {
-        "AGENT": "h\u0131"
+        "AGENT": "hı"
       },
       "expected": {
         "agent_id": null,
@@ -1311,7 +1311,7 @@
     {
       "name": "Unicode Kelvin sign is not folded to ASCII K",
       "env": {
-        "AI_AGENT": "\u212aIMI"
+        "AI_AGENT": "KIMI"
       },
       "expected": {
         "agent_id": null,
@@ -1355,7 +1355,7 @@
     {
       "name": "NBSP-only declaration blocks fallback",
       "env": {
-        "AI_AGENT": "\u00a0",
+        "AI_AGENT": " ",
         "AGENT": "manus",
         "CURSOR_AGENT": "1"
       },
@@ -1367,7 +1367,7 @@
     {
       "name": "NBSP padding is retained in a declaration",
       "env": {
-        "AI_AGENT": "\u00a0hi\u00a0",
+        "AI_AGENT": " hi ",
         "AGENT": "manus"
       },
       "expected": {
@@ -1378,7 +1378,7 @@
     {
       "name": "control before ASCII trim range is retained",
       "env": {
-        "AI_AGENT": "\u0008hi\u0008",
+        "AI_AGENT": "\bhi\b",
         "AGENT": "manus"
       },
       "expected": {
@@ -1406,6 +1406,109 @@
       "expected": {
         "agent_id": null,
         "evidence": "declared"
+      }
+    },
+    {
+      "name": "explicit sensitive provider preserves mixed-case name negative",
+      "env": {
+        "cRuSh": "1"
+      },
+      "env_name_case": "sensitive",
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "ASCII-insensitive provider finds lowercase runtime name",
+      "env": {
+        "crush": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": "crush",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "ASCII-insensitive declaration precedes runtime marker",
+      "env": {
+        "ai_agent": "HI",
+        "CRUSH": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": "hi",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "ASCII-insensitive names retain exact value casing",
+      "env": {
+        "workbuddy_application_name": "workbuddy"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "ASCII-insensitive Grok Bot cloud conjunction",
+      "env": {
+        "cursor_agent": "1",
+        "sand_manifest_v2": "1",
+        "sand_supervisor_enabled": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "ASCII-insensitive partial cloud conjunction falls back to Cursor CLI",
+      "env": {
+        "cursor_agent": "1",
+        "sand_manifest_v2": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "ASCII-insensitive provider finds context name",
+      "env": {
+        "zed_term": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": "zed",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "ASCII-insensitive names do not trim exact sentinel values",
+      "env": {
+        "vtcode": " 1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "ASCII-insensitive names retain empty marker negative",
+      "env": {
+        "crush": ""
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
       }
     }
   ]

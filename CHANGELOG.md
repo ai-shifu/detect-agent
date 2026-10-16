@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 2026-10-16
+
+- Preserve the actual environment provider's name-lookup semantics, including native Windows lookup.
+- Add explicit synthetic name-casing adapters and cross-provider conformance cases.
+
 ## 0.1.2 — 2026-10-16
 
 - Define declaration trimming as U+0009 through U+000D and U+0020 at string boundaries.
