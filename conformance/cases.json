@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.3",
+  "spec_version": "0.1.4",
   "cases": [
     {
       "name": "empty environment",
@@ -794,13 +794,13 @@
       }
     },
     {
-      "name": "junie data marker alone",
+      "name": "junie data configuration alone is ignored",
       "env": {
         "JUNIE_DATA": "synthetic-data"
       },
       "expected": {
-        "agent_id": "junie",
-        "evidence": "runtime-marker"
+        "agent_id": null,
+        "evidence": "none"
       }
     },
     {
@@ -814,7 +814,7 @@
       }
     },
     {
-      "name": "junie empty alternatives fail",
+      "name": "junie empty shim does not match",
       "env": {
         "JUNIE_DATA": "",
         "JUNIE_SHIM_PATH": ""
@@ -1509,6 +1509,39 @@
       "expected": {
         "agent_id": null,
         "evidence": "none"
+      }
+    },
+    {
+      "name": "junie data configuration with empty shim is ignored",
+      "env": {
+        "JUNIE_DATA": "synthetic-data",
+        "JUNIE_SHIM_PATH": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "junie data configuration preserves other agent fallback",
+      "env": {
+        "JUNIE_DATA": "synthetic-data",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "junie shim with data configuration still matches",
+      "env": {
+        "JUNIE_SHIM_PATH": "synthetic-shim",
+        "JUNIE_DATA": "synthetic-data"
+      },
+      "expected": {
+        "agent_id": "junie",
+        "evidence": "runtime-marker"
       }
     }
   ]

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4 — 2026-10-17
+
+- Remove configurable `JUNIE_DATA` from Junie detection; require non-empty `JUNIE_SHIM_PATH`.
+- Add configuration-only negatives and coexistence/fallback regression cases.
+
 ## 0.1.3 — 2026-10-16
 
 - Preserve the actual environment provider's name-lookup semantics, including native Windows lookup.
