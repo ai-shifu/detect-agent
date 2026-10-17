@@ -12,8 +12,15 @@ For a rule change, include:
 3. Exact variable names, non-empty or exact-value semantics, AND/OR grouping,
    and priority relative to inherited host markers.
 4. Synthetic positive and negative cases in `conformance/cases.json`, including
-   missing/empty values, wrong sentinels, partial conjunctions, and coexistence.
+   missing/empty values, discriminator wrong values, partial conjunctions,
+   and coexistence.
 5. A specification version and changelog update if behavior changes.
+
+Use non-empty checks for ordinary runtime markers. Any exact-value predicate
+must explain how the value distinguishes the required context, with supporting
+evidence. A fixed value observed in one build or shell is insufficient on its own
+to require that value. Add `"0"`, `"false"` and whitespace positives for ordinary
+markers; retain missing/empty negatives and discriminator wrong-value negatives.
 
 A product's marketing page can support its name and positioning but does not
 establish an environment-variable contract. Do not include actual credentials,

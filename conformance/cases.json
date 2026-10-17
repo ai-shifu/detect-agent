@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.4",
+  "spec_version": "0.1.5",
   "cases": [
     {
       "name": "empty environment",
@@ -149,7 +149,7 @@
       }
     },
     {
-      "name": "workbuddy exact name",
+      "name": "workbuddy app name marker alone",
       "env": {
         "WORKBUDDY_APP_NAME": "WorkBuddy"
       },
@@ -159,13 +159,13 @@
       }
     },
     {
-      "name": "workbuddy wrong case fails",
+      "name": "workbuddy application name is non-empty regardless of case",
       "env": {
         "WORKBUDDY_APPLICATION_NAME": "workbuddy"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
       }
     },
     {
@@ -235,14 +235,14 @@
       }
     },
     {
-      "name": "cloud wrong sentinel falls back",
+      "name": "cloud non-empty zero and false members match",
       "env": {
         "CURSOR_AGENT": "1",
-        "SAND_MANIFEST_V2": "true",
-        "SAND_SUPERVISOR_ENABLED": "1"
+        "SAND_MANIFEST_V2": "0",
+        "SAND_SUPERVISOR_ENABLED": "false"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agent_id": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -278,13 +278,13 @@
       }
     },
     {
-      "name": "cue wrong sentinel fails",
+      "name": "cue false string is non-empty",
       "env": {
-        "MANUS_LONG_DESKTOP_WORKER": "true"
+        "MANUS_LONG_DESKTOP_WORKER": "false"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
       }
     },
     {
@@ -512,7 +512,7 @@
     {
       "name": "exact sentinel does not trim",
       "env": {
-        "VTCODE": "1\n"
+        "GROK_AGENT": "1\n"
       },
       "expected": {
         "agent_id": null,
@@ -602,7 +602,7 @@
       }
     },
     {
-      "name": "vtcode exact sentinel alone",
+      "name": "vtcode non-empty marker alone",
       "env": {
         "VTCODE": "1"
       },
@@ -612,7 +612,7 @@
       }
     },
     {
-      "name": "vtcode empty sentinel fails",
+      "name": "vtcode empty marker fails",
       "env": {
         "VTCODE": ""
       },
@@ -622,33 +622,33 @@
       }
     },
     {
-      "name": "vtcode true string is not the sentinel",
+      "name": "vtcode false string is non-empty",
       "env": {
-        "VTCODE": "true"
+        "VTCODE": "false"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "vtcode",
+        "evidence": "runtime-marker"
       }
     },
     {
-      "name": "vtcode zero-padded sentinel fails",
+      "name": "vtcode zero string is non-empty",
       "env": {
-        "VTCODE": "01"
+        "VTCODE": "0"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "vtcode",
+        "evidence": "runtime-marker"
       }
     },
     {
-      "name": "vtcode leading whitespace fails",
+      "name": "vtcode whitespace-only marker is non-empty",
       "env": {
-        "VTCODE": " 1"
+        "VTCODE": " "
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "vtcode",
+        "evidence": "runtime-marker"
       }
     },
     {
@@ -1153,13 +1153,13 @@
       }
     },
     {
-      "name": "grok bot true string is not the local sentinel",
+      "name": "grok bot false local marker is non-empty",
       "env": {
-        "SAND_AGENT": "true"
+        "SAND_AGENT": "false"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
       }
     },
     {
@@ -1238,7 +1238,7 @@
       }
     },
     {
-      "name": "cue empty sentinel fails",
+      "name": "cue empty marker fails",
       "env": {
         "MANUS_LONG_DESKTOP_WORKER": ""
       },
@@ -1259,13 +1259,13 @@
       }
     },
     {
-      "name": "muse true string is not the assignment sentinel",
+      "name": "muse false assignment marker is non-empty",
       "env": {
-        "JARVIS_IS_ASSIGNED": "true"
+        "JARVIS_IS_ASSIGNED": "false"
       },
       "expected": {
-        "agent_id": null,
-        "evidence": "none"
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
       }
     },
     {
@@ -1445,7 +1445,7 @@
     {
       "name": "ASCII-insensitive names retain exact value casing",
       "env": {
-        "workbuddy_application_name": "workbuddy"
+        "cursor_extension_host_role": "AGENT-EXEC"
       },
       "env_name_case": "ascii-insensitive",
       "expected": {
@@ -1492,7 +1492,7 @@
     {
       "name": "ASCII-insensitive names do not trim exact sentinel values",
       "env": {
-        "vtcode": " 1"
+        "grok_agent": " 1"
       },
       "env_name_case": "ascii-insensitive",
       "expected": {
@@ -1542,6 +1542,246 @@
       "expected": {
         "agent_id": "junie",
         "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy zero application name is non-empty",
+      "env": {
+        "WORKBUDDY_APPLICATION_NAME": "0"
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy false application name is non-empty",
+      "env": {
+        "WORKBUDDY_APPLICATION_NAME": "false"
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy whitespace-only application name is non-empty",
+      "env": {
+        "WORKBUDDY_APPLICATION_NAME": " "
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy zero app name is non-empty",
+      "env": {
+        "WORKBUDDY_APP_NAME": "0"
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy false app name is non-empty",
+      "env": {
+        "WORKBUDDY_APP_NAME": "false"
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "workbuddy whitespace-only app name is non-empty",
+      "env": {
+        "WORKBUDDY_APP_NAME": " "
+      },
+      "expected": {
+        "agent_id": "workbuddy",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok bot local marker with zero value is non-empty",
+      "env": {
+        "SAND_AGENT": "0"
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok bot local marker with whitespace-only value is non-empty",
+      "env": {
+        "SAND_AGENT": " "
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue marker with zero value is non-empty",
+      "env": {
+        "MANUS_LONG_DESKTOP_WORKER": "0"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue marker with whitespace-only value is non-empty",
+      "env": {
+        "MANUS_LONG_DESKTOP_WORKER": " "
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse assignment marker with zero value is non-empty",
+      "env": {
+        "JARVIS_IS_ASSIGNED": "0"
+      },
+      "expected": {
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse assignment marker with whitespace-only value is non-empty",
+      "env": {
+        "JARVIS_IS_ASSIGNED": " "
+      },
+      "expected": {
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud non-empty false and whitespace members match",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "false",
+        "SAND_SUPERVISOR_ENABLED": " "
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud non-empty whitespace and zero members match",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": " ",
+        "SAND_SUPERVISOR_ENABLED": "0"
+      },
+      "expected": {
+        "agent_id": "grok-bot",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud empty cursor does not match",
+      "env": {
+        "CURSOR_AGENT": "",
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cloud empty manifest falls back",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cloud empty supervisor falls back",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": ""
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "grok build selector zero value is not the exact sentinel",
+      "env": {
+        "GROK_AGENT": "0"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "grok build selector false value is not the exact sentinel",
+      "env": {
+        "GROK_AGENT": "false"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "grok build selector whitespace-only value is not the exact sentinel",
+      "env": {
+        "GROK_AGENT": " "
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cursor host role zero value is not the exact sentinel",
+      "env": {
+        "CURSOR_EXTENSION_HOST_ROLE": "0"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cursor host role false value is not the exact sentinel",
+      "env": {
+        "CURSOR_EXTENSION_HOST_ROLE": "false"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "cursor host role whitespace-only value is not the exact sentinel",
+      "env": {
+        "CURSOR_EXTENSION_HOST_ROLE": " "
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
       }
     }
   ]
