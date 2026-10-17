@@ -109,8 +109,9 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 ```
 
 First match wins within each stage. A runtime marker always wins over a context
-hint. Cowork precedes Claude Code; Grok Bot and Grok Build precede their Cursor or
-Claude compatibility markers; Cursor CLI precedes the generic Cursor editor hint.
+hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
+Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
+editor hint.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -144,7 +145,7 @@ where the marker information came from; it is not a probability score.
 | 21 | `goose` | Goose | non-empty `GOOSE_TERMINAL` | registry |
 | 22 | `junie` | Junie | non-empty `JUNIE_SHIM_PATH` | public-source |
 | 23 | `pi` | Pi | non-empty `PI_CODING_AGENT` | registry |
-| 24 | `cowork` | Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
+| 24 | `cowork` | Claude Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
 | 25 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
 | 26 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
 | 27 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
@@ -172,8 +173,8 @@ Important boundaries:
   `JUNIE_DATA` configures the data directory and can be set globally by the user;
   it is ignored for detection. Junie execution without the shim marker is not
   covered by this rule.
-- Cowork requires both its specific marker and a Claude Code marker here.
-  This is more restrictive than registries that check the Cowork flag alone.
+- Claude Cowork requires both its specific marker and a Claude Code marker here.
+  This is more restrictive than registries that check the Claude Cowork flag alone.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -322,8 +323,8 @@ This document independently states detection policies and factual marker names;
 it does not vendor implementation code or copy proprietary application source.
 The underlying open-source projects retain their own licenses and attribution:
 
-- [Hugging Face agent registry](https://github.com/huggingface/huggingface.js/blob/e6bfaf7658b93de0ed9ef831c71682c55f7c282a/packages/tasks/src/agent-harnesses.ts)
-  (MIT; Hugging Face), including the accompanying [evidence notes](https://github.com/huggingface/huggingface.js/blob/e6bfaf7658b93de0ed9ef831c71682c55f7c282a/packages/tasks/agent-harnesses.md).
+- [Hugging Face agent registry](https://github.com/huggingface/huggingface.js/blob/b672b597f4960f00fac502475b3dd0d4b1422909/packages/tasks/src/agent-harnesses.ts)
+  (MIT; Hugging Face), including the accompanying [evidence notes](https://github.com/huggingface/huggingface.js/blob/b672b597f4960f00fac502475b3dd0d4b1422909/packages/tasks/agent-harnesses.md).
 - [Vercel detector contribution snapshot](https://github.com/vercel/detect-agent/blob/e3dd1b263646d913482c3504acae9aa91926e800/agents.json)
   (Apache-2.0), with [marker and product evidence](https://github.com/vercel/detect-agent/blob/e3dd1b263646d913482c3504acae9aa91926e800/docs/environment-marker-evidence.md).
 - [Together Python port contribution snapshot](https://github.com/togethercomputer/detect_agent/blob/a804bd9a94bacd0d50bf7ee7b072374c297f3e6d/detect_agent/agents.json)
@@ -344,6 +345,7 @@ without requiring a change to that registry or its clients.
 
 ### Official product identity references
 
+- [Claude Cowork](https://claude.com/product/cowork).
 - [WorkBuddy](https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide),
   [QwenWork](https://qwenwork.cn/docs/product-introduction),
   [Doubao Work introduction](https://www.feishu.cn/content/article/7677519271848610746)
