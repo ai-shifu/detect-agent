@@ -1,6 +1,6 @@
 # detect_agent.md
 
-Version: **0.1.3** · Evidence reviewed: **2026-10-16** · License: **MIT**
+Version: **0.1.4** · Evidence reviewed: **2026-10-17** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -142,7 +142,7 @@ where the marker information came from; it is not a probability score.
 | 19 | `augment-cli` | Augment CLI | non-empty `AUGMENT_AGENT` | registry |
 | 20 | `opencode` | opencode | non-empty `OPENCODE_CLIENT` OR non-empty `OPENCODE` | registry |
 | 21 | `goose` | Goose | non-empty `GOOSE_TERMINAL` | registry |
-| 22 | `junie` | Junie | non-empty `JUNIE_DATA` OR non-empty `JUNIE_SHIM_PATH` | public-source |
+| 22 | `junie` | Junie | non-empty `JUNIE_SHIM_PATH` | public-source |
 | 23 | `pi` | Pi | non-empty `PI_CODING_AGENT` | registry |
 | 24 | `cowork` | Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
 | 25 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
@@ -168,6 +168,10 @@ Important boundaries:
   so its value must be exactly `1` for the terminal-marker alternative.
 - Kimi's plugin marker covers plugin-hook context, not every Kimi command.
   `KIMI_CODE_HOME` is not an alternative marker.
+- Junie requires non-empty `JUNIE_SHIM_PATH`, exported by the CLI launcher.
+  `JUNIE_DATA` configures the data directory and can be set globally by the user;
+  it is ignored for detection. Junie execution without the shim marker is not
+  covered by this rule.
 - Cowork requires both its specific marker and a Claude Code marker here.
   This is more restrictive than registries that check the Cowork flag alone.
 
@@ -318,11 +322,11 @@ This document independently states detection policies and factual marker names;
 it does not vendor implementation code or copy proprietary application source.
 The underlying open-source projects retain their own licenses and attribution:
 
-- [Hugging Face agent registry](https://github.com/huggingface/huggingface.js/blob/477b1ef2f0a879c4887360725bf2e4499cedd65d/packages/tasks/src/agent-harnesses.ts)
-  (MIT; Hugging Face), including the accompanying [evidence notes](https://github.com/huggingface/huggingface.js/blob/477b1ef2f0a879c4887360725bf2e4499cedd65d/packages/tasks/agent-harnesses.md).
-- [Vercel detector contribution snapshot](https://github.com/vercel/detect-agent/blob/57dac7a7c444a52702d26f462e49f14c19621b22/agents.json)
-  (Apache-2.0), with [marker and product evidence](https://github.com/vercel/detect-agent/blob/57dac7a7c444a52702d26f462e49f14c19621b22/docs/environment-marker-evidence.md).
-- [Together Python port contribution snapshot](https://github.com/togethercomputer/detect_agent/blob/19f6b9f7f751181de61caaa044adef7e1fea3e13/detect_agent/agents.json)
+- [Hugging Face agent registry](https://github.com/huggingface/huggingface.js/blob/e6bfaf7658b93de0ed9ef831c71682c55f7c282a/packages/tasks/src/agent-harnesses.ts)
+  (MIT; Hugging Face), including the accompanying [evidence notes](https://github.com/huggingface/huggingface.js/blob/e6bfaf7658b93de0ed9ef831c71682c55f7c282a/packages/tasks/agent-harnesses.md).
+- [Vercel detector contribution snapshot](https://github.com/vercel/detect-agent/blob/e3dd1b263646d913482c3504acae9aa91926e800/agents.json)
+  (Apache-2.0), with [marker and product evidence](https://github.com/vercel/detect-agent/blob/e3dd1b263646d913482c3504acae9aa91926e800/docs/environment-marker-evidence.md).
+- [Together Python port contribution snapshot](https://github.com/togethercomputer/detect_agent/blob/a804bd9a94bacd0d50bf7ee7b072374c297f3e6d/detect_agent/agents.json)
   (Apache-2.0; Together).
 
 The Hugging Face snapshot uses simpler OR matching and does not contain the
