@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5 — 2026-10-17
+
+- Use non-empty checks for ordinary VT Code, WorkBuddy, Grok Bot, Cue and Muse markers.
+- Retain exact Grok Build sentinel and Cursor execution-role comparisons.
+- Cover arbitrary non-empty values, empty markers and compound-rule boundaries.
+
 ## 0.1.4 — 2026-10-17
 
 - Remove configurable `JUNIE_DATA` from Junie detection; require non-empty `JUNIE_SHIM_PATH`.

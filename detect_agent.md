@@ -1,6 +1,6 @@
 # detect_agent.md
 
-Version: **0.1.4** · Evidence reviewed: **2026-10-17** · License: **MIT**
+Version: **0.1.5** · Evidence reviewed: **2026-10-17** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -82,6 +82,30 @@ no value. A caller-supplied mapping is also a provider.
    full environment or marker values. Exact rules compare only fixed public
    constants. Session IDs, paths and credentials are never result fields.
 
+### Choosing non-empty or exact comparisons
+
+Use **non-empty** checks for ordinary runtime markers. An observed value such as
+`1` or a product-name spelling does not, by itself, establish that other values
+are invalid. Do not validate ordinary marker values as paths, IDs, product names
+or booleans. A defined but empty variable still fails; `"0"`, `"false"` and `" "`
+pass a non-empty check.
+
+Retain exact matching only where the value distinguishes the required context.
+There are two exact runtime predicates in this version:
+
+- `GROK_AGENT` equals `1`: the variable also selects agent definitions; the
+  terminal launcher writes `1` for its execution marker. The public injection
+  source establishes this distinction.
+- `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec`: this predicate selects the
+  agent execution role, rather than treating an arbitrary role value as agent
+  execution. It follows the referenced registry's role rule; the producer's full
+  set of real role values has not been independently verified.
+
+Explicit identity declarations and content-based context hints, such as PATH and
+`TERM_PROGRAM`, still require reading their contents. They are not ordinary
+runtime-marker presence checks. The non-empty policy is a detection heuristic,
+not a claim that a vendor interprets `"0"` or `"false"` as enabled.
+
 ## 3. Detection algorithm and priority
 
 Every key-existence check, `environment[key]` access, and runtime/context variable
@@ -126,12 +150,12 @@ where the marker information came from; it is not a probability score.
 | 2 | `hermes-agent` | Hermes Agent | non-empty `HERMES_SESSION_ID` OR non-empty `HERMES_AGENT` | public-source / registry |
 | 3 | `kilo-code` | Kilo Code | non-empty `KILOCODE_FEATURE` | registry |
 | 4 | `trae` | TRAE | non-empty `TRAE_AI_SHELL_ID` | registry |
-| 5 | `vtcode` | VT Code | `VTCODE` equals `1` | registry |
-| 6 | `workbuddy` | WorkBuddy | `WORKBUDDY_APPLICATION_NAME` equals `WorkBuddy` OR `WORKBUDDY_APP_NAME` equals `WorkBuddy` | static-distribution |
-| 7 | `grok-bot` | Grok Bot | `SAND_AGENT` equals `1` OR (non-empty `CURSOR_AGENT` AND `SAND_MANIFEST_V2` equals `1` AND `SAND_SUPERVISOR_ENABLED` equals `1`) | static-distribution (local); reported-shell (cloud) |
+| 5 | `vtcode` | VT Code | non-empty `VTCODE` | registry |
+| 6 | `workbuddy` | WorkBuddy | non-empty `WORKBUDDY_APPLICATION_NAME` OR non-empty `WORKBUDDY_APP_NAME` | static-distribution |
+| 7 | `grok-bot` | Grok Bot | non-empty `SAND_AGENT` OR (non-empty `CURSOR_AGENT` AND non-empty `SAND_MANIFEST_V2` AND non-empty `SAND_SUPERVISOR_ENABLED`) | static-distribution (local); reported-shell (cloud) |
 | 8 | `qwenwork` | QwenWork | non-empty `QODER_WORK_INTEGRATION_PRODUCT` | static-distribution / reported-shell |
-| 9 | `cue` | Cue | `MANUS_LONG_DESKTOP_WORKER` equals `1` | reported-shell |
-| 10 | `muse` | Muse | `JARVIS_IS_ASSIGNED` equals `1` OR non-empty `JARVIS_TOOL_CALL_ID` | reported-shell |
+| 9 | `cue` | Cue | non-empty `MANUS_LONG_DESKTOP_WORKER` | reported-shell |
+| 10 | `muse` | Muse | non-empty `JARVIS_IS_ASSIGNED` OR non-empty `JARVIS_TOOL_CALL_ID` | reported-shell |
 | 11 | `manus` | Manus | non-empty `MANUS_ADDON_RUNTIME_SPEC_PATH` OR non-empty `MANUS_ADDON_RUNTIME_SPECS_REVISION` | reported-shell |
 | 12 | `doubao-work` | Doubao Work | non-empty `DOUBAO_OFFICE_AGENT_NAME` | reported-shell |
 | 13 | `kimi` | Kimi Code | non-empty `KIMI_PLUGIN_ROOT` | public-source |
@@ -153,13 +177,20 @@ where the marker information came from; it is not a probability score.
 
 Important boundaries:
 
+- WorkBuddy requires a non-empty product-name variable; its value's spelling or
+  case is not validated. The inspected build's `WorkBuddy` value is evidence of
+  injection, not a requirement for other builds.
+- VT Code, Cue, Muse and Grok Bot's ordinary markers use non-empty checks even
+  when their names resemble flags. Missing and empty values fail; non-empty
+  values are not interpreted as booleans.
 - QwenWork requires only non-empty `QODER_WORK_INTEGRATION_PRODUCT`; it is **not**
   restricted to `qwenworkcn`. That value was observed in an inspected build,
   but other non-empty values also match this specification.
 - Doubao Work requires only non-empty `DOUBAO_OFFICE_AGENT_NAME`; do not require
   a particular agent-name value. The internal `OFFICE` namespace is retained
   even though the product's official English name is Doubao Work.
-- `MANUS_LONG_DESKTOP_WORKER=1` identifies the reported **Cue** context.
+- Non-empty `MANUS_LONG_DESKTOP_WORKER` identifies the reported **Cue** context.
+  The observed value was `1`; that spelling is not a matching restriction.
   Do not classify it as Manus just because the name starts with `MANUS_`.
 - Manus uses its two add-on runtime descriptors as alternatives. Other add-on
   and group configuration flags do not satisfy this rule.
@@ -252,12 +283,21 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `QODER_WORK_INTEGRATION_PRODUCT=""` | `(null, none)` |
 | `DOUBAO_OFFICE_AGENT_NAME=" "` | `(doubao-work, runtime-marker)` |
 | `DOUBAO_OFFICE_AGENT_NAME=""` | `(null, none)` |
-| `WORKBUDDY_APPLICATION_NAME="workbuddy"` | `(null, none)` |
+| `WORKBUDDY_APPLICATION_NAME="workbuddy"` | `(workbuddy, runtime-marker)` |
+| `VTCODE="0"` | `(vtcode, runtime-marker)` |
+| `VTCODE=""` | `(null, none)` |
+| `MANUS_LONG_DESKTOP_WORKER="false"` | `(cue, runtime-marker)` |
+| `JARVIS_IS_ASSIGNED=" "` | `(muse, runtime-marker)` |
+| `SAND_AGENT="0"`, `CURSOR_AGENT="1"` | `(grok-bot, runtime-marker)` |
+| `CURSOR_AGENT="1"`, `SAND_MANIFEST_V2="0"`, `SAND_SUPERVISOR_ENABLED="false"` | `(grok-bot, runtime-marker)` |
 | `SAND_AGENT="1"`, `CURSOR_AGENT="1"` | `(grok-bot, runtime-marker)` |
 | `CURSOR_AGENT="1"`, `SAND_MANIFEST_V2="1"`, `SAND_SUPERVISOR_ENABLED="1"` | `(grok-bot, runtime-marker)` |
 | `CURSOR_AGENT="1"`, `SAND_MANIFEST_V2="1"` | `(cursor-cli, runtime-marker)` |
 | `SAND_MANIFEST_V2="1"`, `SAND_SUPERVISOR_ENABLED="1"` | `(null, none)` |
 | `GROK_AGENT="other-selector"` | `(null, none)` |
+| `GROK_AGENT=" 1"` | `(null, none)` |
+| `CURSOR_EXTENSION_HOST_ROLE="agent-exec"` | `(cursor-cli, runtime-marker)` |
+| `CURSOR_EXTENSION_HOST_ROLE="synthetic-other-role"` | `(null, none)` |
 | `MANUS_LONG_DESKTOP_WORKER="1"` | `(cue, runtime-marker)` |
 | `MANUS_ADDON_RUNTIME_SPEC_PATH="synthetic-spec"` | `(manus, runtime-marker)` |
 | `JARVIS_SESSION_ID="synthetic-session"` | `(null, none)` |
@@ -333,6 +373,11 @@ The underlying open-source projects retain their own licenses and attribution:
 The Hugging Face snapshot uses simpler OR matching and does not contain the
 compound Grok Bot cloud rule. This specification can express the conjunction
 without requiring a change to that registry or its clients.
+
+The linked snapshots establish variable evidence, not this specification's full
+matching policy. Ordinary markers here use non-empty checks even where a source
+snapshot compares a fixed sentinel or product spelling. This is a deliberate
+local policy; it does not claim an upstream change or a new vendor contract.
 
 ### Published marker injection references
 
