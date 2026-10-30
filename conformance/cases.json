@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.5",
+  "spec_version": "0.1.6",
   "cases": [
     {
       "name": "empty environment",
@@ -271,6 +271,37 @@
       "name": "cue is separate from manus",
       "env": {
         "MANUS_LONG_DESKTOP_WORKER": "1"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue operator platform marker",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": "synthetic-platform"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue operator platform marker false counts as non-empty",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": "false"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue operator platform marker precedes manus descriptor",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": "synthetic-platform",
+        "MANUS_ADDON_RUNTIME_SPECS_REVISION": "synthetic-revision"
       },
       "expected": {
         "agent_id": "cue",
@@ -1248,6 +1279,16 @@
       }
     },
     {
+      "name": "cue operator platform empty marker fails",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
       "name": "muse empty alternatives fail",
       "env": {
         "JARVIS_IS_ASSIGNED": "",
@@ -1638,6 +1679,26 @@
       "name": "cue marker with whitespace-only value is non-empty",
       "env": {
         "MANUS_LONG_DESKTOP_WORKER": " "
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue operator platform marker with zero value is non-empty",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": "0"
+      },
+      "expected": {
+        "agent_id": "cue",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "cue operator platform marker with whitespace-only value is non-empty",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": " "
       },
       "expected": {
         "agent_id": "cue",

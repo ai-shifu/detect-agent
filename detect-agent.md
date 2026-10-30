@@ -1,6 +1,6 @@
 # Detect Agent Specification
 
-Version: **0.1.5** · Evidence reviewed: **2026-10-17** · License: **MIT**
+Version: **0.1.6** · Evidence reviewed: **2026-10-30** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -161,7 +161,7 @@ where the marker information came from; it is not a probability score.
 | 6 | `workbuddy` | WorkBuddy | non-empty `WORKBUDDY_APPLICATION_NAME` OR non-empty `WORKBUDDY_APP_NAME` | static-distribution |
 | 7 | `grok-bot` | Grok Bot | non-empty `SAND_AGENT` OR (non-empty `CURSOR_AGENT` AND non-empty `SAND_MANIFEST_V2` AND non-empty `SAND_SUPERVISOR_ENABLED`) | static-distribution (local); reported-shell (cloud) |
 | 8 | `qwenwork` | QwenWork | non-empty `QODER_WORK_INTEGRATION_PRODUCT` | static-distribution / reported-shell |
-| 9 | `cue` | Cue | non-empty `MANUS_LONG_DESKTOP_WORKER` | reported-shell |
+| 9 | `cue` | Cue | non-empty `MANUS_LONG_DESKTOP_WORKER` OR non-empty `MANUS_OPERATOR_PLATFORM` | reported-shell |
 | 10 | `muse` | Muse | non-empty `JARVIS_IS_ASSIGNED` OR non-empty `JARVIS_TOOL_CALL_ID` | reported-shell |
 | 11 | `manus` | Manus | non-empty `MANUS_ADDON_RUNTIME_SPEC_PATH` OR non-empty `MANUS_ADDON_RUNTIME_SPECS_REVISION` | reported-shell |
 | 12 | `doubao-work` | Doubao Work | non-empty `DOUBAO_OFFICE_AGENT_NAME` | reported-shell |
@@ -196,9 +196,13 @@ Important boundaries:
 - Doubao Work requires only non-empty `DOUBAO_OFFICE_AGENT_NAME`; do not require
   a particular agent-name value. The internal `OFFICE` namespace is retained
   even though the product's official English name is Doubao Work.
-- Non-empty `MANUS_LONG_DESKTOP_WORKER` identifies the reported **Cue** context.
-  The observed value was `1`; that spelling is not a matching restriction.
-  Do not classify it as Manus just because the name starts with `MANUS_`.
+- Cue's [official product site](https://heycue.io/) establishes its identity, not
+  an environment-variable contract. Non-empty `MANUS_LONG_DESKTOP_WORKER` is the
+  previously reported Cue marker; its observed `1` is not a matching restriction.
+- Non-empty `MANUS_OPERATOR_PLATFORM` is an alternative Cue marker based on a
+  redacted task-command observation on 2026-10-30. This scoped observation does
+  not establish a vendor-wide injection guarantee. Match presence only; do not
+  infer product identity from a `MANUS_` prefix or map other such names to Cue.
 - Manus uses its two add-on runtime descriptors as alternatives. Other add-on
   and group configuration flags do not satisfy this rule.
 - Grok Bot's cloud alternative requires **all three** listed conditions.
