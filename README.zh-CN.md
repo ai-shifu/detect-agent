@@ -3,6 +3,19 @@
 一份供 Agent 阅读、实现和维护的运行环境识别规范：让 Agent 按文档为你的项目实现检测能力，
 也让各种 Agent 补充自己的识别特征。
 
+## 支持识别的 Agent
+
+规范目前覆盖 **35 个产品 ID**：
+
+| 识别方式 | Agent |
+| --- | --- |
+| 运行标记（28） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
+| 上下文提示（5） | Cursor（编辑器）、Devin、GitHub Copilot、Replit、Zed |
+| 仅显式声明（2） | hi、SandBase Harness |
+
+具体覆盖范围和匹配条件以[规范](detect-agent.md)为准。上下文提示说明编辑器或工作区环境，
+不能确认 Agent 正在执行；所有列出的产品也都支持显式声明。
+
 **选一个场景，把对应提示词复制给你的 Agent 即可。** 它会自行读取流程和规范、完成工作并验证结果。
 你只需要理解这两个场景，无需先研究规则表或选择 SDK。
 

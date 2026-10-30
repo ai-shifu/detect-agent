@@ -3,6 +3,20 @@
 A shared specification that agents can implement and maintain. It describes how
 to recognize AI agent execution environments using local signals.
 
+## Supported agents
+
+The specification covers **35 product IDs**:
+
+| Recognition | Agents |
+| --- | --- |
+| Runtime markers (28) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Junie, Kilo Code, Kimi Code, Kiro, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
+| Context hints (5) | Cursor (editor), Devin, GitHub Copilot, Replit, Zed |
+| Explicit declaration only (2) | hi, SandBase Harness |
+
+Coverage and matching conditions are defined in [the specification](detect-agent.md).
+Context hints describe an editor or workspace environment; they do not confirm
+active agent execution. Every listed product can also be explicitly declared.
+
 Choose one of the two tasks below and **paste its prompt into your agent**. The
 agent follows the linked workflow, reads the rules, does the work, and verifies
 the result. You do not need to study the rule tables or choose an SDK.
