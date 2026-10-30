@@ -86,6 +86,9 @@ regressions, synchronize the contract version/fixtures/changelog when behavior
 changes, and verify the repository checks. Submit through a feature branch and
 PR; never merge into `main`. An open upstream PR is not an accepted or deployed
 fix. Record the exact source revision selected for any downstream update.
+Track proposed, accepted and downstream-adopted states separately. If the user's
+task ends with a verified proposal, deliver that proposal and report adoption or
+live verification outside the authorized task as pending.
 
 **Launcher declaration:** show the concrete declaration problem and proposed
 correction to the responsible operator. If changing launcher configuration is
