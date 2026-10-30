@@ -1,15 +1,15 @@
-# detect_agent.md
+# Detect Agent
 
 A language-independent Markdown specification for identifying AI agent execution
 environments. Give an agent one document; let it implement the detector in your
 project's own language, without an SDK or runtime network access.
 
-**[Read the specification](detect_agent.md)** · [中文说明](README.zh-CN.md) · [Conformance cases](conformance/cases.json)
+**[Read the specification](detect-agent.md)** · [中文说明](README.zh-CN.md) · [Conformance cases](conformance/cases.json)
 
 ## Use it in an agent
 
 ```text
-Read detect_agent.md from this repository. Implement its detection contract in
+Read detect-agent.md from this repository. Implement its detection contract in
 this project using our existing language and conventions. Preserve the listed
 matching semantics and priority. Distinguish runtime markers from editor and
 workspace hints. Use synthetic inputs to verify the conformance cases. Do not

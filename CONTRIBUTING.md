@@ -1,6 +1,6 @@
 # Contributing
 
-Use a pull request for every change. Update `detect_agent.md` first; it is the
+Use a pull request for every change. Update `detect-agent.md` first; it is the
 normative source. This project does not accept arbitrary environment-prefix
 matching or product-identity claims inferred only from variable names.
 
