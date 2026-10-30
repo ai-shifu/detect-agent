@@ -82,6 +82,26 @@ class CheckTests(unittest.TestCase):
         self.assertEqual(spec.detect({"AGENT": "grok"}.get),
                          {"agent_id": "grok-build", "evidence": "declared"})
 
+    def test_optional_outer_table_pipes_do_not_silently_drop_rules(self):
+        for leading, trailing in ((False, True), (True, False), (False, False)):
+            with self.subTest(leading=leading, trailing=trailing):
+                lines = []
+                for line in self.markdown.splitlines():
+                    # Change only body rows; the known headers remain intact.
+                    if line.startswith("| ") and line.split("|")[1].strip()[:1] in "`0123456789":
+                        if not leading:
+                            line = line[1:]
+                        if not trailing:
+                            line = line[:-1]
+                    lines.append(line)
+                spec = check.Specification("\n".join(lines))
+                self.assertEqual(spec.runtime, self.spec.runtime)
+                self.assertEqual(spec.contexts, self.spec.contexts)
+                self.assertEqual(spec.catalog, self.spec.catalog)
+                self.assertEqual(spec.aliases, self.spec.aliases)
+                self.assertEqual(spec.detect({"AGENT": "grok"}.get),
+                                 {"agent_id": "grok-build", "evidence": "declared"})
+
     def test_fixture_schema_rejects_collisions_unknown_fields_and_duplicates(self):
         mutations = []
         duplicate = copy.deepcopy(self.fixtures)

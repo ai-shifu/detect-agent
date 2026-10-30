@@ -121,9 +121,10 @@ def table(markdown, header):
     rows = []
     for line in lines[start + 1:]:
         line = line.strip()
-        if not line.startswith("|"):
+        # Markdown permits either outer pipe to be omitted. Such a row still
+        # belongs to this table; treating it as the end silently drops rules.
+        if "|" not in line:
             break
-        require(line.endswith("|"), "Malformed table row.")
         cells = [cell.strip() for cell in line.strip("|").split("|")]
         require(len(cells) == count, "Malformed table columns.")
         rows.append(cells)
