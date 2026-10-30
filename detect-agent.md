@@ -22,13 +22,10 @@ It does not identify the model, account, country, subscription, or human operato
 
 For task instructions, follow [Implement detection](docs/implement-detection.md)
 to build a detector in the user's project, or
-[Contribute your signals](docs/contribute-agent.md) to improve this specification. Use [live diagnostics](docs/agent-self-check.md)
-when investigating one command environment. The optional repository tools are
-development aids; the rules in this document remain normative.
-
-For a result that appears incorrect, follow
-[Fix incorrect detection](docs/fix-detection.md) to reproduce it, distinguish an
-implementation defect from a rule/coverage issue, and verify the appropriate repair.
+[Contribute your signals](docs/contribute-agent.md) to improve this specification.
+Use [Diagnostics](docs/diagnostics.md) for self-checks, mismatch diagnosis and
+repair routing. The optional repository tools are development aids; the rules
+in this document remain normative.
 
 ## 1. Result contract
 

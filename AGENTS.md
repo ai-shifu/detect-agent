@@ -1,46 +1,41 @@
 # Agent task entry point
 
-Detect Agent supports two tasks. Choose the one the user requested before editing.
+Choose the user's task before editing:
 
-| User's task | Follow | Write to | Deliver |
+| Task | Workflow | Write target | Deliverable |
 | --- | --- | --- | --- |
-| Add agent detection to a project | [Implement detection](docs/implement-detection.md) | The user's target project | Integrated detector and tests against the shared fixtures |
-| Contribute or correct this product's recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent checkout of Detect Agent | Verified coverage report, or a justified rule change and PR |
+| Implement or update detection | [Implement detection](docs/implement-detection.md) | The user's project | Integrated detector and tests against the shared fixtures |
+| Contribute recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent Detect Agent checkout | Verified coverage report, or an evidence-backed rule change and PR |
 
-Both workflows use [detect-agent.md](detect-agent.md) as the only normative rule
-source and [conformance/cases.json](conformance/cases.json) as shared test data.
-When reading remotely, pin one Git commit and read each required file in full
-from that commit. Resolve relative links within that repository and revision.
+[Diagnostics](docs/diagnostics.md) is the shared path for self-checks, unexpected
+results, controlled reproductions and repair routing. It is not a prerequisite
+for implementing a detector. Its Python checker is a development aid, not a
+production SDK or validation of an implementation in another project.
 
-Use [live diagnostics](docs/agent-self-check.md) when investigating one command
-environment. Self-check is a tool within the workflows, not a prerequisite for
-implementing a detector. The Python checker is a development aid, not a production
-SDK; passing it does not test an implementation in another project.
+## Common rules
 
-If a detection result is wrong, follow [Fix incorrect detection](docs/fix-detection.md).
-Reproduce the expected/actual ID and evidence, classify the cause, and repair the
-responsible layer within the user's authorized write targets. An upstream PR is
-a proposed rule change; it does not establish upstream acceptance or a repaired
-downstream application. For an authorized application repair, update and verify
-the actual target and original failing path. Otherwise report the pending step
-and distinguish proposed, accepted and deployed states. Do not stop at reporting
-a mismatch when a supported repair is within the user's task.
-
-## Working rules
-
-- Establish which repository is the write target. Reference-repository guidance
-  does not replace the target project's own development instructions.
-- Read only documented variables or specific evidence-backed candidate names.
-  Never dump the environment, scan prefixes, or publish marker values, credentials,
-  session/message/log IDs, internal endpoints, user paths or proprietary source.
-  Canonical product IDs from the specification may be included in reports.
-- Keep declarations, runtime markers and context hints distinct. Passing
-  synthetic cases and recognizing a live process are separate claims.
-- For Detect Agent changes, follow [CONTRIBUTING.md](CONTRIBUTING.md). Change rules
-  in the specification first, add synthetic regressions, and update the version
-  and changelog for a detection-contract change. Do not add a second rule catalog.
-- Verify Detect Agent changes with `python3 scripts/check.py conformance` and
-  `python3 -m unittest discover -s tests -v`. For a consuming implementation,
-  run the fixtures through that implementation in the target project's language.
-- Use feature branches and pull requests for changes to this repository. Never
-  merge code into `main`.
+- **Pin the source.** Before reading reference files, resolve the user's supplied
+  commit/ref, including a branch or tag, to a full immutable commit SHA. If none
+  was supplied, resolve the upstream default branch. Read this entry point and
+  all required task files completely at that SHA, following relative links within
+  the same revision. Record the SHA and ensure the specification version matches
+  the fixture `spec_version`. Obtain missing/truncated content before proceeding.
+- **Use one contract.** [detect-agent.md](detect-agent.md) is the only normative
+  rule source; [conformance/cases.json](conformance/cases.json) supplies synthetic
+  cases. Do not infer rules from product names, variable prefixes or a partial table.
+- **Respect the write target.** Follow the target project's own instructions and
+  preserve unrelated work. Reading Detect Agent as a reference does not authorize
+  modifying it, another repository, or launcher/global shell configuration.
+- **Protect values.** Query only documented variable names or specific
+  evidence-backed candidates. Never dump the environment, scan prefixes or publish
+  marker values, credentials, session/message/log IDs, internal endpoints, user
+  paths or proprietary source. Canonical product IDs may be reported. Never export
+  declarations or markers merely to make a check pass.
+- **Report evidence honestly.** Synthetic conformance and live recognition are
+  separate claims; test the actual implementation or affected path. Record checks
+  actually run and remaining limitations. A verified upstream proposal can complete
+  a proposal task; acceptance, downstream adoption and live verification remain
+  separate states. Do not claim a repaired application merely because a PR exists.
+- **Submit safely.** For changes to Detect Agent, follow [CONTRIBUTING.md](CONTRIBUTING.md)
+  for rule evidence, checks and submission requirements. Use feature branches and
+  PRs; never push directly to or merge code into `main`.
