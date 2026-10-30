@@ -17,6 +17,15 @@ environment. Self-check is a tool within the workflows, not a prerequisite for
 implementing a detector. The Python checker is a development aid, not a production
 SDK; passing it does not test an implementation in another project.
 
+If a detection result is wrong, follow [Fix incorrect detection](docs/fix-detection.md).
+Reproduce the expected/actual ID and evidence, classify the cause, and repair the
+responsible layer within the user's authorized write targets. An upstream PR is
+a proposed rule change; it does not establish upstream acceptance or a repaired
+downstream application. For an authorized application repair, update and verify
+the actual target and original failing path. Otherwise report the pending step
+and distinguish proposed, accepted and deployed states. Do not stop at reporting
+a mismatch when a supported repair is within the user's task.
+
 ## Working rules
 
 - Establish which repository is the write target. Reference-repository guidance

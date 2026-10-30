@@ -43,6 +43,10 @@ identity. For an unregistered product or unknown identity, omit that option and
 report an observation. Never export declarations or marker variables to make a
 live check pass. Python is optional: the diagnostic guide includes a manual path.
 
+For an incorrect result, first follow [Fix incorrect detection](fix-detection.md)
+to distinguish a target-implementation defect, declaration/inherited context and
+an upstream-rule defect. Return here for the evidence-backed rule-change path.
+
 Compare the standard result and the automatic diagnostic that ignores
 declarations. Use the following decision path before changing any rule:
 

@@ -15,6 +15,9 @@ To implement detection in another project, use
 [the implementation workflow](docs/implement-detection.md). That task writes to
 the target project and validates its implementation against the shared cases.
 
+For a reported misidentification, follow [the repair workflow](docs/fix-detection.md)
+to establish the cause and correct write target before changing a rule.
+
 For a rule change, include:
 
 1. The canonical product ID and official identity reference.

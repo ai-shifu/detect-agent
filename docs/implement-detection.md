@@ -62,6 +62,12 @@ specification or fixture expectations just to make the existing code pass. A
 suspected upstream gap can be reported separately through the
 [contribution workflow](contribute-agent.md).
 
+For an incorrect result in the actual application, follow
+[Fix incorrect detection](fix-detection.md). Reproduce it through the target
+function and call site, add a failing regression, and repair the responsible
+implementation or integration. Use upstream contribution only when evidence
+shows the rule itself needs changing; preserve the user's authorized write target.
+
 ## Run the fixtures through the target implementation
 
 Create a test adapter in the target project's language that loads the pinned
