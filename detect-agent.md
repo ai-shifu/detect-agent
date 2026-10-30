@@ -1,4 +1,4 @@
-# detect-agent specification
+# Detect Agent Specification
 
 Version: **0.1.5** · Evidence reviewed: **2026-10-17** · License: **MIT**
 

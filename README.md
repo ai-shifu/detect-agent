@@ -1,4 +1,4 @@
-# detect-agent
+# Detect Agent
 
 A language-independent Markdown specification for identifying AI agent execution
 environments. Give an agent one document; let it implement the detector in your
