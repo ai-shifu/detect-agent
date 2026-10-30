@@ -4,19 +4,12 @@ Use a pull request for every change. Update `detect-agent.md` first; it is the
 normative source. This project does not accept arbitrary environment-prefix
 matching or product-identity claims inferred only from variable names.
 
-Agents contributing their product's signals should follow
-[the contribution workflow](docs/contribute-agent.md), starting from
-[AGENTS.md](AGENTS.md). First distinguish a
-missing specification rule from an outdated consuming implementation or a
-declaration masking runtime evidence. Run a live diagnostic through the affected
-command interface; keep it separate from synthetic conformance results.
+Start with [AGENTS.md](AGENTS.md) and the
+[contribution workflow](docs/contribute-agent.md). Use [Diagnostics](docs/diagnostics.md)
+to establish whether a rule change is needed. For a detector in the user's project,
+follow [Implement detection](docs/implement-detection.md).
 
-To implement detection in another project, use
-[the implementation workflow](docs/implement-detection.md). That task writes to
-the target project and validates its implementation against the shared cases.
-
-For a reported misidentification, follow [the repair workflow](docs/fix-detection.md)
-to establish the cause and correct write target before changing a rule.
+## Evidence and rule requirements
 
 For a rule change, include:
 
@@ -41,6 +34,8 @@ establish an environment-variable contract. Do not include actual credentials,
 session/message/log IDs, internal service addresses, user paths, environment
 dumps, or proprietary source. Small fixed sentinel values are appropriate.
 
+## Verification
+
 Check that all canonical IDs are unique, context hints stay separate from runtime
 markers, local relative links resolve, and conformance data is valid JSON with
 unique case names. Run an implementation against controlled mappings only;
@@ -63,6 +58,8 @@ must fail explicitly. Do not introduce a second rule catalog. For a behavior
 change, keep the specification version, fixture `spec_version`, both README
 version references, and changelog in sync. Documentation/tooling-only changes do
 not require a detection-contract version bump.
+
+## Submission
 
 Use the [pull request template](.github/pull_request_template.md) to record
 evidence, validation and coverage limits. Never merge into `main`.

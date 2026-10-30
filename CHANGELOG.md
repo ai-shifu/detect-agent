@@ -2,13 +2,12 @@
 
 ## Unreleased
 
-- Add an incorrect-detection repair workflow covering implementation, integration,
-  launcher and upstream-rule causes; link it from both task prompts and Agent guides.
+- Consolidate Agent guidance into implementation, contribution and shared
+  diagnostics guides, with one diagnosis table and report format.
 - Organize both READMEs around two copy-paste prompts: implement detection in the
   user's project first, then contribute a product's signals.
-- Add dedicated Agent workflows with explicit write targets, source revisions,
-  verification and deliverables; keep live diagnostics as a supporting guide.
-- Add an Agent entry point and a self-check/update guide linked from both READMEs.
+- Keep shared source-pinning, privacy and authorization rules in the Agent entry
+  point; keep evidence requirements and repository checks in CONTRIBUTING.md.
 - Add optional local development checks, redacted live diagnostics and CI.
 - Add a pull request template for rule evidence, scope and verification.
 - Keep the 0.1.5 detection contract unchanged.
