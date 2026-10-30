@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add an Agent entry point and a self-check/update guide linked from both READMEs.
+- Add optional local development checks, redacted live diagnostics and CI.
+- Add a pull request template for rule evidence, scope and verification.
+- Keep the 0.1.5 detection contract unchanged.
+
 ## 0.1.5 — 2026-10-17
 
 - Use non-empty checks for ordinary VT Code, WorkBuddy, Grok Bot, Cue and Muse markers.

@@ -4,6 +4,12 @@ Use a pull request for every change. Update `detect-agent.md` first; it is the
 normative source. This project does not accept arbitrary environment-prefix
 matching or product-identity claims inferred only from variable names.
 
+Agents should start with [AGENTS.md](AGENTS.md) and the
+[self-check and update workflow](docs/agent-self-check.md). First distinguish a
+missing specification rule from an outdated consuming implementation or a
+declaration masking runtime evidence. Run a live diagnostic through the affected
+command interface; keep it separate from synthetic conformance results.
+
 For a rule change, include:
 
 1. The canonical product ID and official identity reference.
@@ -35,5 +41,22 @@ never infer conformance from the contributor's real environment.
 Keep an isolated positive case for every canonical ID; cover `runtime-marker`
 and `context-hint` separately when both apply, and use declaration positives for
 declaration-only products.
+
+Run the repository checks with Python 3.9+ (standard library only):
+
+```sh
+python3 scripts/check.py conformance
+python3 -m unittest discover -s tests -v
+```
+
+The checker interprets `detect-agent.md` and runs the synthetic cases. For a new
+rule form, extend the checker and its focused tests as needed; unsupported forms
+must fail explicitly. Do not introduce a second rule catalog. For a behavior
+change, keep the specification version, fixture `spec_version`, both README
+version references, and changelog in sync. Documentation/tooling-only changes do
+not require a detection-contract version bump.
+
+Use the [pull request template](.github/pull_request_template.md) to record
+evidence, validation and coverage limits. Never merge into `main`.
 
 Contributions to original project content are made under the MIT license.
