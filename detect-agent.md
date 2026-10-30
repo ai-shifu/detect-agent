@@ -20,9 +20,9 @@ The result describes a process environment, **not an authenticated immediate
 caller**. A human can export these variables, and a nested agent can inherit them.
 It does not identify the model, account, country, subscription, or human operator.
 
-For task instructions, follow [Contribute your signals](docs/contribute-agent.md)
-to improve this specification, or [Implement detection](docs/implement-detection.md)
-to build a detector in the user's project. Use [live diagnostics](docs/agent-self-check.md)
+For task instructions, follow [Implement detection](docs/implement-detection.md)
+to build a detector in the user's project, or
+[Contribute your signals](docs/contribute-agent.md) to improve this specification. Use [live diagnostics](docs/agent-self-check.md)
 when investigating one command environment. The optional repository tools are
 development aids; the rules in this document remain normative.
 

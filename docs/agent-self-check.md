@@ -96,10 +96,9 @@ If no command execution is available, report that live detection is unverified.
 
 ## Choose the next task
 
-Use [Contribute your signals](contribute-agent.md) to investigate a missing rule
-or propose an evidence-backed specification change. Use
-[Implement detection](implement-detection.md) to update a detector in the user's
-project. A declaration masking the result is a launcher/operator decision;
+Use [Implement detection](implement-detection.md) to update a detector in the
+user's project. Use [Contribute your signals](contribute-agent.md) to investigate
+a missing rule or propose an evidence-backed specification change. A declaration masking the result is a launcher/operator decision;
 report both results and preserve production declaration precedence.
 
 ## Report template

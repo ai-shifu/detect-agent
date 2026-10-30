@@ -1,6 +1,6 @@
 # Detect Agent
 
-A shared specification that agents can maintain and implement. It describes how
+A shared specification that agents can implement and maintain. It describes how
 to recognize AI agent execution environments using local signals.
 
 Choose one of the two tasks below and **paste its prompt into your agent**. The
@@ -9,7 +9,26 @@ the result. You do not need to study the rule tables or choose an SDK.
 
 [中文说明](README.zh-CN.md)
 
-## 1. Let an agent contribute its own recognition signals
+## 1. Let an agent implement detection in your project
+
+Use this in the project that needs detection. Your agent implements the
+specification in **your project's language and conventions** and tests that
+implementation against the shared cases.
+
+```text
+Implement agent-environment detection in my current project.
+Read https://github.com/ai-shifu/detect-agent and follow docs/implement-detection.md
+from a single pinned commit. Read the full specification and conformance cases
+at that same commit. Use this project's language and conventions, integrate the
+detector, and run all shared cases through the implementation you add here.
+Keep environment values private, add no runtime network dependency, and report
+the source commit, changed files, actual test results and any coverage limits.
+```
+
+The result is working code and tests in your project, with a recorded source
+version. [Agent workflow →](docs/implement-detection.md)
+
+## 2. Let an agent contribute its own recognition signals
 
 Use this inside the agent product whose recognition you want to improve. It
 checks existing coverage, investigates real signals, and proposes a change to
@@ -28,25 +47,6 @@ main unmerged.
 
 The result is a verified coverage report or an evidence-backed PR. Recognition
 that already works does not need a new rule. [Agent workflow →](docs/contribute-agent.md)
-
-## 2. Let an agent implement detection in your project
-
-Use this in the project that needs detection. Your agent implements the
-specification in **your project's language and conventions** and tests that
-implementation against the shared cases.
-
-```text
-Implement agent-environment detection in my current project.
-Read https://github.com/ai-shifu/detect-agent and follow docs/implement-detection.md
-from a single pinned commit. Read the full specification and conformance cases
-at that same commit. Use this project's language and conventions, integrate the
-detector, and run all shared cases through the implementation you add here.
-Keep environment values private, add no runtime network dependency, and report
-the source commit, changed files, actual test results and any coverage limits.
-```
-
-The result is working code and tests in your project, with a recorded source
-version. [Agent workflow →](docs/implement-detection.md)
 
 ## How it works
 

@@ -4,8 +4,8 @@ Detect Agent supports two tasks. Choose the one the user requested before editin
 
 | User's task | Follow | Write to | Deliver |
 | --- | --- | --- | --- |
-| Contribute or correct this product's recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent checkout of Detect Agent | Verified coverage report, or a justified rule change and PR |
 | Add agent detection to a project | [Implement detection](docs/implement-detection.md) | The user's target project | Integrated detector and tests against the shared fixtures |
+| Contribute or correct this product's recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent checkout of Detect Agent | Verified coverage report, or a justified rule change and PR |
 
 Both workflows use [detect-agent.md](detect-agent.md) as the only normative rule
 source and [conformance/cases.json](conformance/cases.json) as shared test data.
