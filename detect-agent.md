@@ -1,6 +1,6 @@
-# detect_agent.md
+# detect-agent specification
 
-Version: **0.1.5** · Evidence reviewed: **2026-10-17** · License: **MIT**
+Version: **0.2.0** · Evidence reviewed: **2026-10-17** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -26,23 +26,29 @@ Return an object equivalent to:
 
 ```text
 {
-  agent_id: canonical ID or null,
+  agentId: canonical ID or null,
   evidence: "declared" | "runtime-marker" | "context-hint" | "none"
 }
 ```
 
 - `declared`: the process supplied a non-empty `AI_AGENT` or `AGENT` declaration.
-  An unknown declared ID returns `agent_id: null`, without falling through to
+  An unknown declared ID returns `agentId: null`, without falling through to
   inherited markers. Do not echo an unrecognized declaration into the result.
 - `runtime-marker`: an ordered runtime rule matched. This is a heuristic, not
   proof that a model initiated the current command.
 - `context-hint`: only a workspace, installation, editor, or configuration hint
   matched. Do not present this as confirmed agent execution.
-- `none`: no rule matched; return `agent_id: null`. This means no evidence was
+- `none`: no rule matched; return `agentId: null`. This means no evidence was
   found, not proof that a human is running the process.
 
-If an application requires a boolean, set `is_agent` to true only for `declared`
-or `runtime-marker`. Keep `agent_id` and `evidence` available to callers.
+If an application requires a boolean, set `isAgent` to true only for `declared`
+or `runtime-marker`. Keep `agentId` and `evidence` available to callers.
+
+Project-defined field names and pseudocode identifiers use camelCase. Files and
+multiword canonical IDs use hyphens. Environment-variable names, compatibility
+declaration aliases and external source paths retain their exact spelling.
+Implementations may follow the host language's local naming conventions while
+preserving these field names in exchanged results and conformance data.
 
 ## 2. Matching semantics
 
@@ -112,24 +118,24 @@ Every key-existence check, `environment[key]` access, and runtime/context variab
 lookup below uses the same supplied provider and its name-lookup semantics.
 
 ```text
-DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
+detect(environment, optional filesystemProbe, optional stdoutIsTty):
     for key in [AI_AGENT, AGENT], in that order:
-        if key exists and ASCII_TRIM(environment[key]) is not empty:
-            id = ASCII_LOWERCASE(ASCII_TRIM(environment[key]))
+        if key exists and asciiTrim(environment[key]) is not empty:
+            id = asciiLowercase(asciiTrim(environment[key]))
             id = map documented compatibility aliases to canonical IDs
             if id is in the canonical catalog:
-                return {agent_id: id, evidence: declared}
-            return {agent_id: null, evidence: declared}
+                return {agentId: id, evidence: declared}
+            return {agentId: null, evidence: declared}
 
     for row in the runtime table, in ascending order:
         if the complete condition in that row is true:
-            return {agent_id: row.id, evidence: runtime-marker}
+            return {agentId: row.id, evidence: runtime-marker}
 
     for row in the context table, in its listed order:
         if the complete condition is true and required probes are available:
-            return {agent_id: row.id, evidence: context-hint}
+            return {agentId: row.id, evidence: context-hint}
 
-    return {agent_id: null, evidence: none}
+    return {agentId: null, evidence: none}
 ```
 
 First match wins within each stage. A runtime marker always wins over a context
@@ -215,7 +221,7 @@ to `runtime-marker` solely to report more detected agents.
 | Order | Canonical ID | Match condition and meaning |
 | --- | --- | --- |
 | 1 | `pi` | A PATH entry contains consecutive path components `.pi` and `agent`. Normalize backslashes to forward slashes and compare components case-sensitively; `.pi/agents` does not match. Split PATH using the target platform's path-list separator. This describes an installation/search path. |
-| 2 | `kiro` | `TERM_PROGRAM` contains the case-sensitive substring `kiro` AND the caller explicitly supplies `stdout_is_tty = false`. Missing TTY information does not satisfy this condition. |
+| 2 | `kiro` | `TERM_PROGRAM` contains the case-sensitive substring `kiro` AND the caller explicitly supplies `stdoutIsTty = false`. Missing TTY information does not satisfy this condition. |
 | 3 | `goose` | non-empty `GOOSE_PROVIDER`. This may be persistent provider configuration. |
 | 4 | `github-copilot` | non-empty `COPILOT_MODEL` OR non-empty `COPILOT_ALLOW_ALL` OR non-empty `COPILOT_GITHUB_TOKEN`. Model, permission and credential configuration alone does not establish an active agent. |
 | 5 | `replit` | non-empty `REPL_ID`. This identifies a Replit workspace. |
@@ -266,7 +272,7 @@ as Manus and Doubao Work have canonical IDs `manus` and `doubao-work`.
 ## 7. Inline conformance examples
 
 All values below are synthetic, except fixed product/sentinel constants.
-`{}` means an empty environment mapping. A result pair is `(agent_id, evidence)`.
+`{}` means an empty environment mapping. A result pair is `(agentId, evidence)`.
 
 | Environment / extra input | Expected result |
 | --- | --- |
@@ -307,11 +313,14 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `ZED_TERM="1"` | `(zed, context-hint)` |
 | `ZED_TERM="1"`, `CODEX_THREAD_ID="synthetic-thread"` | `(codex, runtime-marker)` |
 | `GOOSE_PROVIDER="synthetic-provider"` | `(goose, context-hint)` |
-| `TERM_PROGRAM="kiro"`, `stdout_is_tty=false` | `(kiro, context-hint)` |
+| `TERM_PROGRAM="kiro"`, `stdoutIsTty=false` | `(kiro, context-hint)` |
 | `TERM_PROGRAM="kiro"`, TTY state unavailable | `(null, none)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
-input/output data, not another source of rules. The optional `env_name_case`
+input/output data, not another source of rules. Its top-level `specVersion` field
+identifies the specification version, and `cases` contains the synthetic cases.
+Each case uses `name`, `env` and `expected`, with the result contract above for
+`expected`. The optional `envNameCase`
 field selects the synthetic mapping adapter: `sensitive` (the default), or
 `ascii-insensitive`. The latter compares names after mapping ASCII `A` through
 `Z` to `a` through `z`, leaving other characters unchanged. Fixtures in this
@@ -319,8 +328,8 @@ mode MUST NOT contain keys that collide under that transformation. It models
 ASCII name casing only, not every native Windows name-equivalence rule; it does
 not depend on the test host and does not change production provider semantics.
 
-A case's absent `files` or `stdout_is_tty` field means the capability is
-unavailable. An optional `path_separator` case field selects the emulated
+A case's absent `files` or `stdoutIsTty` field means the capability is
+unavailable. An optional `pathSeparator` case field selects the emulated
 platform's PATH-list separator, so tests do not depend on the host platform.
 `files: []` means an available probe that reports no listed paths exist. Never use
 the machine's actual environment, filesystem, or terminal state when running

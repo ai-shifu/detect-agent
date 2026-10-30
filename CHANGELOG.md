@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 — 2026-10-30
+
+- Standardize the project name as `detect-agent` and rename the specification to
+  `detect-agent.md`; update both READMEs and the contribution guide.
+- **Breaking:** use camelCase for the result contract and conformance fields:
+  `agent_id` → `agentId`, `is_agent` → `isAgent`, `spec_version` → `specVersion`,
+  `stdout_is_tty` → `stdoutIsTty`, `path_separator` → `pathSeparator` and
+  `env_name_case` → `envNameCase`. Update field access in implementations and
+  conformance runners when adopting this version.
+- Standardize pseudocode identifiers and document naming conventions. Detection
+  rules, priorities, canonical IDs, environment variables and compatibility
+  declaration aliases are unchanged.
+
 ## 0.1.5 — 2026-10-17
 
 - Use non-empty checks for ordinary VT Code, WorkBuddy, Grok Bot, Cue and Muse markers.

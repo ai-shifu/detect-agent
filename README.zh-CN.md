@@ -1,14 +1,14 @@
-# detect_agent.md
+# detect-agent
 
 一份与编程语言无关的智能体运行环境识别规范。把文档交给智能体，它就能在你的项目中，
 用现有语言和代码风格实现检测函数，无需安装 SDK，也无需运行时联网拉取规则。
 
-**[阅读完整规范](detect_agent.md)** · [English](README.md) · [合成测试案例](conformance/cases.json)
+**[阅读完整规范](detect-agent.md)** · [English](README.md) · [合成测试案例](conformance/cases.json)
 
 ## 直接交给智能体的提示词
 
 ```text
-阅读本仓库的 detect_agent.md，在当前项目中实现其中的检测规范。
+阅读本仓库的 detect-agent.md，在当前项目中实现其中的检测规范。
 使用项目现有的语言和代码风格；保留文档规定的匹配语义、条件分组和优先级。
 区分智能体运行标记与普通编辑器、工作区及配置提示。
 使用合成环境验证文档示例及 conformance/cases.json，不读取本机实际环境做测试。

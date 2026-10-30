@@ -1,11 +1,11 @@
 {
-  "spec_version": "0.1.5",
+  "specVersion": "0.2.0",
   "cases": [
     {
       "name": "empty environment",
       "env": {},
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -16,7 +16,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "declared"
       }
     },
@@ -28,7 +28,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -39,7 +39,7 @@
         "AGENT": "MANUS"
       },
       "expected": {
-        "agent_id": "manus",
+        "agentId": "manus",
         "evidence": "declared"
       }
     },
@@ -49,7 +49,7 @@
         "AGENT": "hi"
       },
       "expected": {
-        "agent_id": "hi",
+        "agentId": "hi",
         "evidence": "declared"
       }
     },
@@ -59,7 +59,7 @@
         "AGENT": "zed"
       },
       "expected": {
-        "agent_id": "zed",
+        "agentId": "zed",
         "evidence": "declared"
       }
     },
@@ -69,7 +69,7 @@
         "QODER_WORK_INTEGRATION_PRODUCT": "another-name"
       },
       "expected": {
-        "agent_id": "qwenwork",
+        "agentId": "qwenwork",
         "evidence": "runtime-marker"
       }
     },
@@ -79,7 +79,7 @@
         "QODER_WORK_INTEGRATION_PRODUCT": " \t "
       },
       "expected": {
-        "agent_id": "qwenwork",
+        "agentId": "qwenwork",
         "evidence": "runtime-marker"
       }
     },
@@ -89,7 +89,7 @@
         "QODER_WORK_INTEGRATION_PRODUCT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -102,7 +102,7 @@
         "QWENWORK_BASE_URL": "https://service.example.invalid"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -112,7 +112,7 @@
         "DOUBAO_OFFICE_AGENT_NAME": "synthetic-agent"
       },
       "expected": {
-        "agent_id": "doubao-work",
+        "agentId": "doubao-work",
         "evidence": "runtime-marker"
       }
     },
@@ -122,7 +122,7 @@
         "DOUBAO_OFFICE_AGENT_NAME": " "
       },
       "expected": {
-        "agent_id": "doubao-work",
+        "agentId": "doubao-work",
         "evidence": "runtime-marker"
       }
     },
@@ -132,7 +132,7 @@
         "DOUBAO_OFFICE_AGENT_NAME": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -144,7 +144,7 @@
         "DOUBAO_OFFICE_CLI_TOKEN": "synthetic-test-token"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -154,7 +154,7 @@
         "WORKBUDDY_APP_NAME": "WorkBuddy"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -164,7 +164,7 @@
         "WORKBUDDY_APPLICATION_NAME": "workbuddy"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -174,7 +174,7 @@
         "WORKBUDDY_IS_PACKAGED": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -185,7 +185,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -197,7 +197,7 @@
         "SAND_SUPERVISOR_ENABLED": "1"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -208,7 +208,7 @@
         "SAND_MANIFEST_V2": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -219,7 +219,7 @@
         "SAND_SUPERVISOR_ENABLED": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -230,7 +230,7 @@
         "SAND_SUPERVISOR_ENABLED": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -242,7 +242,7 @@
         "SAND_SUPERVISOR_ENABLED": "false"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -253,7 +253,7 @@
         "CLAUDECODE": "1"
       },
       "expected": {
-        "agent_id": "grok-build",
+        "agentId": "grok-build",
         "evidence": "runtime-marker"
       }
     },
@@ -263,7 +263,7 @@
         "GROK_AGENT": "other-selector"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -273,7 +273,7 @@
         "MANUS_LONG_DESKTOP_WORKER": "1"
       },
       "expected": {
-        "agent_id": "cue",
+        "agentId": "cue",
         "evidence": "runtime-marker"
       }
     },
@@ -283,7 +283,7 @@
         "MANUS_LONG_DESKTOP_WORKER": "false"
       },
       "expected": {
-        "agent_id": "cue",
+        "agentId": "cue",
         "evidence": "runtime-marker"
       }
     },
@@ -293,7 +293,7 @@
         "MANUS_ADDON_RUNTIME_SPECS_REVISION": "synthetic-revision"
       },
       "expected": {
-        "agent_id": "manus",
+        "agentId": "manus",
         "evidence": "runtime-marker"
       }
     },
@@ -304,7 +304,7 @@
         "MANUS_GROUP_ENABLED": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -314,7 +314,7 @@
         "JARVIS_TOOL_CALL_ID": "synthetic-tool"
       },
       "expected": {
-        "agent_id": "muse",
+        "agentId": "muse",
         "evidence": "runtime-marker"
       }
     },
@@ -324,7 +324,7 @@
         "JARVIS_IS_ASSIGNED": "1"
       },
       "expected": {
-        "agent_id": "muse",
+        "agentId": "muse",
         "evidence": "runtime-marker"
       }
     },
@@ -336,7 +336,7 @@
         "JARVIS_TIER": "synthetic-tier"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -347,7 +347,7 @@
         "CLAUDECODE": "1"
       },
       "expected": {
-        "agent_id": "cowork",
+        "agentId": "cowork",
         "evidence": "runtime-marker"
       }
     },
@@ -357,7 +357,7 @@
         "CLAUDE_CODE_IS_COWORK": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -367,7 +367,7 @@
         "ZED_TERM": "1"
       },
       "expected": {
-        "agent_id": "zed",
+        "agentId": "zed",
         "evidence": "context-hint"
       }
     },
@@ -379,7 +379,7 @@
         "CODEX_THREAD_ID": "synthetic-thread"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "runtime-marker"
       }
     },
@@ -390,7 +390,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -400,7 +400,7 @@
         "GOOSE_PROVIDER": "synthetic-provider"
       },
       "expected": {
-        "agent_id": "goose",
+        "agentId": "goose",
         "evidence": "context-hint"
       }
     },
@@ -410,7 +410,7 @@
         "GOOSE_TERMINAL": "0"
       },
       "expected": {
-        "agent_id": "goose",
+        "agentId": "goose",
         "evidence": "runtime-marker"
       }
     },
@@ -420,7 +420,7 @@
         "COPILOT_GITHUB_TOKEN": "synthetic-test-token"
       },
       "expected": {
-        "agent_id": "github-copilot",
+        "agentId": "github-copilot",
         "evidence": "context-hint"
       }
     },
@@ -430,7 +430,7 @@
         "TERM_PROGRAM": "kiro"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -439,9 +439,9 @@
       "env": {
         "TERM_PROGRAM": "kiro"
       },
-      "stdout_is_tty": false,
+      "stdoutIsTty": false,
       "expected": {
-        "agent_id": "kiro",
+        "agentId": "kiro",
         "evidence": "context-hint"
       }
     },
@@ -450,9 +450,9 @@
       "env": {
         "TERM_PROGRAM": "kiro"
       },
-      "stdout_is_tty": true,
+      "stdoutIsTty": true,
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -463,7 +463,7 @@
         "/opt/.devin"
       ],
       "expected": {
-        "agent_id": "devin",
+        "agentId": "devin",
         "evidence": "context-hint"
       }
     },
@@ -472,9 +472,9 @@
       "env": {
         "PATH": "/tmp/.pi/agent/bin:/usr/bin"
       },
-      "path_separator": ":",
+      "pathSeparator": ":",
       "expected": {
-        "agent_id": "pi",
+        "agentId": "pi",
         "evidence": "context-hint"
       }
     },
@@ -483,9 +483,9 @@
       "env": {
         "PATH": "/tmp/.pi/agents/bin:/usr/bin"
       },
-      "path_separator": ":",
+      "pathSeparator": ":",
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -495,7 +495,7 @@
         "CRUSH": "false"
       },
       "expected": {
-        "agent_id": "crush",
+        "agentId": "crush",
         "evidence": "runtime-marker"
       }
     },
@@ -505,7 +505,7 @@
         "crush": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -515,7 +515,7 @@
         "GROK_AGENT": "1\n"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -526,7 +526,7 @@
         "HERMES_AGENT": "1"
       },
       "expected": {
-        "agent_id": "crush",
+        "agentId": "crush",
         "evidence": "runtime-marker"
       }
     },
@@ -536,7 +536,7 @@
         "HERMES_SESSION_ID": "synthetic-session"
       },
       "expected": {
-        "agent_id": "hermes-agent",
+        "agentId": "hermes-agent",
         "evidence": "runtime-marker"
       }
     },
@@ -546,7 +546,7 @@
         "HERMES_AGENT": "false"
       },
       "expected": {
-        "agent_id": "hermes-agent",
+        "agentId": "hermes-agent",
         "evidence": "runtime-marker"
       }
     },
@@ -557,7 +557,7 @@
         "HERMES_AGENT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -567,7 +567,7 @@
         "KILOCODE_FEATURE": "synthetic-feature"
       },
       "expected": {
-        "agent_id": "kilo-code",
+        "agentId": "kilo-code",
         "evidence": "runtime-marker"
       }
     },
@@ -577,7 +577,7 @@
         "KILOCODE_FEATURE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -587,7 +587,7 @@
         "TRAE_AI_SHELL_ID": "synthetic-shell"
       },
       "expected": {
-        "agent_id": "trae",
+        "agentId": "trae",
         "evidence": "runtime-marker"
       }
     },
@@ -597,7 +597,7 @@
         "TRAE_AI_SHELL_ID": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -607,7 +607,7 @@
         "VTCODE": "1"
       },
       "expected": {
-        "agent_id": "vtcode",
+        "agentId": "vtcode",
         "evidence": "runtime-marker"
       }
     },
@@ -617,7 +617,7 @@
         "VTCODE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -627,7 +627,7 @@
         "VTCODE": "false"
       },
       "expected": {
-        "agent_id": "vtcode",
+        "agentId": "vtcode",
         "evidence": "runtime-marker"
       }
     },
@@ -637,7 +637,7 @@
         "VTCODE": "0"
       },
       "expected": {
-        "agent_id": "vtcode",
+        "agentId": "vtcode",
         "evidence": "runtime-marker"
       }
     },
@@ -647,7 +647,7 @@
         "VTCODE": " "
       },
       "expected": {
-        "agent_id": "vtcode",
+        "agentId": "vtcode",
         "evidence": "runtime-marker"
       }
     },
@@ -657,7 +657,7 @@
         "KIMI_PLUGIN_ROOT": "synthetic-plugin-root"
       },
       "expected": {
-        "agent_id": "kimi",
+        "agentId": "kimi",
         "evidence": "runtime-marker"
       }
     },
@@ -667,7 +667,7 @@
         "KIMI_PLUGIN_ROOT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -677,7 +677,7 @@
         "GEMINI_CLI": "1"
       },
       "expected": {
-        "agent_id": "gemini-cli",
+        "agentId": "gemini-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -687,7 +687,7 @@
         "GEMINI_CLI": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -697,7 +697,7 @@
         "CLINE_ACTIVE": "false"
       },
       "expected": {
-        "agent_id": "cline",
+        "agentId": "cline",
         "evidence": "runtime-marker"
       }
     },
@@ -707,7 +707,7 @@
         "CLINE_ACTIVE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -717,7 +717,7 @@
         "ANTIGRAVITY_AGENT": "1"
       },
       "expected": {
-        "agent_id": "antigravity",
+        "agentId": "antigravity",
         "evidence": "runtime-marker"
       }
     },
@@ -727,7 +727,7 @@
         "ANTIGRAVITY_CLI_ALIAS": "synthetic-cli"
       },
       "expected": {
-        "agent_id": "antigravity",
+        "agentId": "antigravity",
         "evidence": "runtime-marker"
       }
     },
@@ -738,7 +738,7 @@
         "ANTIGRAVITY_CLI_ALIAS": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -748,7 +748,7 @@
         "AUGMENT_AGENT": "0"
       },
       "expected": {
-        "agent_id": "augment-cli",
+        "agentId": "augment-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -758,7 +758,7 @@
         "AUGMENT_AGENT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -768,7 +768,7 @@
         "OPENCODE_CLIENT": "synthetic-client"
       },
       "expected": {
-        "agent_id": "opencode",
+        "agentId": "opencode",
         "evidence": "runtime-marker"
       }
     },
@@ -778,7 +778,7 @@
         "OPENCODE": "1"
       },
       "expected": {
-        "agent_id": "opencode",
+        "agentId": "opencode",
         "evidence": "runtime-marker"
       }
     },
@@ -789,7 +789,7 @@
         "OPENCODE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -799,7 +799,7 @@
         "JUNIE_DATA": "synthetic-data"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -809,7 +809,7 @@
         "JUNIE_SHIM_PATH": "synthetic-shim"
       },
       "expected": {
-        "agent_id": "junie",
+        "agentId": "junie",
         "evidence": "runtime-marker"
       }
     },
@@ -820,7 +820,7 @@
         "JUNIE_SHIM_PATH": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -830,7 +830,7 @@
         "PI_CODING_AGENT": "false"
       },
       "expected": {
-        "agent_id": "pi",
+        "agentId": "pi",
         "evidence": "runtime-marker"
       }
     },
@@ -840,7 +840,7 @@
         "PI_CODING_AGENT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -850,7 +850,7 @@
         "CLAUDECODE": "1"
       },
       "expected": {
-        "agent_id": "claude-code",
+        "agentId": "claude-code",
         "evidence": "runtime-marker"
       }
     },
@@ -860,7 +860,7 @@
         "CLAUDE_CODE": "false"
       },
       "expected": {
-        "agent_id": "claude-code",
+        "agentId": "claude-code",
         "evidence": "runtime-marker"
       }
     },
@@ -871,7 +871,7 @@
         "CLAUDE_CODE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -881,7 +881,7 @@
         "AGENT_CONTEXT_OUT": "synthetic-context"
       },
       "expected": {
-        "agent_id": "kiro",
+        "agentId": "kiro",
         "evidence": "runtime-marker"
       }
     },
@@ -891,7 +891,7 @@
         "AGENT_CONTEXT_OUT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -901,7 +901,7 @@
         "OPENCLAW_SHELL": "1"
       },
       "expected": {
-        "agent_id": "openclaw",
+        "agentId": "openclaw",
         "evidence": "runtime-marker"
       }
     },
@@ -911,7 +911,7 @@
         "OPENCLAW_SHELL": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -921,7 +921,7 @@
         "REPL_ID": "synthetic-workspace"
       },
       "expected": {
-        "agent_id": "replit",
+        "agentId": "replit",
         "evidence": "context-hint"
       }
     },
@@ -931,7 +931,7 @@
         "REPL_ID": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -941,7 +941,7 @@
         "CURSOR_TRACE_ID": "synthetic-trace"
       },
       "expected": {
-        "agent_id": "cursor",
+        "agentId": "cursor",
         "evidence": "context-hint"
       }
     },
@@ -951,7 +951,7 @@
         "CURSOR_TRACE_ID": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -961,7 +961,7 @@
         "AI_AGENT": "sandbase-harness"
       },
       "expected": {
-        "agent_id": "sandbase-harness",
+        "agentId": "sandbase-harness",
         "evidence": "declared"
       }
     },
@@ -971,7 +971,7 @@
         "AGENT": " \t "
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -981,7 +981,7 @@
         "GROK_AGENT": "1"
       },
       "expected": {
-        "agent_id": "grok-build",
+        "agentId": "grok-build",
         "evidence": "runtime-marker"
       }
     },
@@ -991,7 +991,7 @@
         "GROK_PLUGIN_ROOT": "synthetic-plugin-root"
       },
       "expected": {
-        "agent_id": "grok-build",
+        "agentId": "grok-build",
         "evidence": "runtime-marker"
       }
     },
@@ -1001,7 +1001,7 @@
         "GROK_PLUGIN_DATA": "synthetic-plugin-data"
       },
       "expected": {
-        "agent_id": "grok-build",
+        "agentId": "grok-build",
         "evidence": "runtime-marker"
       }
     },
@@ -1013,7 +1013,7 @@
         "GROK_PLUGIN_DATA": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1023,7 +1023,7 @@
         "CODEX_SANDBOX": "synthetic-sandbox"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "runtime-marker"
       }
     },
@@ -1033,7 +1033,7 @@
         "CODEX_CI": "1"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "runtime-marker"
       }
     },
@@ -1043,7 +1043,7 @@
         "CODEX_THREAD_ID": "synthetic-thread"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "runtime-marker"
       }
     },
@@ -1053,7 +1053,7 @@
         "CODEX_SANDBOX_NETWORK_DISABLED": "0"
       },
       "expected": {
-        "agent_id": "codex",
+        "agentId": "codex",
         "evidence": "runtime-marker"
       }
     },
@@ -1066,7 +1066,7 @@
         "CODEX_SANDBOX_NETWORK_DISABLED": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1076,7 +1076,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1086,7 +1086,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": "agent-exec"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1097,7 +1097,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1107,7 +1107,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": "agent_exec"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1117,7 +1117,7 @@
         "WORKBUDDY_APPLICATION_NAME": "WorkBuddy"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1128,7 +1128,7 @@
         "WORKBUDDY_APP_NAME": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1138,7 +1138,7 @@
         "SAND_AGENT": "1"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1148,7 +1148,7 @@
         "SAND_AGENT": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1158,7 +1158,7 @@
         "SAND_AGENT": "false"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1168,7 +1168,7 @@
         "MANUS_ADDON_RUNTIME_SPEC_PATH": "synthetic-spec"
       },
       "expected": {
-        "agent_id": "manus",
+        "agentId": "manus",
         "evidence": "runtime-marker"
       }
     },
@@ -1179,7 +1179,7 @@
         "MANUS_ADDON_RUNTIME_SPECS_REVISION": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1190,7 +1190,7 @@
         "CLAUDE_CODE": "1"
       },
       "expected": {
-        "agent_id": "cowork",
+        "agentId": "cowork",
         "evidence": "runtime-marker"
       }
     },
@@ -1201,7 +1201,7 @@
         "CLAUDECODE": "1"
       },
       "expected": {
-        "agent_id": "claude-code",
+        "agentId": "claude-code",
         "evidence": "runtime-marker"
       }
     },
@@ -1213,7 +1213,7 @@
         "CLAUDE_CODE": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1223,7 +1223,7 @@
         "CRUSH": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1233,7 +1233,7 @@
         "GOOSE_TERMINAL": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1243,7 +1243,7 @@
         "MANUS_LONG_DESKTOP_WORKER": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1254,7 +1254,7 @@
         "JARVIS_TOOL_CALL_ID": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1264,7 +1264,7 @@
         "JARVIS_IS_ASSIGNED": "false"
       },
       "expected": {
-        "agent_id": "muse",
+        "agentId": "muse",
         "evidence": "runtime-marker"
       }
     },
@@ -1274,7 +1274,7 @@
         "AI_AGENT": "HI"
       },
       "expected": {
-        "agent_id": "hi",
+        "agentId": "hi",
         "evidence": "declared"
       }
     },
@@ -1284,7 +1284,7 @@
         "AGENT": "KIMI"
       },
       "expected": {
-        "agent_id": "kimi",
+        "agentId": "kimi",
         "evidence": "declared"
       }
     },
@@ -1294,7 +1294,7 @@
         "AI_AGENT": "GEMINI_CLI"
       },
       "expected": {
-        "agent_id": "gemini-cli",
+        "agentId": "gemini-cli",
         "evidence": "declared"
       }
     },
@@ -1304,7 +1304,7 @@
         "AGENT": "hı"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1314,7 +1314,7 @@
         "AI_AGENT": "KIMI"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1324,7 +1324,7 @@
         "AI_AGENT": "\t\n\u000b\f\r HI \r\f\u000b\n\t"
       },
       "expected": {
-        "agent_id": "hi",
+        "agentId": "hi",
         "evidence": "declared"
       }
     },
@@ -1336,7 +1336,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "kimi",
+        "agentId": "kimi",
         "evidence": "declared"
       }
     },
@@ -1348,7 +1348,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1360,7 +1360,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1371,7 +1371,7 @@
         "AGENT": "manus"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1382,7 +1382,7 @@
         "AGENT": "manus"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1393,7 +1393,7 @@
         "AGENT": "manus"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1404,7 +1404,7 @@
         "AGENT": "manus"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "declared"
       }
     },
@@ -1413,9 +1413,9 @@
       "env": {
         "cRuSh": "1"
       },
-      "env_name_case": "sensitive",
+      "envNameCase": "sensitive",
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1424,9 +1424,9 @@
       "env": {
         "crush": "1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": "crush",
+        "agentId": "crush",
         "evidence": "runtime-marker"
       }
     },
@@ -1436,9 +1436,9 @@
         "ai_agent": "HI",
         "CRUSH": "1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": "hi",
+        "agentId": "hi",
         "evidence": "declared"
       }
     },
@@ -1447,9 +1447,9 @@
       "env": {
         "cursor_extension_host_role": "AGENT-EXEC"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1460,9 +1460,9 @@
         "sand_manifest_v2": "1",
         "sand_supervisor_enabled": "1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1472,9 +1472,9 @@
         "cursor_agent": "1",
         "sand_manifest_v2": "1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1483,9 +1483,9 @@
       "env": {
         "zed_term": "1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": "zed",
+        "agentId": "zed",
         "evidence": "context-hint"
       }
     },
@@ -1494,9 +1494,9 @@
       "env": {
         "grok_agent": " 1"
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1505,9 +1505,9 @@
       "env": {
         "crush": ""
       },
-      "env_name_case": "ascii-insensitive",
+      "envNameCase": "ascii-insensitive",
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1518,7 +1518,7 @@
         "JUNIE_SHIM_PATH": ""
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1529,7 +1529,7 @@
         "CURSOR_AGENT": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1540,7 +1540,7 @@
         "JUNIE_DATA": "synthetic-data"
       },
       "expected": {
-        "agent_id": "junie",
+        "agentId": "junie",
         "evidence": "runtime-marker"
       }
     },
@@ -1550,7 +1550,7 @@
         "WORKBUDDY_APPLICATION_NAME": "0"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1560,7 +1560,7 @@
         "WORKBUDDY_APPLICATION_NAME": "false"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1570,7 +1570,7 @@
         "WORKBUDDY_APPLICATION_NAME": " "
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1580,7 +1580,7 @@
         "WORKBUDDY_APP_NAME": "0"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1590,7 +1590,7 @@
         "WORKBUDDY_APP_NAME": "false"
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1600,7 +1600,7 @@
         "WORKBUDDY_APP_NAME": " "
       },
       "expected": {
-        "agent_id": "workbuddy",
+        "agentId": "workbuddy",
         "evidence": "runtime-marker"
       }
     },
@@ -1610,7 +1610,7 @@
         "SAND_AGENT": "0"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1620,7 +1620,7 @@
         "SAND_AGENT": " "
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1630,7 +1630,7 @@
         "MANUS_LONG_DESKTOP_WORKER": "0"
       },
       "expected": {
-        "agent_id": "cue",
+        "agentId": "cue",
         "evidence": "runtime-marker"
       }
     },
@@ -1640,7 +1640,7 @@
         "MANUS_LONG_DESKTOP_WORKER": " "
       },
       "expected": {
-        "agent_id": "cue",
+        "agentId": "cue",
         "evidence": "runtime-marker"
       }
     },
@@ -1650,7 +1650,7 @@
         "JARVIS_IS_ASSIGNED": "0"
       },
       "expected": {
-        "agent_id": "muse",
+        "agentId": "muse",
         "evidence": "runtime-marker"
       }
     },
@@ -1660,7 +1660,7 @@
         "JARVIS_IS_ASSIGNED": " "
       },
       "expected": {
-        "agent_id": "muse",
+        "agentId": "muse",
         "evidence": "runtime-marker"
       }
     },
@@ -1672,7 +1672,7 @@
         "SAND_SUPERVISOR_ENABLED": " "
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1684,7 +1684,7 @@
         "SAND_SUPERVISOR_ENABLED": "0"
       },
       "expected": {
-        "agent_id": "grok-bot",
+        "agentId": "grok-bot",
         "evidence": "runtime-marker"
       }
     },
@@ -1696,7 +1696,7 @@
         "SAND_SUPERVISOR_ENABLED": "1"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1708,7 +1708,7 @@
         "SAND_SUPERVISOR_ENABLED": "1"
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1720,7 +1720,7 @@
         "SAND_SUPERVISOR_ENABLED": ""
       },
       "expected": {
-        "agent_id": "cursor-cli",
+        "agentId": "cursor-cli",
         "evidence": "runtime-marker"
       }
     },
@@ -1730,7 +1730,7 @@
         "GROK_AGENT": "0"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1740,7 +1740,7 @@
         "GROK_AGENT": "false"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1750,7 +1750,7 @@
         "GROK_AGENT": " "
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1760,7 +1760,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": "0"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1770,7 +1770,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": "false"
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     },
@@ -1780,7 +1780,7 @@
         "CURSOR_EXTENSION_HOST_ROLE": " "
       },
       "expected": {
-        "agent_id": null,
+        "agentId": null,
         "evidence": "none"
       }
     }
