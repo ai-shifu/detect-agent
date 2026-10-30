@@ -66,12 +66,13 @@ It reveals runtime markers hidden by a declaration. The report contains catalog
 IDs, evidence categories and diagnostic status; environment values are never included.
 
 With `--expect`, exit code **0** means both results recognize the expected ID
-using `runtime-marker` evidence. Exit code **1** means automatic recognition has
-not been established for that expectation. A declaration that masks an otherwise
-matching marker still requires attention. Invalid input or specification syntax
-uses exit code **2**; the conformance command also rejects invalid fixture files.
-Without `--expect`, a valid diagnostic exits
-0 as an observation, regardless of whether it found an agent.
+using `runtime-marker` evidence. Exit code **1** means this full condition was not
+met. For `declaration-masked`, `automatic_result` does match the expected ID with
+`runtime-marker` evidence, but a declaration masks the standard `result`. Automatic
+recognition is present in that diagnostic; exit code 1 does not mean the marker
+is absent. Invalid input or specification syntax uses exit code **2**; the
+conformance command also rejects invalid fixture files. Without `--expect`, a
+valid diagnostic exits 0 as an observation, regardless of whether it found an agent.
 
 Interpret results using this decision path:
 
