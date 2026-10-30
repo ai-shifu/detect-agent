@@ -23,7 +23,8 @@ SDK; passing it does not test an implementation in another project.
   does not replace the target project's own development instructions.
 - Read only documented variables or specific evidence-backed candidate names.
   Never dump the environment, scan prefixes, or publish marker values, credentials,
-  IDs, internal endpoints, user paths or proprietary source.
+  session/message/log IDs, internal endpoints, user paths or proprietary source.
+  Canonical product IDs from the specification may be included in reports.
 - Keep declarations, runtime markers and context hints distinct. Passing
   synthetic cases and recognizing a live process are separate claims.
 - For Detect Agent changes, follow [CONTRIBUTING.md](CONTRIBUTING.md). Change rules

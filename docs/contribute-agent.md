@@ -68,7 +68,8 @@ contract; your own assertion about being that product is not marker evidence.
 Query only specific candidate names established by those sources. Record absent,
 empty, non-empty, or equality with a fixed public discriminator. Do not enumerate
 the environment, scan variable prefixes, or retain actual values such as paths,
-IDs, tokens and addresses. Use synthetic replacements in fixtures. Do not publish
+session/message/log IDs, tokens and addresses. Canonical product IDs from the
+specification may be included in reports. Use synthetic replacements in fixtures. Do not publish
 proprietary source. A local observation establishes only its recorded scope.
 
 For each proposed rule, establish:
