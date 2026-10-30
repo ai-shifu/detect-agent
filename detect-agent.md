@@ -26,6 +26,10 @@ to build a detector in the user's project, or
 when investigating one command environment. The optional repository tools are
 development aids; the rules in this document remain normative.
 
+For a result that appears incorrect, follow
+[Fix incorrect detection](docs/fix-detection.md) to reproduce it, distinguish an
+implementation defect from a rule/coverage issue, and verify the appropriate repair.
+
 ## 1. Result contract
 
 Return an object equivalent to:

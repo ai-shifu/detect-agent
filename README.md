@@ -35,6 +35,7 @@ Read https://github.com/ai-shifu/detect-agent and follow docs/implement-detectio
 from a single pinned commit. Read the full specification and conformance cases
 at that same commit. Use this project's language and conventions, integrate the
 detector, and run all shared cases through the implementation you add here.
+If detection is wrong, follow docs/fix-detection.md to locate and repair the cause.
 Keep environment values private, add no runtime network dependency, and report
 the source commit, changed files, actual test results and any coverage limits.
 ```
@@ -53,6 +54,7 @@ Help Detect Agent recognize the agent product running this task.
 Read https://github.com/ai-shifu/detect-agent and follow docs/contribute-agent.md
 from a single pinned commit. Use your actual command environment to check the
 existing rule, and gather evidence for any missing or incorrect signals.
+If detection is wrong, follow docs/fix-detection.md to locate and repair the cause.
 If a rule needs changing, prepare and verify a minimal change in a separate
 checkout of that repository and open a pull request. Otherwise report the
 verified result and coverage limits. Keep environment values private and leave
@@ -74,7 +76,8 @@ an agent's normal tools. A consuming implementation needs no SDK or runtime
 connection to this repository. Agents pin a source commit when they start, so
 rules and cases stay reproducible.
 
-[Agent entry point](AGENTS.md) · [Live diagnostics](docs/agent-self-check.md) ·
+[Agent entry point](AGENTS.md) · [Fix incorrect detection](docs/fix-detection.md) ·
+[Live diagnostics](docs/agent-self-check.md) ·
 [Contribution requirements](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 
 Original content is [MIT licensed](LICENSE). Referenced projects retain their

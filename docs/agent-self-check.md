@@ -97,6 +97,10 @@ If no command execution is available, report that live detection is unverified.
 
 ## Choose the next task
 
+If the result is wrong, follow [Fix incorrect detection](fix-detection.md) to
+reproduce it, choose the responsible layer, and verify a repair. An exit code or
+unexpected product name alone does not establish that a specification rule is wrong.
+
 Use [Implement detection](implement-detection.md) to update a detector in the
 user's project. Use [Contribute your signals](contribute-agent.md) to investigate
 a missing rule or propose an evidence-backed specification change. A declaration masking the result is a launcher/operator decision;

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add an incorrect-detection repair workflow covering implementation, integration,
+  launcher and upstream-rule causes; link it from both task prompts and Agent guides.
 - Organize both READMEs around two copy-paste prompts: implement detection in the
   user's project first, then contribute a product's signals.
 - Add dedicated Agent workflows with explicit write targets, source revisions,

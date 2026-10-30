@@ -31,6 +31,7 @@
 阅读 https://github.com/ai-shifu/detect-agent ，选定一个 Git commit，
 按同一版本中的 docs/implement-detection.md 执行，完整读取该版本的规范和合成案例。
 使用当前项目已有的语言和代码风格，完成实现与接入，将全部共享案例送入本次实现进行验证。
+如果识别结果不符合预期，按 docs/fix-detection.md 定位原因、在正确的位置修复并验证。
 不要公开环境变量值，不要增加运行时联网依赖。
 完成后报告来源 commit、修改文件、实际测试结果及覆盖范围。
 ```
@@ -48,6 +49,7 @@
 阅读 https://github.com/ai-shifu/detect-agent ，选定一个 Git commit，
 按同一版本中的 docs/contribute-agent.md 执行。
 通过你实际使用的命令环境验证已有规则，为缺失或错误的识别特征收集证据。
+如果识别结果不符合预期，按 docs/fix-detection.md 定位原因、在正确的位置修复并验证。
 需要修改规则时，在该仓库的独立检出中完成最小改动、验证并提交 PR；
 已有规则足够时，报告验证结果和覆盖范围即可。不要公开环境变量值，不要合并 main。
 ```
@@ -65,7 +67,8 @@ Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.js
 
 完整规范和 Agent 工作流以英文维护；上面的中文提示词可以直接使用。
 
-[Agent 入口](AGENTS.md) · [运行环境诊断](docs/agent-self-check.md) ·
+[Agent 入口](AGENTS.md) · [修复识别错误](docs/fix-detection.md) ·
+[运行环境诊断](docs/agent-self-check.md) ·
 [贡献要求](CONTRIBUTING.md) · [更新记录](CHANGELOG.md)
 
 原创内容采用 [MIT](LICENSE) 许可，引用项目保留各自的许可和署名。
