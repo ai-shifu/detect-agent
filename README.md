@@ -20,7 +20,7 @@ You can paste the document into context, attach a local copy, or link to it usin
 your agent's normal document-reading tools. Pin a Git commit for reproducible
 implementations; review changes before refreshing a vendored copy.
 
-Version 0.2.0 covers **35 canonical product IDs**, with ordered runtime rules,
+Version 0.1.5 covers **35 canonical product IDs**, with ordered runtime rules,
 explicit self-declarations, optional context hints, source/coverage notes and
 portable examples. Ordinary runtime markers use non-empty checks; exact values
 are reserved for context selectors. Detection identifies environment context,
