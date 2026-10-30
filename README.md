@@ -1,52 +1,67 @@
 # Detect Agent
 
-A language-independent Markdown specification for identifying AI agent execution
-environments. Give an agent one document; let it implement the detector in your
-project's own language, without an SDK or runtime network access.
+A shared specification that agents can implement and maintain. It describes how
+to recognize AI agent execution environments using local signals.
 
-**[Read the specification](detect-agent.md)** · [中文说明](README.zh-CN.md) · [Conformance cases](conformance/cases.json)
+Choose one of the two tasks below and **paste its prompt into your agent**. The
+agent follows the linked workflow, reads the rules, does the work, and verifies
+the result. You do not need to study the rule tables or choose an SDK.
 
-## Check your own agent
+[中文说明](README.zh-CN.md)
 
-Start with [AGENTS.md](AGENTS.md) and the
-[self-check and rule-update guide](docs/agent-self-check.md). From this repository,
-using Python 3.9+ with no dependencies:
+## 1. Let an agent implement detection in your project
 
-```sh
-python3 scripts/check.py conformance
-python3 scripts/check.py self-check --expect codex
-```
-
-Replace `codex` with your expected canonical product ID and run through your
-agent's actual command tool. The first command checks synthetic fixtures; the
-second reports your live process without printing environment values. A successful
-declaration or context hint alone does not establish automatic recognition. The
-guide explains how to diagnose a mismatch, update a consuming implementation,
-and contribute evidence-backed rule changes.
-
-## Use it in an agent
+Use this in the project that needs detection. Your agent implements the
+specification in **your project's language and conventions** and tests that
+implementation against the shared cases.
 
 ```text
-Read detect-agent.md from this repository. Implement its detection contract in
-this project using our existing language and conventions. Preserve the listed
-matching semantics and priority. Distinguish runtime markers from editor and
-workspace hints. Use synthetic inputs to verify the conformance cases. Do not
-add a runtime network dependency or log environment values.
+Implement agent-environment detection in my current project.
+Read https://github.com/ai-shifu/detect-agent and follow docs/implement-detection.md
+from a single pinned commit. Read the full specification and conformance cases
+at that same commit. Use this project's language and conventions, integrate the
+detector, and run all shared cases through the implementation you add here.
+Keep environment values private, add no runtime network dependency, and report
+the source commit, changed files, actual test results and any coverage limits.
 ```
 
-You can paste the document into context, attach a local copy, or link to it using
-your agent's normal document-reading tools. Pin a Git commit for reproducible
-implementations; review changes before refreshing a vendored copy.
+The result is working code and tests in your project, with a recorded source
+version. [Agent workflow →](docs/implement-detection.md)
 
-Version 0.1.5 covers **35 canonical product IDs**, with ordered runtime rules,
-explicit self-declarations, optional context hints, source/coverage notes and
-portable examples. Ordinary runtime markers use non-empty checks; exact values
-are reserved for context selectors. Detection identifies environment context,
-not an authenticated caller. Product names include **QwenWork, Doubao Work, Manus,
-Cue and Muse**.
+## 2. Let an agent contribute its own recognition signals
 
-This repository contains a specification, test data and optional development
-tools, not a detector library. The checker reads the specification's tables;
-it does not maintain a second rule catalog.
-[Contributions](CONTRIBUTING.md) are welcome. Original content is [MIT licensed](LICENSE);
-referenced projects retain their own licenses and attribution.
+Use this inside the agent product whose recognition you want to improve. It
+checks existing coverage, investigates real signals, and proposes a change to
+**this repository** when the evidence supports one.
+
+```text
+Help Detect Agent recognize the agent product running this task.
+Read https://github.com/ai-shifu/detect-agent and follow docs/contribute-agent.md
+from a single pinned commit. Use your actual command environment to check the
+existing rule, and gather evidence for any missing or incorrect signals.
+If a rule needs changing, prepare and verify a minimal change in a separate
+checkout of that repository and open a pull request. Otherwise report the
+verified result and coverage limits. Keep environment values private and leave
+main unmerged.
+```
+
+The result is a verified coverage report or an evidence-backed PR. Recognition
+that already works does not need a new rule. [Agent workflow →](docs/contribute-agent.md)
+
+## How it works
+
+[Specification 0.1.5](detect-agent.md) covers **35 canonical product IDs**. It
+defines declarations, ordered runtime rules, context hints and exact matching
+semantics. Detection describes environment context; it does not authenticate
+the immediate caller.
+
+The specification and [synthetic cases](conformance/cases.json) can be read with
+an agent's normal tools. A consuming implementation needs no SDK or runtime
+connection to this repository. Agents pin a source commit when they start, so
+rules and cases stay reproducible.
+
+[Agent entry point](AGENTS.md) · [Live diagnostics](docs/agent-self-check.md) ·
+[Contribution requirements](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
+
+Original content is [MIT licensed](LICENSE). Referenced projects retain their
+own licenses and attribution.
