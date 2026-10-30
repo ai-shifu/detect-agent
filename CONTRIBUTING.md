@@ -4,21 +4,6 @@ Use a pull request for every change. Update `detect-agent.md` first; it is the
 normative source. This project does not accept arbitrary environment-prefix
 matching or product-identity claims inferred only from variable names.
 
-## Naming conventions
-
-- Use `detect-agent` as the project name and `detect-agent.md` for the specification.
-- Use lowercase names with hyphens for new files and directories. Keep conventional
-  repository files such as `README.md`, `README.zh-CN.md`, `CHANGELOG.md`,
-  `CONTRIBUTING.md` and `LICENSE` in their standard forms.
-- Use camelCase for project-defined result fields, conformance fields and
-  pseudocode identifiers, such as `agentId`, `specVersion` and `filesystemProbe`.
-- Keep canonical product IDs and evidence values in their documented form; use
-  lowercase names with hyphens to separate words in new IDs and evidence values.
-- Preserve exact external names: environment variables, compatibility declaration
-  aliases, synthetic marker values and source URLs may contain underscores.
-
-## Rule changes and validation
-
 For a rule change, include:
 
 1. The canonical product ID and official identity reference.
