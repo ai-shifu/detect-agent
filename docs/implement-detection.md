@@ -12,9 +12,11 @@ for the agent doing the implementation.
    Inspect its instructions, existing detector, language, test runner and intended
    integration point. Preserve unrelated changes. Reuse the existing integration
    where appropriate; add only the detection capability the user requested.
-2. Read Detect Agent from the supplied checkout or repository reference. Use the
-   user's specified commit or ref; if none was supplied, resolve the upstream
-   default branch to an immutable Git commit. Record that full commit SHA.
+2. Locate Detect Agent using the supplied checkout or repository reference.
+   Resolve the user's specified commit or ref, including a branch or tag, to a
+   full immutable commit SHA before reading any reference file. If none was
+   supplied, resolve the upstream default branch to a full commit SHA. Record the
+   resolved SHA and use it for every reference-file read.
 3. Read the **complete contents** of this guide, `detect-agent.md`, and
    `conformance/cases.json` at that same commit. Read the specification version
    from the document and verify it matches the fixture `spec_version`. GitHub

@@ -11,9 +11,10 @@ Do not manufacture a rule change when the current rule already works.
 
 ## 1. Read one revision and establish your scope
 
-Use `https://github.com/ai-shifu/detect-agent` as the source repository. Use the
-user's supplied revision, or resolve its default branch to a Git commit SHA.
-Read this workflow,
+Use `https://github.com/ai-shifu/detect-agent` as the source repository. Resolve
+the user's supplied revision, including a branch or tag, to a full immutable
+commit SHA before reading any reference file. If none was supplied, resolve the
+upstream default branch to a full commit SHA. Read this workflow,
 [`AGENTS.md`](../AGENTS.md), [the specification](../detect-agent.md),
 [the fixtures](../conformance/cases.json) and
 [the contribution requirements](../CONTRIBUTING.md) in full from that commit.
