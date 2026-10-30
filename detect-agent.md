@@ -20,6 +20,12 @@ The result describes a process environment, **not an authenticated immediate
 caller**. A human can export these variables, and a nested agent can inherit them.
 It does not identify the model, account, country, subscription, or human operator.
 
+To check your own command environment or contribute recognition improvements,
+start with the [agent self-check and update guide](docs/agent-self-check.md).
+It separates synthetic conformance from live diagnostics and declaration-based
+identity from automatic marker recognition. The optional repository tools are
+development aids; the rules in this document remain normative.
+
 ## 1. Result contract
 
 Return an object equivalent to:
