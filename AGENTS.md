@@ -1,36 +1,36 @@
-# Instructions for agents
+# Agent task entry point
 
-This repository is a language-independent detection specification, with local
-development tools. `detect-agent.md` is the only normative source of rules;
-the Python checker is a development aid, not a production SDK.
+Detect Agent supports two tasks. Choose the one the user requested before editing.
 
-## Check whether you are recognized
+| User's task | Follow | Write to | Deliver |
+| --- | --- | --- | --- |
+| Contribute or correct this product's recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent checkout of Detect Agent | Verified coverage report, or a justified rule change and PR |
+| Add agent detection to a project | [Implement detection](docs/implement-detection.md) | The user's target project | Integrated detector and tests against the shared fixtures |
 
-1. Read [the self-check guide](docs/agent-self-check.md) and the
-   [result contract](detect-agent.md#1-result-contract).
-2. Choose your expected canonical product ID from the specification based on
-   the product/launcher you are using, not your model name or the detector output.
-3. Run `python3 scripts/check.py conformance` to verify the repository's rules
-   and synthetic fixtures.
-4. Run `python3 scripts/check.py self-check --expect <canonical-id>` through your
-   actual command tool. Do not set marker variables or declarations to pass it.
-5. Report the expected ID, standard result, automatic result, status, specification
-   version, and execution scope. A declaration, context hint, or passing synthetic
-   test alone does not prove automatic recognition in your live environment.
+Both workflows use [detect-agent.md](detect-agent.md) as the only normative rule
+source and [conformance/cases.json](conformance/cases.json) as shared test data.
+When reading remotely, pin one Git commit and read each required file in full
+from that commit. Resolve relative links within that repository and revision.
 
-If Python 3.9+ is unavailable, follow the manual procedure in the guide. Do not
-install a runtime just to inspect this repository unless the task calls for it.
+Use [live diagnostics](docs/agent-self-check.md) when investigating one command
+environment. Self-check is a tool within the workflows, not a prerequisite for
+implementing a detector. The Python checker is a development aid, not a production
+SDK; passing it does not test an implementation in another project.
 
-## Update a detection method
+## Working rules
 
-- Follow the guide's decision path: distinguish an outdated consuming
-  implementation, declaration masking, inherited markers, and missing rule coverage.
-- Follow [CONTRIBUTING.md](CONTRIBUTING.md). Change the specification first,
-  then synthetic cases; update the specification version and changelog for a
-  detection-contract change. Do not add a second rule catalog.
+- Establish which repository is the write target. Reference-repository guidance
+  does not replace the target project's own development instructions.
 - Read only documented variables or specific evidence-backed candidate names.
-  Never dump the environment, scan variable prefixes, or publish marker values,
-  tokens, session IDs, internal endpoints, user paths, or proprietary source.
-- Verify with `python3 scripts/check.py conformance` and
-  `python3 -m unittest discover -s tests -v`.
-- Use a feature branch and a pull request. Never merge code into `main`.
+  Never dump the environment, scan prefixes, or publish marker values, credentials,
+  IDs, internal endpoints, user paths or proprietary source.
+- Keep declarations, runtime markers and context hints distinct. Passing
+  synthetic cases and recognizing a live process are separate claims.
+- For Detect Agent changes, follow [CONTRIBUTING.md](CONTRIBUTING.md). Change rules
+  in the specification first, add synthetic regressions, and update the version
+  and changelog for a detection-contract change. Do not add a second rule catalog.
+- Verify Detect Agent changes with `python3 scripts/check.py conformance` and
+  `python3 -m unittest discover -s tests -v`. For a consuming implementation,
+  run the fixtures through that implementation in the target project's language.
+- Use feature branches and pull requests for changes to this repository. Never
+  merge code into `main`.

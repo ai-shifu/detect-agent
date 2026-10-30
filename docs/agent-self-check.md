@@ -1,10 +1,14 @@
-# Agent self-check and rule updates
+# Diagnose one command environment
 
-Use this guide when you want to know whether **the process launched by your
-command tool** can be recognized, or when you want to improve recognition of your
-product. Read [the specification](../detect-agent.md) for the matching contract.
-The repository remains a specification, not a detector SDK. Its optional checker
-uses Python 3.9+ and the standard library, with no installation or network access.
+This is a supporting diagnostic for [contributing your product's signals](contribute-agent.md).
+It checks whether **the process launched by your command tool** can be recognized.
+For the separate task of building a detector in a project, follow
+[Implement detection](implement-detection.md).
+
+Read [the specification](../detect-agent.md) for the matching contract. The
+optional development checker uses Python 3.9+ and the standard library, with no
+installation or network access. It reads the specification from its checkout;
+use the pinned checkout chosen for your task rather than mixing revisions.
 
 ## 1. Establish the expected identity
 
@@ -58,14 +62,15 @@ The JSON report includes the specification version, expected identity, standard
 including declaration precedence. The automatic result is a diagnostic
 counterfactual that ignores only `AI_AGENT` and `AGENT` in a local lookup provider;
 it does not change your shell, process environment, or the detection contract.
-It reveals runtime markers hidden by a declaration. Matched rule IDs and variable
-names may be reported; environment values are never included.
+It reveals runtime markers hidden by a declaration. The report contains catalog
+IDs, evidence categories and diagnostic status; environment values are never included.
 
 With `--expect`, exit code **0** means both results recognize the expected ID
 using `runtime-marker` evidence. Exit code **1** means automatic recognition has
 not been established for that expectation. A declaration that masks an otherwise
-matching marker still requires attention. Invalid input or a broken specification
-or fixture file uses exit code **2**. Without `--expect`, a valid diagnostic exits
+matching marker still requires attention. Invalid input or specification syntax
+uses exit code **2**; the conformance command also rejects invalid fixture files.
+Without `--expect`, a valid diagnostic exits
 0 as an observation, regardless of whether it found an agent.
 
 Interpret results using this decision path:
@@ -89,58 +94,13 @@ standard detection and a separately labeled diagnostic omitting declarations.
 Read only listed names, preserve provider semantics, and never print values.
 If no command execution is available, report that live detection is unverified.
 
-## 4. Decide what needs updating
+## Choose the next task
 
-1. **The consuming implementation is behind this specification.** Pin the
-   specification commit, port the existing rules using that project's language
-   and conventions, and run all fixtures against the updated implementation.
-   Then repeat the live check through the relevant command tool. The repository
-   checker passing does not validate the port.
-2. **A declaration masks the intended result.** Report the standard and automatic
-   results together. Let the launcher or operator deliberately correct its
-   declaration; do not silently ignore it in production or alter global settings.
-3. **The documented marker is missing in one interface.** Identify the affected
-   product version and scope. Check the marker's published injection path or
-   inspect a permitted distribution. Keep unsupported interfaces explicit.
-4. **The rule itself is missing, wrong, or too broad.** Collect evidence and
-   propose a specification change using the procedure below.
-
-## 5. Investigate and propose a rule change
-
-Read [CONTRIBUTING.md](../CONTRIBUTING.md) before editing. Use published source,
-documentation, a permitted distribution inspection, or a redacted runtime
-observation. A product website supports identity, not a variable contract. An
-agent's assertion about its own product is not sufficient marker evidence.
-
-For live investigation, query only specific candidate names supported by the
-evidence. Record whether each is absent, empty, non-empty, or matches a fixed
-public discriminator. Never run `env`, `printenv`, `set`, an environment dump, or
-a prefix scan. Do not save actual marker values, including paths and IDs. Do not
-paste proprietary application source. Use synthetic replacements in fixtures.
-
-Complete the following changes on a feature branch:
-
-1. Update `detect-agent.md` first: canonical ID and product reference, evidence
-   type/date/version/scope, exact variable names, non-empty or exact semantics,
-   AND/OR grouping, priority, and known coverage gaps. Ordinary runtime markers
-   use non-empty checks; exact comparisons need a supported discriminator.
-2. Update `conformance/cases.json`: isolated positives, missing/empty negatives,
-   `"0"`/`"false"`/whitespace positives for non-empty markers, wrong discriminator
-   values, partial conjunctions, declaration interaction, and coexistence with
-   inherited markers. Keep case names unique and all values synthetic.
-3. For a matching/priority/catalog/result change, update the specification version,
-   fixture `spec_version`, version references in both READMEs, and `CHANGELOG.md`.
-   Documentation and tooling changes alone do not change the detection version.
-4. If a new rule form is needed, update the development checker and its focused
-   tests to interpret it. The checker must reject unsupported syntax rather than
-   quietly skip a rule. Do not introduce a parallel catalog of production rules.
-5. Run the conformance command and
-   `python3 -m unittest discover -s tests -v`. Repeat the live check if the affected
-   interface is available; otherwise explicitly mark it unverified.
-6. Open a pull request with the evidence, scope, before/after behavior, synthetic
-   test result and separately labeled live observation. Use the
-   [pull request template](../.github/pull_request_template.md). Never merge into
-   `main`. A local fix or open PR is not an accepted or deployed rule update.
+Use [Contribute your signals](contribute-agent.md) to investigate a missing rule
+or propose an evidence-backed specification change. Use
+[Implement detection](implement-detection.md) to update a detector in the user's
+project. A declaration masking the result is a launcher/operator decision;
+report both results and preserve production declaration precedence.
 
 ## Report template
 

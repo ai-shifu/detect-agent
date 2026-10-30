@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Organize both READMEs around two copy-paste prompts: contribute a product's
+  signals, or implement detection in the user's project.
+- Add dedicated Agent workflows with explicit write targets, source revisions,
+  verification and deliverables; keep live diagnostics as a supporting guide.
 - Add an Agent entry point and a self-check/update guide linked from both READMEs.
 - Add optional local development checks, redacted live diagnostics and CI.
 - Add a pull request template for rule evidence, scope and verification.

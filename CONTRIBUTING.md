@@ -4,11 +4,16 @@ Use a pull request for every change. Update `detect-agent.md` first; it is the
 normative source. This project does not accept arbitrary environment-prefix
 matching or product-identity claims inferred only from variable names.
 
-Agents should start with [AGENTS.md](AGENTS.md) and the
-[self-check and update workflow](docs/agent-self-check.md). First distinguish a
+Agents contributing their product's signals should follow
+[the contribution workflow](docs/contribute-agent.md), starting from
+[AGENTS.md](AGENTS.md). First distinguish a
 missing specification rule from an outdated consuming implementation or a
 declaration masking runtime evidence. Run a live diagnostic through the affected
 command interface; keep it separate from synthetic conformance results.
+
+To implement detection in another project, use
+[the implementation workflow](docs/implement-detection.md). That task writes to
+the target project and validates its implementation against the shared cases.
 
 For a rule change, include:
 
