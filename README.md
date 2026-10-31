@@ -5,11 +5,11 @@ to recognize AI agent execution environments using local signals.
 
 ## Supported agents
 
-The specification covers **36 product IDs**:
+The specification covers **37 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
-| Runtime markers (30) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
+| Runtime markers (31) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
 | Context hints (4) | Cursor (editor), GitHub Copilot, Replit, Zed |
 | Explicit declaration only (2) | hi, SandBase Harness |
 

@@ -276,7 +276,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 36 unique canonical IDs.
+The runtime and context tables together define 35 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
