@@ -5,7 +5,7 @@ to recognize AI agent execution environments using local signals.
 
 ## Supported agents
 
-The specification covers **35 product IDs**:
+The specification covers **36 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
@@ -66,7 +66,7 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.7](detect-agent.md) covers **35 canonical product IDs**. It
+[Specification 0.1.8](detect-agent.md) covers **36 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.
