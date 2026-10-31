@@ -2124,6 +2124,16 @@
    }
   },
   {
+   "name": "lingguang false string is non-empty",
+   "env": {
+    "EXEC_FROM": "false"
+   },
+   "expected": {
+    "agent_id": "lingguang",
+    "evidence": "runtime-marker"
+   }
+  },
+  {
    "name": "lingguang whitespace-only marker is non-empty",
    "env": {
     "EXEC_FROM": " "
