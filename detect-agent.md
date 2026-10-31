@@ -1,6 +1,6 @@
 # Detect Agent Specification
 
-Version: **0.1.8** · Evidence reviewed: **2026-10-31** · License: **MIT**
+Version: **0.1.9** · Evidence reviewed: **2026-10-31** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -142,8 +142,9 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
-editor hint. Devin's and Instinct's runtime markers are evaluated last, so a nested
-agent CLI's own marker wins over either inherited command environment.
+editor hint. Devin's, Instinct's and Lingguang's runtime markers are evaluated
+last, so a nested agent CLI's own marker wins over any inherited command
+environment.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -184,6 +185,7 @@ where the marker information came from; it is not a probability score.
 | 28 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
 | 29 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
 | 30 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
+| 31 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
 
 Important boundaries:
 
@@ -241,6 +243,15 @@ Important boundaries:
   observation does not establish a vendor-wide injection guarantee or cover
   other interfaces, operating systems or human terminals. Match presence only;
   do not infer identity from an `INSTINCT_` prefix.
+- Lingguang's [official product site](https://www.lingguang.com/) establishes its
+  identity, not an environment-variable contract. Non-empty `EXEC_FROM` is based
+  on a redacted observation of Lingguang's agent command execution environments
+  (Linux cloud sandboxes) on 2026-10-31: the name arrived non-empty in the
+  observed command process environments and was checked by name only, never by
+  value. It was absent from a fresh login shell and from the inspected global
+  shell profiles. This scoped observation does not establish a vendor-wide
+  injection guarantee or cover other interfaces, operating systems or human
+  terminals. Match presence only; do not infer identity from an `EXEC_` prefix.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -265,7 +276,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 34 unique canonical IDs.
+The runtime and context tables together define 36 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -274,7 +285,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **36 IDs**. Explicit declaration also works
+The complete catalog therefore has **37 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 Accept these compatibility spellings in **declarations only**:
@@ -380,8 +391,9 @@ contributions are not claims of upstream acceptance or deployed availability.
   Muse, Manus, Doubao Work, and the Grok Bot cloud combination. They were not
   independently reproduced and are not public stability guarantees. Later
   redacted task-command observations cover Cue (2026-10-30), Devin's agent
-  command tool on a Linux cloud VM (2026-10-31) and Instinct's agent command
-  environments on Linux cloud sandboxes (2026-10-31).
+  command tool on a Linux cloud VM (2026-10-31), Instinct's agent command
+  environments on Linux cloud sandboxes (2026-10-31) and Lingguang's agent
+  command environments on Linux cloud sandboxes (2026-10-31).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
@@ -441,6 +453,7 @@ local policy; it does not claim an upstream change or a new vendor contract.
   [Manus](https://www.manus.im/about).
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 - [Instinct](https://instinct.com/).
+- [Lingguang](https://www.lingguang.com/).
 
 ## 9. Adding or changing rules
 

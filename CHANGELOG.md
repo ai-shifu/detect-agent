@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.9 — 2026-10-31
+
+- Add a lowest-priority Lingguang runtime rule: non-empty `EXEC_FROM`, based on
+  a redacted scoped observation; add synthetic boundary, fallback and
+  nested-agent coexistence regressions.
+
 ## Unreleased
 
 - Consolidate Agent guidance into implementation, contribution and shared

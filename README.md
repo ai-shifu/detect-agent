@@ -66,7 +66,7 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.8](detect-agent.md) covers **36 canonical product IDs**. It
+[Specification 0.1.9](detect-agent.md) covers **37 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.
