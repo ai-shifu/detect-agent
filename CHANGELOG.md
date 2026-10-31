@@ -10,6 +10,9 @@
   point; keep evidence requirements and repository checks in CONTRIBUTING.md.
 - Add optional local development checks, redacted live diagnostics and CI.
 - Add a pull request template for rule evidence, scope and verification.
+- Extend the evidence investigation sequence with presence-only scope checks,
+  an operator-authorized names-only self-observation, nested-agent priority and
+  previous-specification regression checks.
 - Keep the 0.1.5 detection contract unchanged.
 
 ## 0.1.7 — 2026-10-31

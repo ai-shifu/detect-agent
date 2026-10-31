@@ -27,9 +27,11 @@ production SDK or validation of an implementation in another project.
   preserve unrelated work. Reading Detect Agent as a reference does not authorize
   modifying it, another repository, or launcher/global shell configuration.
 - **Protect values.** Query only documented variable names or specific
-  evidence-backed candidates. Never dump the environment, scan prefixes or publish
+  evidence-backed candidates. Never dump environment values, scan prefixes or publish
   marker values, credentials, session/message/log IDs, internal endpoints, user
-  paths or proprietary source. Canonical product IDs may be reported. Never export
+  paths or proprietary source. An operator-authorized, names-only listing is
+  allowed only for a [self-observation](docs/contribute-agent.md#gather-evidence);
+  never publish that listing. Canonical product IDs may be reported. Never export
   declarations or markers merely to make a check pass.
 - **Report evidence honestly.** Synthetic conformance and live recognition are
   separate claims; test the actual implementation or affected path. Record checks
