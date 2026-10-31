@@ -9,8 +9,8 @@ The specification covers **35 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
-| Runtime markers (28) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Junie, Kilo Code, Kimi Code, Kiro, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
-| Context hints (5) | Cursor (editor), Devin, GitHub Copilot, Replit, Zed |
+| Runtime markers (29) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Junie, Kilo Code, Kimi Code, Kiro, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
+| Context hints (4) | Cursor (editor), GitHub Copilot, Replit, Zed |
 | Explicit declaration only (2) | hi, SandBase Harness |
 
 Coverage and matching conditions are defined in [the specification](detect-agent.md).
@@ -66,7 +66,7 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.6](detect-agent.md) covers **35 canonical product IDs**. It
+[Specification 0.1.7](detect-agent.md) covers **35 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.

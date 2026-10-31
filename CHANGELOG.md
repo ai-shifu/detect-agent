@@ -12,6 +12,13 @@
 - Add a pull request template for rule evidence, scope and verification.
 - Keep the 0.1.5 detection contract unchanged.
 
+## 0.1.7 — 2026-10-31
+
+- Add a lowest-priority Devin runtime rule: non-empty `DEVIN_DIR` OR non-empty
+  `DEVIN_DISABLE_HISTEXPAND`, based on a redacted scoped observation; keep the
+  `/opt/.devin` file probe as a context hint and add synthetic boundary,
+  fallback and nested-agent coexistence regressions.
+
 ## 0.1.6 — 2026-10-30
 
 - Add `MANUS_OPERATOR_PLATFORM` as a non-empty alternative Cue runtime marker,

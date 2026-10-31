@@ -9,8 +9,8 @@
 
 | 识别方式 | Agent |
 | --- | --- |
-| 运行标记（28） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
-| 上下文提示（5） | Cursor（编辑器）、Devin、GitHub Copilot、Replit、Zed |
+| 运行标记（29） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
+| 上下文提示（4） | Cursor（编辑器）、GitHub Copilot、Replit、Zed |
 | 仅显式声明（2） | hi、SandBase Harness |
 
 具体覆盖范围和匹配条件以[规范](detect-agent.md)为准。上下文提示说明编辑器或工作区环境，
@@ -59,7 +59,7 @@
 
 ## 项目提供什么
 
-[规范 0.1.6](detect-agent.md) 覆盖 **35 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
+[规范 0.1.7](detect-agent.md) 覆盖 **35 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
 匹配语义和判定优先级。检测结果描述进程环境，不能证明当前命令由谁直接发起。
 
 Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.json)。实现无需 SDK，
