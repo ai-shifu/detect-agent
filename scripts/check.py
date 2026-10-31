@@ -11,10 +11,9 @@ Unknown table syntax is an error, never an ignored or guessed detection rule.
 
 import json
 import os
-from pathlib import Path
 import re
 import sys
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ASCII_SPACE = "\t\n\v\f\r "
@@ -116,10 +115,12 @@ def table(markdown, header):
     count = len(header.strip("|").split("|"))
     require(start < len(lines), "Missing table separator.")
     separator = [cell.strip() for cell in lines[start].strip().strip("|").split("|")]
-    require(len(separator) == count and all(re.fullmatch(r":?-{3,}:?", c) for c in separator),
-            "Unsupported table separator.")
+    require(
+        len(separator) == count and all(re.fullmatch(r":?-{3,}:?", c) for c in separator),
+        "Unsupported table separator.",
+    )
     rows = []
-    for line in lines[start + 1:]:
+    for line in lines[start + 1 :]:
         line = line.strip()
         # Markdown permits either outer pipe to be omitted. Such a row still
         # belongs to this table; treating it as the end silently drops rules.
@@ -151,7 +152,9 @@ class Specification:
         versions = re.findall(r"^Version: \*\*([0-9]+\.[0-9]+\.[0-9]+)\*\*", markdown, re.M)
         require(len(versions) == 1, "Missing or duplicate specification version.")
         self.version = versions[0]
-        runtime = table(markdown, "| Priority | Canonical ID | Product | Match condition | Marker evidence |")
+        runtime = table(
+            markdown, "| Priority | Canonical ID | Product | Match condition | Marker evidence |"
+        )
         self.runtime = []
         for index, row in enumerate(runtime, 1):
             require(row[0] == str(index), "Runtime priorities must be consecutive and ordered.")
@@ -171,25 +174,38 @@ class Specification:
                 predicate, separator, explanation = condition.partition(". ")
                 # Accept only the reviewed explanatory suffixes. An unfamiliar
                 # second sentence could add a condition; never silently drop it.
-                require(not separator or explanation in CONTEXT_EXPLANATIONS,
-                        "Unsupported context predicate explanation or restriction.")
+                require(
+                    not separator or explanation in CONTEXT_EXPLANATIONS,
+                    "Unsupported context predicate explanation or restriction.",
+                )
                 node = parse_expression(predicate)
             self.contexts.append((canonical(row[1]), node))
         declarations = table(markdown, "| Canonical ID | Product | Reference |")
         self.declaration_only = [canonical(row[0]) for row in declarations]
         for rows in (self.runtime, self.contexts):
-            require(len({row[0] for row in rows}) == len(rows), "Duplicate canonical ID within a rule table.")
+            require(
+                len({row[0] for row in rows}) == len(rows),
+                "Duplicate canonical ID within a rule table.",
+            )
         automatic_ids = {row[0] for row in self.runtime + self.contexts}
-        require(len(set(self.declaration_only)) == len(self.declaration_only), "Duplicate declaration-only ID.")
-        require(not automatic_ids.intersection(self.declaration_only), "Declaration-only ID has an automatic rule.")
+        require(
+            len(set(self.declaration_only)) == len(self.declaration_only),
+            "Duplicate declaration-only ID.",
+        )
+        require(
+            not automatic_ids.intersection(self.declaration_only),
+            "Declaration-only ID has an automatic rule.",
+        )
         self.catalog = automatic_ids | set(self.declaration_only)
         self.aliases = {}
         for row in table(markdown, "| Alias | Canonical ID |"):
             match = re.fullmatch(r"`([a-z][a-z0-9_-]*)`", row[0])
             require(match is not None, "Invalid declaration alias.")
             alias, target = match.group(1), canonical(row[1])
-            require(alias not in self.aliases and alias not in self.catalog and target in self.catalog,
-                    "Duplicate alias or unknown alias target.")
+            require(
+                alias not in self.aliases and alias not in self.catalog and target in self.catalog,
+                "Duplicate alias or unknown alias target.",
+            )
             self.aliases[alias] = target
         self.keys = {"AI_AGENT", "AGENT"}
         for _, node in self.runtime + self.contexts:
@@ -202,7 +218,10 @@ class Specification:
                 if value is not None and value.strip(ASCII_SPACE):
                     declared = ascii_lower(value.strip(ASCII_SPACE))
                     declared = self.aliases.get(declared, declared)
-                    return {"agent_id": declared if declared in self.catalog else None, "evidence": "declared"}
+                    return {
+                        "agent_id": declared if declared in self.catalog else None,
+                        "evidence": "declared",
+                    }
 
         def matches(node):
             kind = node[0]
@@ -217,7 +236,7 @@ class Specification:
             if kind == "path":
                 for entry in (lookup("PATH") or "").split(path_separator):
                     parts = entry.replace("\\", "/").split("/")
-                    if any(parts[i:i + 2] == [".pi", "agent"] for i in range(len(parts) - 1)):
+                    if any(parts[i : i + 2] == [".pi", "agent"] for i in range(len(parts) - 1)):
                         return True
                 return False
             if kind == "tty":
@@ -238,51 +257,92 @@ def load_spec(root=ROOT):
 
 
 def validate_fixtures(data, spec):
-    require(type(data) is dict and set(data) == {"spec_version", "cases"}, "Invalid conformance document fields.")
+    require(
+        type(data) is dict and set(data) == {"spec_version", "cases"},
+        "Invalid conformance document fields.",
+    )
     require(data["spec_version"] == spec.version, "Conformance version differs from specification.")
-    require(type(data["cases"]) is list and data["cases"], "Conformance cases must be a non-empty list.")
+    require(
+        type(data["cases"]) is list and data["cases"], "Conformance cases must be a non-empty list."
+    )
     names = set()
-    allowed = {"name", "env", "expected", "env_name_case", "files", "stdout_is_tty", "path_separator"}
+    allowed = {
+        "name",
+        "env",
+        "expected",
+        "env_name_case",
+        "files",
+        "stdout_is_tty",
+        "path_separator",
+    }
     for case in data["cases"]:
-        require(type(case) is dict and {"name", "env", "expected"} <= set(case) <= allowed,
-                "Invalid conformance case fields.")
+        require(
+            type(case) is dict and {"name", "env", "expected"} <= set(case) <= allowed,
+            "Invalid conformance case fields.",
+        )
         name = case["name"]
-        require(type(name) is str and bool(name.strip()) and name not in names, "Empty or duplicate case name.")
+        require(
+            type(name) is str and bool(name.strip()) and name not in names,
+            "Empty or duplicate case name.",
+        )
         names.add(name)
         env = case["env"]
-        require(type(env) is dict and all(type(k) is str and type(v) is str for k, v in env.items()),
-                "Synthetic environment must contain string keys and values.")
+        require(
+            type(env) is dict and all(type(k) is str and type(v) is str for k, v in env.items()),
+            "Synthetic environment must contain string keys and values.",
+        )
         mode = case.get("env_name_case", "sensitive")
         require(mode in ("sensitive", "ascii-insensitive"), "Invalid synthetic name lookup mode.")
         if mode == "ascii-insensitive":
-            require(len({ascii_lower(k) for k in env}) == len(env), "Colliding synthetic environment names.")
+            require(
+                len({ascii_lower(k) for k in env}) == len(env),
+                "Colliding synthetic environment names.",
+            )
         if "files" in case:
-            require(type(case["files"]) is list and all(type(p) is str for p in case["files"]),
-                    "Synthetic files must be a list of strings.")
+            require(
+                type(case["files"]) is list and all(type(p) is str for p in case["files"]),
+                "Synthetic files must be a list of strings.",
+            )
         if "stdout_is_tty" in case:
             require(type(case["stdout_is_tty"]) is bool, "Synthetic TTY state must be boolean.")
         if "path_separator" in case:
             require(case["path_separator"] in (":", ";"), "Invalid synthetic PATH separator.")
         expected = case["expected"]
-        require(type(expected) is dict and set(expected) == {"agent_id", "evidence"}, "Invalid expected result fields.")
+        require(
+            type(expected) is dict and set(expected) == {"agent_id", "evidence"},
+            "Invalid expected result fields.",
+        )
         agent_id, evidence = expected["agent_id"], expected["evidence"]
-        require(agent_id is None or type(agent_id) is str and agent_id in spec.catalog,
-                "Unknown expected canonical ID.")
-        require(evidence in ("none", "declared", "runtime-marker", "context-hint"), "Invalid expected evidence.")
-        require((evidence != "none" or agent_id is None) and
-                (evidence not in ("runtime-marker", "context-hint") or agent_id is not None),
-                "Inconsistent expected result.")
+        require(
+            agent_id is None or type(agent_id) is str and agent_id in spec.catalog,
+            "Unknown expected canonical ID.",
+        )
+        require(
+            evidence in ("none", "declared", "runtime-marker", "context-hint"),
+            "Invalid expected evidence.",
+        )
+        require(
+            (evidence != "none" or agent_id is None)
+            and (evidence not in ("runtime-marker", "context-hint") or agent_id is not None),
+            "Inconsistent expected result.",
+        )
 
 
 def run_case(spec, case):
     env = case["env"]
     if case.get("env_name_case") == "ascii-insensitive":
         env = {ascii_lower(k): v for k, v in env.items()}
-        lookup = lambda key: env.get(ascii_lower(key))
+
+        def lookup(key):
+            return env.get(ascii_lower(key))
     else:
         lookup = env.get
-    return spec.detect(lookup, files=case.get("files"), stdout_is_tty=case.get("stdout_is_tty"),
-                       path_separator=case.get("path_separator", ":"))
+    return spec.detect(
+        lookup,
+        files=case.get("files"),
+        stdout_is_tty=case.get("stdout_is_tty"),
+        path_separator=case.get("path_separator", ":"),
+    )
 
 
 def conformance(spec, root=ROOT):
@@ -299,24 +359,44 @@ def conformance(spec, root=ROOT):
     required = {(row[0], "runtime-marker") for row in spec.runtime}
     required.update((row[0], "context-hint") for row in spec.contexts)
     required.update((agent_id, "declared") for agent_id in spec.declaration_only)
-    missing = [{"agent_id": agent_id, "evidence": evidence}
-               for agent_id, evidence in sorted(required - coverage)]
+    missing = [
+        {"agent_id": agent_id, "evidence": evidence}
+        for agent_id, evidence in sorted(required - coverage)
+    ]
     failed = bool(failures or missing)
-    return {"spec_version": spec.version, "status": "failed" if failed else "passed",
-            "cases": len(data["cases"]), "canonical_ids": len(spec.catalog),
-            "failures": failures, "missing_coverage": missing}, int(failed)
+    return {
+        "spec_version": spec.version,
+        "status": "failed" if failed else "passed",
+        "cases": len(data["cases"]),
+        "canonical_ids": len(spec.catalog),
+        "failures": failures,
+        "missing_coverage": missing,
+    }, int(failed)
 
 
-def self_check(spec, expected=None, environment=None, files=None, stdout_is_tty=None, path_separator=None):
-    require(expected is None or expected in spec.catalog, "--expect must be a canonical product ID.")
+def self_check(
+    spec, expected=None, environment=None, files=None, stdout_is_tty=None, path_separator=None
+):
+    require(
+        expected is None or expected in spec.catalog, "--expect must be a canonical product ID."
+    )
     provider = os.environ if environment is None else environment
     # Query named keys only. Preserve the native provider's lookup semantics;
     # do not enumerate/copy os.environ or print its values.
     snapshot = {key: provider.get(key) for key in sorted(spec.keys)}
-    result = spec.detect(snapshot.get, files=files, stdout_is_tty=stdout_is_tty,
-                         path_separator=os.pathsep if path_separator is None else path_separator)
-    automatic = spec.detect(snapshot.get, files=files, stdout_is_tty=stdout_is_tty,
-                            path_separator=os.pathsep if path_separator is None else path_separator, automatic=True)
+    result = spec.detect(
+        snapshot.get,
+        files=files,
+        stdout_is_tty=stdout_is_tty,
+        path_separator=os.pathsep if path_separator is None else path_separator,
+    )
+    automatic = spec.detect(
+        snapshot.get,
+        files=files,
+        stdout_is_tty=stdout_is_tty,
+        path_separator=os.pathsep if path_separator is None else path_separator,
+        automatic=True,
+    )
     status = "observed"
     if expected is not None:
         target = {"agent_id": expected, "evidence": "runtime-marker"}
@@ -332,8 +412,13 @@ def self_check(spec, expected=None, environment=None, files=None, stdout_is_tty=
             status = "unrecognized"
         else:
             status = "mismatch"
-    return {"spec_version": spec.version, "result": result, "automatic_result": automatic,
-            "expected_agent_id": expected, "status": status}, int(expected is not None and status != "detected")
+    return {
+        "spec_version": spec.version,
+        "result": result,
+        "automatic_result": automatic,
+        "expected_agent_id": expected,
+        "status": status,
+    }, int(expected is not None and status != "detected")
 
 
 def live_capabilities():
@@ -354,9 +439,11 @@ def main(argv=None):
         # Keep parsing independent of locale/environment lookups and never echo
         # rejected arguments, which may accidentally contain private values.
         if arguments in (["--help"], ["-h"], ["conformance", "--help"], ["self-check", "--help"]):
-            print("Usage: python3 scripts/check.py conformance\n"
-                  "       python3 scripts/check.py self-check [--expect CANONICAL_ID]\n"
-                  "Development checks only; detection does not authenticate the immediate caller.")
+            print(
+                "Usage: python3 scripts/check.py conformance\n"
+                "       python3 scripts/check.py self-check [--expect CANONICAL_ID]\n"
+                "Development checks only; detection does not authenticate the immediate caller."
+            )
             return 0
         require(bool(arguments), "Choose conformance or self-check; see --help.")
         command, expected = arguments[0], None
@@ -366,7 +453,10 @@ def main(argv=None):
             if len(arguments) == 3 and arguments[1] == "--expect":
                 expected = arguments[2]
             else:
-                require(len(arguments) == 1, "self-check accepts only --expect CANONICAL_ID; see --help.")
+                require(
+                    len(arguments) == 1,
+                    "self-check accepts only --expect CANONICAL_ID; see --help.",
+                )
         else:
             raise CheckError("Choose conformance or self-check; see --help.")
         spec = load_spec()
@@ -380,7 +470,13 @@ def main(argv=None):
     except Exception:
         # Environment providers and I/O errors can include values/paths in exception
         # messages. Keep CLI errors fixed and omit tracebacks, even for unknown errors.
-        output, code = {"status": "error", "error": "Check failed; verify specification syntax, fixture schema and command arguments."}, 2
+        output, code = (
+            {
+                "status": "error",
+                "error": "Check failed; verify specification syntax, fixture schema and command arguments.",
+            },
+            2,
+        )
     print(json.dumps(output, ensure_ascii=True, indent=2))
     return code
 

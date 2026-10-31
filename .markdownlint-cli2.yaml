@@ -1,0 +1,13 @@
+config:
+  default: true
+  # Rule tables, reference URLs and Chinese prose need not wrap at 80 columns.
+  MD013: false
+  MD060:
+    style: compact
+
+overrides:
+  - filter: [.github/pull_request_template.md]
+    config:
+      # A PR template is a sectioned form, not a standalone document.
+      MD041: false
+    combine: merge

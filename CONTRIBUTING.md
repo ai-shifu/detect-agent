@@ -45,12 +45,33 @@ Keep an isolated positive case for every canonical ID; cover `runtime-marker`
 and `context-hint` separately when both apply, and use declaration positives for
 declaration-only products.
 
-Run the repository checks with Python 3.9+ (standard library only):
+Run the conformance and regression checks with Python 3.9+ (standard library only):
 
 ```sh
 python3 scripts/check.py conformance
 python3 -m unittest discover -s tests -v
 ```
+
+Run lint and style checks with Python 3.11+ and Node.js 22+:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+pre-commit run --all-files
+```
+
+The pinned hooks check Python with Ruff (lint, imports and formatting), Markdown
+with markdownlint, JSON formatting, YAML/JSON/TOML syntax, merge-conflict markers,
+trailing whitespace, final newlines and LF line endings. Ruff targets Python 3.9
+and uses a 100-column formatting width. Markdown tables use compact columns;
+long lines are allowed for rule tables, URLs and Chinese prose. Markdown lint
+does not rewrite files because specification table headers are parser inputs.
+
+Some hooks fix Python formatting or whitespace and then fail so you can review
+the diff. Rerun the command after reviewing those changes. To enable these same
+checks before each local commit, run `pre-commit install`. CI runs all hooks in
+a dedicated lint job and conformance/regression checks on Python 3.9 and 3.13.
 
 The checker interprets `detect-agent.md` and runs the synthetic cases. For a new
 rule form, extend the checker and its focused tests as needed; unsupported forms
