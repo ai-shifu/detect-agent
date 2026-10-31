@@ -30,7 +30,7 @@ production SDK or validation of an implementation in another project.
   evidence-backed candidates. Never dump environment values, scan prefixes or publish
   marker values, credentials, session/message/log IDs, internal endpoints, user
   paths or proprietary source. An operator-authorized, names-only listing is
-  allowed only for a [self-observation](docs/contribute-agent.md#observe-your-own-command-environment);
+  allowed only for a [self-observation](docs/contribute-agent.md#gather-evidence);
   never publish that listing. Canonical product IDs may be reported. Never export
   declarations or markers merely to make a check pass.
 - **Report evidence honestly.** Synthetic conformance and live recognition are
