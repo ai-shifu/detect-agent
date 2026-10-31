@@ -5,11 +5,11 @@
 
 ## 支持识别的 Agent
 
-规范目前覆盖 **35 个产品 ID**：
+规范目前覆盖 **36 个产品 ID**：
 
 | 识别方式 | Agent |
 | --- | --- |
-| 运行标记（29） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
+| 运行标记（30） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
 | 上下文提示（4） | Cursor（编辑器）、GitHub Copilot、Replit、Zed |
 | 仅显式声明（2） | hi、SandBase Harness |
 
