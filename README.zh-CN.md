@@ -5,11 +5,11 @@
 
 ## 支持识别的 Agent
 
-规范目前覆盖 **35 个产品 ID**：
+规范目前覆盖 **36 个产品 ID**：
 
 | 识别方式 | Agent |
 | --- | --- |
-| 运行标记（29） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
+| 运行标记（30） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
 | 上下文提示（4） | Cursor（编辑器）、GitHub Copilot、Replit、Zed |
 | 仅显式声明（2） | hi、SandBase Harness |
 
@@ -59,7 +59,7 @@
 
 ## 项目提供什么
 
-[规范 0.1.7](detect-agent.md) 覆盖 **35 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
+[规范 0.1.8](detect-agent.md) 覆盖 **36 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
 匹配语义和判定优先级。检测结果描述进程环境，不能证明当前命令由谁直接发起。
 
 Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.json)。实现无需 SDK，
