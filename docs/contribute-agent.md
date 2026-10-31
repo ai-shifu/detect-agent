@@ -46,11 +46,46 @@ Use this repeatable investigation sequence for any product:
 5. If source and distribution evidence are unavailable, a narrowly scoped,
    redacted runtime observation may support a limited heuristic. Describe the
    observed execution surface, version and date, and do not promote that
-   observation into a vendor-wide guarantee.
+   observation into a vendor-wide guarantee. When the investigating agent is the
+   product itself, use [the self-observation steps](#observe-your-own-command-environment).
 6. State coverage limits explicitly, including versions, launch paths and
    environments not examined. Validate the proposed behavior with synthetic
    positive, negative and coexistence cases rather than using a contributor's
    live environment as a test fixture.
+
+### Observe your own command environment
+
+Use this only when no published source or permitted distribution names a marker
+for the product running the task. Run every step through the command tool being
+identified and keep values private.
+
+1. Exhaust published candidates first: product documentation and the referenced
+   registries, including their current versions. Query any named marker directly.
+2. Only with the operator's explicit authorization, list variable **names only**,
+   for example `python3 -c 'import os; print("\n".join(sorted(os.environ)))'`.
+   Never print values or publish the listing; keep only the selected candidates.
+3. Treat a product-like name as a lead, not evidence. Prefer names that describe
+   the execution context; skip documented user-set configuration and shell
+   integration internals.
+4. Establish each candidate's scope with presence checks that report only
+   present/absent or a count:
+   - a fresh login shell, such as `env -i HOME="$HOME" bash -lc '...'`;
+   - global shell profiles and startup files, such as `/etc/environment`,
+     `/etc/profile.d/*` and `~/.bashrc`;
+   - the host service's process environment, found through the command's parent
+     process chain, and sibling human surfaces such as an IDE or terminal server;
+   - the injection point: the tool's own startup file (for example the file named
+     by `BASH_ENV`) or the spawned command environment.
+
+   A name present in a login shell, global profile or human surface is
+   configuration or a context hint, not a runtime marker.
+5. Rank a platform marker that nested agent CLIs inherit below their markers, so
+   the innermost agent keeps its own ID.
+6. Record the observation as `reported-shell` with date, platform, interface and
+   the scope checks performed, and list unexamined surfaces. Add a same-prefix
+   configuration name as a negative fixture.
+7. Confirm the new fixtures fail against the previous specification, then rerun
+   the self-check through the same tool for the before/after live result.
 
 Establish the proposed canonical ID, source/date/version/scope, exact candidate
 names, matching/grouping, precedence and known limits. Query only evidence-backed
