@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add pinned pre-commit lint/style checks for Python, Markdown and repository
+  file hygiene, with matching local commands and a dedicated CI job.
 - Consolidate Agent guidance into implementation, contribution and shared
   diagnostics guides, with one diagnosis table and report format.
 - Organize both READMEs around two copy-paste prompts: implement detection in the

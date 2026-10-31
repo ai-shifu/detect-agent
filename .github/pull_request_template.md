@@ -16,6 +16,7 @@ For documentation/tooling-only changes, mark this section not applicable.
 
 ## Verification
 
+- [ ] `pre-commit run --all-files`
 - [ ] `python3 scripts/check.py conformance`
 - [ ] `python3 -m unittest discover -s tests -v`
 - [ ] Rule changes include positive/negative/coexistence fixtures and a matching
