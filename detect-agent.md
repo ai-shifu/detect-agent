@@ -1,6 +1,6 @@
 # Detect Agent Specification
 
-Version: **0.1.6** · Evidence reviewed: **2026-10-30** · License: **MIT**
+Version: **0.1.7** · Evidence reviewed: **2026-10-31** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -142,7 +142,8 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
-editor hint.
+editor hint. Devin's runtime markers are evaluated last, so a nested agent CLI's
+own marker wins over the inherited Devin command environment.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -181,6 +182,7 @@ where the marker information came from; it is not a probability score.
 | 26 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
 | 27 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
 | 28 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
+| 29 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
 
 Important boundaries:
 
@@ -217,6 +219,17 @@ Important boundaries:
   covered by this rule.
 - Claude Cowork requires both its specific marker and a Claude Code marker here.
   This is more restrictive than registries that check the Claude Cowork flag alone.
+- Devin's [official product site](https://devin.ai/) establishes its identity, not
+  an environment-variable contract. Non-empty `DEVIN_DIR` or
+  `DEVIN_DISABLE_HISTEXPAND` is based on a redacted observation of Devin's agent
+  command tool on a Linux cloud VM on 2026-10-31. The tool's non-interactive bash
+  startup file assigns `DEVIN_DIR`; `DEVIN_DISABLE_HISTEXPAND` arrives in the
+  command process environment. Neither name was present in a fresh login shell,
+  the global shell profiles or the inspected service process environments. This
+  scoped observation does not establish a vendor-wide injection guarantee or
+  cover Outposts, Windows or macOS machines, or human terminals on the VM. Match
+  presence only; do not infer identity from a `DEVIN_` prefix. The `/opt/.devin`
+  file probe remains a context hint.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -315,6 +328,8 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `JARVIS_TOOL_CALL_ID="synthetic-tool"` | `(muse, runtime-marker)` |
 | `CLAUDE_CODE_IS_COWORK="1"`, `CLAUDECODE="1"` | `(cowork, runtime-marker)` |
 | `CLAUDE_CODE_IS_COWORK="1"` | `(null, none)` |
+| `DEVIN_DIR="synthetic-dir"` | `(devin, runtime-marker)` |
+| `DEVIN_DIR="synthetic-dir"`, `CLAUDECODE="1"` | `(claude-code, runtime-marker)` |
 | `ZED_TERM="1"` | `(zed, context-hint)` |
 | `ZED_TERM="1"`, `CODEX_THREAD_ID="synthetic-thread"` | `(codex, runtime-marker)` |
 | `GOOSE_PROVIDER="synthetic-provider"` | `(goose, context-hint)` |
@@ -352,7 +367,9 @@ contributions are not claims of upstream acceptance or deployed availability.
   confirmed on local/host paths, not ordinary VM/QXC guest shells.
 - **reported-shell**: user-provided shell observations on 2026-10-16 for Cue,
   Muse, Manus, Doubao Work, and the Grok Bot cloud combination. They were not
-  independently reproduced and are not public stability guarantees.
+  independently reproduced and are not public stability guarantees. Later
+  redacted task-command observations cover Cue (2026-10-30) and Devin's agent
+  command tool on a Linux cloud VM (2026-10-31).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
@@ -410,6 +427,7 @@ local policy; it does not claim an upstream change or a new vendor contract.
   [Cue](https://cue.im/) and its [Manus API association](https://open.manus.ai/docs/v2/agents-overview),
   [Muse](https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse),
   [Manus](https://www.manus.im/about).
+- [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 
 ## 9. Adding or changing rules
 

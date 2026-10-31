@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.6",
+  "spec_version": "0.1.7",
   "cases": [
     {
       "name": "empty environment",
@@ -496,6 +496,148 @@
       "expected": {
         "agent_id": "devin",
         "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "devin dir marker",
+      "env": {
+        "DEVIN_DIR": "synthetic-dir"
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin histexpand marker",
+      "env": {
+        "DEVIN_DISABLE_HISTEXPAND": "1"
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin dir zero value is non-empty",
+      "env": {
+        "DEVIN_DIR": "0"
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin histexpand false string is non-empty",
+      "env": {
+        "DEVIN_DISABLE_HISTEXPAND": "false"
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin dir whitespace-only marker is non-empty",
+      "env": {
+        "DEVIN_DIR": " "
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin empty alternatives fail",
+      "env": {
+        "DEVIN_DIR": "",
+        "DEVIN_DISABLE_HISTEXPAND": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "devin prefixed configuration name does not match",
+      "env": {
+        "DEVIN_CHROME_PATH": "synthetic-path"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "devin empty markers fall back to file hint",
+      "env": {
+        "DEVIN_DIR": "",
+        "DEVIN_DISABLE_HISTEXPAND": ""
+      },
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "devin runtime marker wins file hint",
+      "env": {
+        "DEVIN_DIR": "synthetic-dir"
+      },
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "devin runtime marker wins editor hint",
+      "env": {
+        "DEVIN_DISABLE_HISTEXPAND": "1",
+        "ZED_TERM": "1"
+      },
+      "expected": {
+        "agent_id": "devin",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "nested claude code marker precedes devin",
+      "env": {
+        "DEVIN_DIR": "synthetic-dir",
+        "CLAUDECODE": "1"
+      },
+      "expected": {
+        "agent_id": "claude-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "nested codex marker precedes devin",
+      "env": {
+        "DEVIN_DISABLE_HISTEXPAND": "1",
+        "CODEX_THREAD_ID": "synthetic-thread"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "unknown declaration blocks devin marker",
+      "env": {
+        "AI_AGENT": "unregistered-example",
+        "DEVIN_DIR": "synthetic-dir"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
       }
     },
     {
