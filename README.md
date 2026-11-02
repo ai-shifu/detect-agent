@@ -5,11 +5,11 @@ to recognize AI agent execution environments using local signals.
 
 ## Supported agents
 
-The specification covers **37 product IDs**:
+The specification covers **38 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
-| Runtime markers (31) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
+| Runtime markers (32) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, DeepSeek Harness, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
 | Context hints (4) | Cursor (editor), GitHub Copilot, Replit, Zed |
 | Explicit declaration only (2) | hi, SandBase Harness |
 
@@ -66,7 +66,7 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.9](detect-agent.md) covers **37 canonical product IDs**. It
+[Specification 0.1.10](detect-agent.md) covers **38 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.

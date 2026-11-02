@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.10 — 2026-11-02
+
+- Add a lowest-priority DeepSeek Harness runtime rule: non-empty `DSH_SHELL`,
+  based on the product's published shell-environment documentation and source
+  plus an inspected macOS distribution and a live shell-tool observation; add
+  synthetic boundary, configuration-only negative, fallback and nested-agent
+  coexistence regressions.
+
 ## 0.1.9 — 2026-10-31
 
 - Add a lowest-priority Lingguang runtime rule: non-empty `EXEC_FROM`, based on

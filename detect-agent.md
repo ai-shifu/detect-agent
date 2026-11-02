@@ -1,6 +1,6 @@
 # Detect Agent Specification
 
-Version: **0.1.9** · Evidence reviewed: **2026-10-31** · License: **MIT**
+Version: **0.1.10** · Evidence reviewed: **2026-11-02** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -142,9 +142,9 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
-editor hint. Devin's, Instinct's and Lingguang's runtime markers are evaluated
-last, so a nested agent CLI's own marker wins over any inherited command
-environment.
+editor hint. Devin's, Instinct's, Lingguang's and DeepSeek Harness's runtime
+markers are evaluated last, so a nested agent CLI's own marker wins over any
+inherited command environment.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -186,6 +186,7 @@ where the marker information came from; it is not a probability score.
 | 29 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
 | 30 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
 | 31 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
+| 32 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
 
 Important boundaries:
 
@@ -252,6 +253,23 @@ Important boundaries:
   shell profiles. This scoped observation does not establish a vendor-wide
   injection guarantee or cover other interfaces, operating systems or human
   terminals. Match presence only; do not infer identity from an `EXEC_` prefix.
+- DeepSeek Harness's [published shell environment](https://github.com/deepseek-ai/deepseek-harness/blob/ce7073d51254c26cd63b22a60835b8f948deb447/packages/shell/shell-env/README.md)
+  states that every model shell call receives `DSH_HOME` and `DSH_SHELL=1`, and
+  that agent calls also receive `DSH_SESSION_ID`. Its [source](https://github.com/deepseek-ai/deepseek-harness/blob/ce7073d51254c26cd63b22a60835b8f948deb447/packages/shell/shell-env/src/index.ts)
+  collects those values per execution; the shell executor discards inherited
+  `DSH_*` names and merges the fresh snapshot into the spawned command
+  environment. The inspected macOS build (0.2.1-rc.5) and a live command through
+  that build's shell tool on 2026-11-02 showed the names non-empty, while a
+  fresh login shell and the inspected shell profiles had none. Only the
+  always-present `DSH_SHELL` sentinel is matched: `DSH_SESSION_ID` is emitted for
+  agent calls but always alongside it, `DSH_HOME` is the harness-home
+  configuration name, `DSH_PROFILE`/`DSH_PROFILE_DIR` are launch context, and
+  plugin-registered facts (for example `DSH_DEPLOYMENT_REGION`) are not
+  asserted. The rule is evaluated last because a nested agent CLI started from a
+  harness shell inherits these names, and the markers are rebuilt per execution
+  rather than inherited. This does not cover human terminals, cloud workers,
+  non-desktop builds or other harness interfaces. Match presence only; do not
+  infer identity from a `DSH_` prefix.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -276,7 +294,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 35 unique canonical IDs.
+The runtime and context tables together define 36 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -285,7 +303,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **37 IDs**. Explicit declaration also works
+The complete catalog therefore has **38 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 Accept these compatibility spellings in **declarations only**:
@@ -357,6 +375,9 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `GOOSE_PROVIDER="synthetic-provider"` | `(goose, context-hint)` |
 | `TERM_PROGRAM="kiro"`, `stdout_is_tty=false` | `(kiro, context-hint)` |
 | `TERM_PROGRAM="kiro"`, TTY state unavailable | `(null, none)` |
+| `DSH_SHELL="1"` | `(deepseek-harness, runtime-marker)` |
+| `DSH_HOME="synthetic-home"` | `(null, none)` |
+| `DSH_SHELL="1"`, `CODEX_THREAD_ID="synthetic-thread"` | `(codex, runtime-marker)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
 input/output data, not another source of rules. The optional `env_name_case`
@@ -384,9 +405,10 @@ contributions are not claims of upstream acceptance or deployed availability.
 - **public-source**: inspected published source or documentation describes a
   particular injection path. It does not establish every shell/interface.
 - **static-distribution**: independently inspected installed macOS packages:
-  WorkBuddy 5.8.3, Grok Bot 0.71.2, QwenWorkCN 1.3.1. The propagation review
-  was static; no vendor agent was launched. QwenWork's new product marker was
-  confirmed on local/host paths, not ordinary VM/QXC guest shells.
+  WorkBuddy 5.8.3, Grok Bot 0.71.2, QwenWorkCN 1.3.1, DeepSeek Harness
+  0.2.1-rc.5. The propagation review was static; no vendor agent was launched.
+  QwenWork's new product marker was confirmed on local/host paths, not ordinary
+  VM/QXC guest shells.
 - **reported-shell**: user-provided shell observations on 2026-10-16 for Cue,
   Muse, Manus, Doubao Work, and the Grok Bot cloud combination. They were not
   independently reproduced and are not public stability guarantees. Later
@@ -439,6 +461,10 @@ local policy; it does not claim an upstream change or a new vendor contract.
 - [Junie launcher exports](https://github.com/JetBrains/junie/blob/cdbfbcf6a9f17951c94dd2902619dffc37f5881f/templates/junie.shim.sh#L684-L700).
 - [Codex child-process injection](https://github.com/openai/codex/blob/6ae8b8aa7c608730d4315d59c5c081897ae02780/codex-rs/core/src/spawn.rs#L85-L88).
 - [Hermes terminal wrapper](https://github.com/NousResearch/hermes-agent/blob/e5eb6b36fe78eb012cefd1f5f436cd458411b8b3/tools/environments/base_session_env.py#L132-L159).
+- [DeepSeek Harness shell environment](https://github.com/deepseek-ai/deepseek-harness/blob/ce7073d51254c26cd63b22a60835b8f948deb447/packages/shell/shell-env/src/index.ts)
+  and its [package documentation](https://github.com/deepseek-ai/deepseek-harness/blob/ce7073d51254c26cd63b22a60835b8f948deb447/packages/shell/shell-env/README.md);
+  the [subprocess scrub](https://github.com/deepseek-ai/deepseek-harness/blob/ce7073d51254c26cd63b22a60835b8f948deb447/packages/subprocess/subprocess/src/index.ts)
+  drops inherited `DSH_*` names before the fresh snapshot is merged.
 
 ### Official product identity references
 
