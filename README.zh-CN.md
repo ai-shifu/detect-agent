@@ -9,7 +9,7 @@
 
 | 识别方式 | Agent |
 | --- | --- |
-| 运行标记（32） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、DeepSeek Harness、Devin、Doubao Work、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、Lingguang、Manus、Muse、OpenClaw、opencode、Pi、QwenWork、TRAE、VT Code、WorkBuddy |
+| 运行标记（32） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、DeepSeek Harness、Devin、豆包工作、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、灵光、Manus、Muse、OpenClaw、opencode、Pi、千问办公、TRAE、VT Code、WorkBuddy |
 | 上下文提示（4） | Cursor（编辑器）、GitHub Copilot、Replit、Zed |
 | 仅显式声明（2） | hi、SandBase Harness |
 
