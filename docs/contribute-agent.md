@@ -1,8 +1,8 @@
 # Contribute your product's recognition signals
 
 Use this workflow to add or correct recognition of the product running the task.
-Your **write target is Detect Agent**, in an independent checkout. For source
-pinning, private values and authorization, follow
+Your **write target is the detect-agent.md repository**, in an independent checkout.
+For source pinning, private values and authorization, follow
 [the common rules](../AGENTS.md#common-rules). A valid result is either a verified
 coverage report or an evidence-backed rule change and PR.
 
@@ -79,7 +79,7 @@ a speculative rule. A scoped observation need not claim a vendor guarantee.
 
 ## Make the supported change
 
-Refresh the Detect Agent checkout's remote state, preserve unrelated work and
+Refresh the detect-agent.md checkout's remote state, preserve unrelated work and
 create a feature branch from current `main`. Record that base SHA. If it differs
 from the investigated revision, reread the affected rules and instructions and
 re-evaluate the proposed fix before editing.

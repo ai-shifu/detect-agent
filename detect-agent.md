@@ -1,4 +1,4 @@
-# Detect Agent Specification
+# detect-agent.md
 
 Version: **0.1.11** · Evidence reviewed: **2026-11-03** · License: **MIT**
 

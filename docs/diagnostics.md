@@ -28,7 +28,7 @@ immediate caller.
 ## 2. Run the relevant checks
 
 The optional repository checker uses Python 3.9+ and the standard library, with
-no installation or network access. From the pinned Detect Agent checkout:
+no installation or network access. From the pinned detect-agent.md checkout:
 
 ```sh
 python3 scripts/check.py conformance
@@ -106,7 +106,7 @@ establish a rule defect.
 | Detector result is correct but the application interprets it incorrectly | Fix the target integration/UI. Preserve `evidence`, apply the specification's evidence-based `is_agent` rule and keep `agent_id` separate. Do not display hints as confirmed execution or `none` as proof of a human caller. |
 | A declaration masks runtime markers | Preserve declaration precedence. An unknown non-empty declaration returning `(null, declared)` and blocking fallback is specified behavior. Show both results; correcting a launcher declaration is an explicit operator decision, made only within an authorized task. Do not silently skip declarations or change global shell settings. |
 | Another runtime rule wins because markers coexist | Compare complete predicates and documented priority, and retain a coexistence reproduction. A contract-compliant result can describe inherited context; do not reorder rules or discard markers to force a claimed identity. Investigate a supported discriminator if needed. |
-| The target follows the contract but a rule is demonstrably wrong or missing | Gather producer/observation evidence and follow [Contribute your signals](contribute-agent.md) and [CONTRIBUTING.md](../CONTRIBUTING.md) in an independent Detect Agent checkout, when that write target is authorized. |
+| The target follows the contract but a rule is demonstrably wrong or missing | Gather producer/observation evidence and follow [Contribute your signals](contribute-agent.md) and [CONTRIBUTING.md](../CONTRIBUTING.md) in an independent detect-agent.md checkout, when that write target is authorized. |
 | Coverage is only a context hint, an explicit declaration, or absent for this interface | Report the supported boundary. A hint does not confirm execution, a declaration does not prove automatic recognition, and `(null, none)` does not prove human execution. Do not invent markers or promote hints without evidence. |
 
 If identity or evidence is insufficient, report what is missing and keep that

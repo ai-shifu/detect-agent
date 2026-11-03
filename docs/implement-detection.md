@@ -1,7 +1,7 @@
 # Implement detection in your project
 
 Use this workflow to add, update or repair detection in the user's application.
-The application is the **write target**; Detect Agent is a **read-only reference**.
+The application is the **write target**; detect-agent.md is a **read-only reference**.
 Follow [the common rules](../AGENTS.md#common-rules) for source pinning, privacy
 and authorization. Python, a vendor application and recognition of the agent
 performing the work are not prerequisites.
@@ -43,7 +43,7 @@ passes afterward. Integrate only the capability the user requested.
 Create a test adapter in the target language that loads the pinned cases and
 invokes **the implementation you changed**. Compare `agent_id` and `evidence`
 with every `expected` pair. Preserve source commit/version with the target tests;
-passing Detect Agent's reference checker does not validate this implementation.
+passing detect-agent.md's reference checker does not validate this implementation.
 
 | Fixture input | Required adapter behavior |
 | --- | --- |
