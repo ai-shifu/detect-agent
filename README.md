@@ -81,6 +81,23 @@ an agent's normal tools. A consuming implementation needs no SDK or runtime
 connection to this repository. Agents pin a source commit when they start, so
 rules and cases stay reproducible.
 
+## Acknowledgments
+
+Thank you to the maintainers and contributors of these open-source projects for
+sharing recognition rules, agent signals, evidence and design ideas that informed
+this specification and its diagnostics:
+
+- [Hugging Face · huggingface.js](https://github.com/huggingface/huggingface.js) — public agent harness registry.
+- [Vercel · detect-agent](https://github.com/vercel/detect-agent) — shared detection rules and the `AI_AGENT` naming convention.
+- [Together · detect_agent](https://github.com/togethercomputer/detect_agent) — Python port and rule-evaluation reference.
+- [Expo · agent-cli-detector](https://github.com/expo/agent-cli-detector) — runtime signals and extensible detection strategies.
+- [am-i-vibing](https://github.com/ascorbic/am-i-vibing) — execution-environment classification and recognition signals.
+- [uarix · agent-harness-detector](https://github.com/uarix/agent-harness-detector) — investigation leads for additional desktop and hosted products.
+- [ai-agent-detect](https://github.com/agent-detect/ai-agent-detect) — evidence records, all-match diagnostics and cross-detector tests.
+
+The [specification's references](detect-agent.md#8-evidence-coverage-and-references)
+record the adopted signals, reviewed snapshots and their coverage limits.
+
 [Agent entry point](AGENTS.md) · [Diagnostics and repairs](docs/diagnostics.md) ·
 [Contribution requirements](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 

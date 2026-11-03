@@ -71,6 +71,21 @@ Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.js
 
 完整规范和 Agent 工作流以英文维护；上面的中文提示词可以直接使用。
 
+## 致谢
+
+感谢以下开源项目的维护者和贡献者，公开分享识别规则、运行标记、证据资料和设计经验，
+为本规范的规则整理、信号调查和诊断设计提供了重要基础与参考：
+
+- [Hugging Face · huggingface.js](https://github.com/huggingface/huggingface.js) — 公开的 Agent harness 注册表。
+- [Vercel · detect-agent](https://github.com/vercel/detect-agent) — 共享识别规则和 `AI_AGENT` 命名约定。
+- [Together · detect_agent](https://github.com/togethercomputer/detect_agent) — Python 移植与规则求值参考。
+- [Expo · agent-cli-detector](https://github.com/expo/agent-cli-detector) — 运行标记和可扩展检测策略。
+- [am-i-vibing](https://github.com/ascorbic/am-i-vibing) — 执行环境分类与识别信号。
+- [uarix · agent-harness-detector](https://github.com/uarix/agent-harness-detector) — 更多桌面与云端产品的识别线索。
+- [ai-agent-detect](https://github.com/agent-detect/ai-agent-detect) — 证据记录、全部命中诊断与交叉测试。
+
+具体采用的信号、核验过的源码版本及适用边界，见[规范中的来源引用](detect-agent.md#8-evidence-coverage-and-references)。
+
 [Agent 入口](AGENTS.md) · [自检、诊断与修复](docs/diagnostics.md) ·
 [贡献要求](CONTRIBUTING.md) · [更新记录](CHANGELOG.md)
 
