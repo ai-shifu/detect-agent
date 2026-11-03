@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.11",
+  "spec_version": "0.1.12",
   "cases": [
     {
       "name": "empty environment",
@@ -3682,6 +3682,88 @@
       "expected": {
         "agent_id": null,
         "evidence": "none"
+      }
+    },
+    {
+      "name": "today non-empty marker",
+      "env": {
+        "TODAY_ENV": "production"
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "today zero value is non-empty",
+      "env": {
+        "TODAY_ENV": "0"
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "today false value is non-empty",
+      "env": {
+        "TODAY_ENV": "false"
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "today whitespace-only value is non-empty",
+      "env": {
+        "TODAY_ENV": " "
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "today empty value fails",
+      "env": {
+        "TODAY_ENV": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "today declaration",
+      "env": {
+        "AGENT": "today"
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "today coexists with codex",
+      "env": {
+        "TODAY_ENV": "production",
+        "CODEX_THREAD_ID": "synthetic-thread"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "today coexists with deepseek harness",
+      "env": {
+        "TODAY_ENV": "production",
+        "DSH_SHELL": "1"
+      },
+      "expected": {
+        "agent_id": "deepseek-harness",
+        "evidence": "runtime-marker"
       }
     }
   ]
