@@ -28,7 +28,8 @@
 
 ## Unreleased
 
-- Add official-source bilingual product metadata keyed by canonical ID in the
+- Add official-source bilingual product metadata, preferring official GitHub
+  About descriptions, keyed by canonical ID in the
   specification, with optional local lookup and development-time JSON exports.
   Preserve the detection result, rules and 0.1.11 conformance contract.
 - Add pinned pre-commit lint/style checks for Python, Markdown and repository

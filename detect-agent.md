@@ -339,54 +339,58 @@ Product metadata reviewed: **2026-11-03**
 
 The table below is the source for product names, descriptions and official
 sources, keyed by the same canonical IDs as the detection rules. Descriptions
-are concise summaries of official product websites, documentation, company
-announcements or explicitly labeled official repository READMEs. Product
-positioning does not establish a runtime marker or extend recognition coverage.
+prefer the official product repository's GitHub About text when it is non-empty.
+Verify that the repository represents this product, rather than a namesake, SDK
+or related project. Otherwise use official product websites, documentation,
+company announcements or explicitly labeled official repository READMEs. Keep
+concise source wording or summarize it faithfully, and translate the other
+language from the same source. Product positioning does not establish a runtime
+marker or extend recognition coverage.
 Every canonical ID must have exactly one metadata row, with both descriptions
 and an official source. The table does not introduce additional canonical IDs.
 
 | Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |
 | --- | --- | --- | --- | --- |
 | `antigravity` | Antigravity | Google’s agent development platform, with app, CLI and IDE interfaces for building software with coding agents. | Google 的 Agent 开发平台，通过应用、命令行和 IDE 支持与编程 Agent 协作开发软件。 | [Website](https://antigravity.google/) |
-| `augment-cli` | Augment CLI | Augment’s Auggie coding agent for planning, executing and reviewing codebase work interactively or through terminal automation. | Augment 的 Auggie 编程 Agent，可交互式规划、执行和审查代码库工作，也可用于终端自动化。 | [Website](https://www.augmentcode.com/product/cli) |
-| `claude-code` | Claude Code | Anthropic’s coding agent for building features, fixing bugs, writing tests and carrying out migrations across developer tools. | Anthropic 的编程 Agent，可在开发工具中实现功能、修复问题、编写测试并执行代码迁移。 | [Website](https://claude.com/product/claude-code) |
-| `cline` | Cline | Open source coding agent runtime that plans tasks, edits projects and runs terminal commands across editors, CLI and SDK integrations. | 开源编程 Agent 运行时，可通过编辑器、命令行和 SDK 规划任务、修改项目并执行终端命令。 | [Website](https://cline.bot/) |
-| `codex` | Codex | OpenAI’s coding agent for implementing features, debugging, refactoring and reviewing code across ChatGPT, editors, terminals and cloud environments. | OpenAI 的编程 Agent，可在 ChatGPT、编辑器、终端和云端实现功能、调试、重构及审查代码。 | [Website](https://openai.com/codex/) |
+| `augment-cli` | Augment CLI | An AI agent that brings Augment Code's power to the terminal. | 将 Augment Code 的能力带入终端的 AI Agent。 | [GitHub About](https://github.com/augmentcode/auggie) |
+| `claude-code` | Claude Code | Terminal coding agent that understands codebases, executes routine tasks, explains complex code and handles Git workflows through natural language. | 在终端中理解代码库、执行日常任务、解释复杂代码，并通过自然语言处理 Git 工作流的编程 Agent。 | [GitHub About](https://github.com/anthropics/claude-code) |
+| `cline` | Cline | Autonomous coding agent as an SDK, IDE extension, or CLI assistant. | 可作为 SDK、IDE 扩展或命令行助手使用的自主编程 Agent。 | [GitHub About](https://github.com/cline/cline) |
+| `codex` | Codex | Lightweight coding agent that runs in your terminal | 在终端中运行的轻量编程 Agent。 | [GitHub About](https://github.com/openai/codex) |
 | `cowork` | Claude Cowork | Now part of Claude, Cowork works across files and tools to produce documents, spreadsheets, research and other deliverables. | 现已融入 Claude，可跨文件和工具完成工作，交付文档、表格、研究等成果。 | [Website](https://claude.com/product/cowork) |
-| `crush` | Crush | Terminal coding assistant connecting existing tools, code and workflows to a language model of your choice. | 终端编程助手，将现有工具、代码和工作流连接到用户选择的语言模型。 | [Website](https://charm.land/) |
+| `crush` | Crush | Glamourous agentic coding for all 💘 | 面向所有人的精彩 Agent 编程体验。 | [GitHub About](https://github.com/charmbracelet/crush) |
 | `cue` | Cue | Manus’s personal agent app, where agents have their own identities, tools and permissions and can collaborate on tasks. | Manus 的个人 Agent 应用，每个 Agent 都有自己的身份、工具与权限，并可协作完成任务。 | [Website](https://cue.im/) |
 | `cursor` | Cursor (editor) | AI editor and coding agent for understanding codebases, building features, fixing bugs, and reviewing changes. | AI 编辑器与编程 Agent，可理解代码库、开发功能、修复问题和审查改动。 | [Documentation](https://cursor.com/docs) |
 | `cursor-cli` | Cursor CLI | Coding agents in the terminal, with interactive use, scripts, automation and GitHub Actions integration. | 在终端中使用编程 Agent，支持交互操作、脚本、自动化及 GitHub Actions 集成。 | [Website](https://cursor.com/cli) |
-| `deepseek-harness` | DeepSeek Harness | Open source agent harness using composable plugins for everyday work, coding, research and customized agent capabilities. | 开源 Agent Harness，通过可组合插件处理日常工作、编程和资料研究，并定制 Agent 能力。 | [Website](https://deepseek.com/harness/) |
+| `deepseek-harness` | DeepSeek Harness | DeepSeek Harness: Everything is a Plugin. | DeepSeek Harness：一切皆插件。 | [GitHub About](https://github.com/deepseek-ai/deepseek-harness) |
 | `devin` | Devin | Autonomous software engineer that works in cloud or local environments, tests changes and prepares pull requests. | 自主软件工程师，可在云端或本地环境工作、测试改动并准备拉取请求。 | [Website](https://devin.ai/) |
 | `doubao-work` | Doubao Work | AI work platform for individuals and teams that executes tasks and creates documents, spreadsheets, presentations and applications with Feishu integration. | 面向个人和团队的智能体工作平台，可执行任务、生成文档、表格、演示与应用，并接入飞书协作。 | [Website](https://www.feishu.cn/content/article/7677519271848610746) |
-| `gemini-cli` | Gemini CLI | Terminal AI tool for querying and editing codebases, building applications, debugging, deployment and automating complex workflows. | 终端 AI 工具，可查询和编辑代码库、构建应用、调试部署，并自动执行复杂工作流。 | [Website](https://geminicli.com/) |
-| `github-copilot` | GitHub Copilot CLI | Terminal AI agent that answers questions, writes and debugs code, and works with GitHub issues and pull requests. | 在终端中回答问题、编写和调试代码，并处理 GitHub Issue 与 Pull Request 的 AI Agent。 | [Documentation](https://docs.github.com/en/copilot/concepts/copilot-surfaces/copilot-cli) |
-| `goose` | Goose | Open-source AI agent that runs locally for coding, research, writing, automation and data analysis. | 在本机运行的开源 AI Agent，可用于编程、研究、写作、自动化和数据分析。 | [Website](https://goose-docs.ai/) |
+| `gemini-cli` | Gemini CLI | An open-source AI agent that brings the power of Gemini directly into your terminal. | 将 Gemini 能力直接带入终端的开源 AI Agent。 | [GitHub About](https://github.com/google-gemini/gemini-cli) |
+| `github-copilot` | GitHub Copilot CLI | GitHub Copilot CLI brings the power of Copilot coding agent directly to your terminal. | 将 Copilot 编程 Agent 的能力直接带入终端。 | [GitHub About](https://github.com/github/copilot-cli) |
+| `goose` | Goose | an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM | 开源、可扩展的 AI Agent，不仅提供代码建议，还能使用任意大语言模型安装、执行、编辑和测试。 | [GitHub About](https://github.com/aaif-goose/goose) |
 | `grok-bot` | Grok Bot | AI teammates that retain context and complete tasks across apps and websites on a persistent cloud computer. | 保留上下文、在持久云电脑上跨应用和网站完成任务的 AI 队友。 | [Documentation](https://cursor.com/docs/grok-bot) |
-| `grok-build` | Grok Build | Terminal coding agent for planning, building, testing and deploying software, with skills, tools and parallel subagents. | 在终端中规划、开发、测试和部署软件的编程 Agent，支持技能、工具和并行子 Agent。 | [Website](https://x.ai/build) |
-| `hermes-agent` | Hermes Agent | Open-source agent with persistent memory, automatically generated skills and integrations across messaging platforms and the command line. | 支持持久记忆、自动生成技能，并可接入聊天平台和命令行的开源 Agent。 | [Website](https://hermes-agent.nousresearch.com/) |
+| `grok-build` | Grok Build | SpaceXAI's coding agent harness and TUI. Fullscreen, mouse interactive, extensible. | SpaceXAI 的编程 Agent harness 与终端界面，全屏显示，支持鼠标交互和扩展。 | [GitHub About](https://github.com/xai-org/grok-build) |
+| `hermes-agent` | Hermes Agent | The agent that grows with you | 与你共同成长的 Agent。 | [GitHub About](https://github.com/NousResearch/hermes-agent) |
 | `hi` | hi | Coding agent using Pipe Network inference to read, write and edit project files and run shell commands. | 使用 Pipe Network 推理服务的编程 Agent，可读写和编辑项目文件并运行 Shell 命令。 | [Official repository](https://github.com/PipeNetwork/hi) |
 | `instinct` | Instinct | Personal assistant that understands your work and priorities, accepts texts or calls, and uses phones and computers to complete tasks. | 理解你的工作和关注事项，可通过短信或电话交流，并操作手机和电脑完成任务的个人助手。 | [Website](https://instinct.com/) |
-| `junie` | Junie | JetBrains coding agent that combines IDE code intelligence with terminal workflows and lets developers choose their models. | 结合 IDE 代码智能与终端工作流、支持开发者选择模型的 JetBrains 编程 Agent。 | [Website](https://junie.jetbrains.com/) |
-| `kilo-code` | Kilo Code | Open-source coding agent for writing, planning and debugging code across IDE, command-line and cloud workflows. | 覆盖 IDE、命令行和云端工作流，可编写、规划和调试代码的开源编程 Agent。 | [Website](https://kilo.ai/) |
-| `kimi` | Kimi Code | AI coding agent available on desktop, command line and IDE plugins for completing programming tasks. | 可通过桌面应用、命令行和 IDE 插件完成编程任务的 AI 编程 Agent。 | [Website](https://www.kimi.com/code) |
-| `kiro` | Kiro | AI coding agent for specification-driven development, parallel implementation and code correctness testing. | 支持规范驱动开发、并行实现和代码正确性测试的 AI 编程 Agent。 | [Website](https://kiro.dev/) |
+| `junie` | Junie | An AI coding agent by JetBrains that ships code from your terminal, IDE, or CI/CD pipeline - powered by any LLM you choose | JetBrains 的 AI 编程 Agent，可从终端、IDE 或 CI/CD 流水线交付代码，并支持选择任意大语言模型。 | [GitHub About](https://github.com/JetBrains/junie) |
+| `kilo-code` | Kilo Code | Kilo is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent. | 一体化智能体工程平台，通过开源编程 Agent 更快地构建、交付和迭代。 | [GitHub About](https://github.com/Kilo-Org/kilocode) |
+| `kimi` | Kimi Code | Kimi Code CLI  —  The Starting Point for Next-Gen Agents | Kimi Code CLI：下一代 Agent 的起点。 | [GitHub About](https://github.com/MoonshotAI/kimi-code) |
+| `kiro` | Kiro | Kiro is an agentic IDE that works alongside you from prototype to production. | 从原型到生产始终与你协作的智能体 IDE。 | [GitHub About](https://github.com/kirodotdev/Kiro) |
 | `lingguang` | Lingguang | Ant Group’s multimodal personal AI agent that identifies needs and manages tasks over time with user authorization. | 蚂蚁集团的多模态个人 AI Agent，在用户授权下识别需求并持续管理任务。 | [Company announcement](https://www.antgroup.com/en/news-media/press-releases/1793066400000) |
 | `manus` | Manus | General-purpose AI agent for automating workflows, conducting research and turning instructions into completed work. | 可自动执行工作流、开展研究，并将指令转化为实际成果的通用 AI Agent。 | [Website](https://manus.im/about) |
 | `muse` | Muse | Meta’s personal AI agent that handles tasks and projects across everyday apps and turns long-term goals into action plans. | Meta 的个人 AI Agent，可跨日常应用处理任务和项目，并将长期目标转化为行动计划。 | [Company announcement](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) |
-| `openclaw` | OpenClaw | Open-source AI assistant that runs on your machine and carries out tasks through the chat apps you already use. | 在你的设备上运行的开源 AI 助手，可通过常用聊天应用执行任务。 | [Website](https://openclaw.ai/) |
-| `opencode` | opencode | Open-source coding agent for writing and running code from a terminal, IDE extension, or desktop app. | 开源编程 Agent，可通过终端、IDE 扩展或桌面应用编写和运行代码。 | [Website](https://opencode.ai/) |
-| `pi` | Pi | Extensible terminal AI agent that can inspect files, run commands, edit content, and complete tasks involving multiple steps. | 可扩展的终端 AI Agent，能检查文件、运行命令、编辑内容并完成多步骤任务。 | [Documentation](https://pi.dev/docs/latest) |
-| `qwen-code` | Qwen Code | Qwen's terminal coding agent for turning ideas into code, with tools and developer workflow integrations. | Qwen 推出的终端编程 Agent，通过工具与开发工作流集成把想法变为代码。 | [Documentation](https://qwenlm.github.io/qwen-code-docs/en/users/overview/) |
+| `openclaw` | OpenClaw | The AI that really does things. Any OS. Any Platform. The lobster way. 🦞 | 真正能办事的 AI。支持各种操作系统与平台，走龙虾自己的路。🦞 | [GitHub About](https://github.com/openclaw/openclaw) |
+| `opencode` | opencode | The open source coding agent. | 开源编程 Agent。 | [GitHub About](https://github.com/anomalyco/opencode) |
+| `pi` | Pi | AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI | AI Agent 工具包，包含统一的大模型 API、Agent 循环、终端界面和编程 Agent 命令行。 | [GitHub About](https://github.com/earendil-works/pi) |
+| `qwen-code` | Qwen Code | An open-source AI coding agent that lives in your terminal. | 在终端中运行的开源 AI 编程 Agent。 | [GitHub About](https://github.com/QwenLM/qwen-code) |
 | `qwenwork` | QwenWork | Alibaba's AI office platform for completing tasks and delivering documents, spreadsheets, presentations, websites, and other work products. | 阿里巴巴推出的一站式 AI 办公平台，可执行复杂任务并交付文档、表格、PPT、网页等成果。 | [Documentation](https://docs.qwenwork.cn/product-introduction) |
 | `replit` | Replit | AI application platform that turns natural language ideas into apps and provides hosting, databases, authentication, and monitoring. | 将自然语言想法变为应用的 AI 平台，并提供托管、数据库、身份认证和监控。 | [Website](https://replit.com/) |
-| `roo-code` | Roo Code | Open-source AI coding agent for VS Code; its official documentation notes the extension has been shut down. | 面向 VS Code 的开源 AI 编程 Agent；官方文档已公告扩展停止服务。 | [Documentation](https://roocodeinc.github.io/Roo-Code/) |
-| `sandbase-harness` | SandBase Harness | AI agent runtime hosted on your infrastructure, with persistent sessions, sandboxed tools, memory, credentials, audit trails, and a management console. | 运行在自有基础设施上的 AI Agent 运行时，提供持久会话、沙箱工具、记忆、凭据管理、审计与管理控制台。 | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
+| `roo-code` | Roo Code | Roo Code gives you a whole dev team of AI agents in your code editor. | 在代码编辑器中为你提供一整支 AI Agent 开发团队。 | [GitHub About](https://github.com/RooCodeInc/Roo-Code) |
+| `sandbase-harness` | SandBase Harness | Local-first, self-hosted AI agent runtime and MCP bridge with sandboxed sessions, memory, credentials, audit/replay, and a local Console. | 以本地为先、可自行托管的 AI Agent 运行时与 MCP 桥接，提供沙箱会话、记忆、凭据、审计回放和本地控制台。 | [GitHub About](https://github.com/sandbaseai/sandbase-harness) |
 | `trae` | TRAE | AI coding environment combining an assisted IDE with an autonomous agent for planning, implementing, and delivering software. | 融合 AI 辅助 IDE 与自主编程 Agent 的开发环境，可规划、实现并交付软件。 | [Website](https://www.trae.ai/blog/trae_work_0609) |
-| `vtcode` | VT Code | Rust coding agent for exploring, planning, editing, and verifying repositories from a terminal or native macOS app. | 使用 Rust 开发的编程 Agent，可在终端或原生 macOS 应用中探索、规划、修改和验证代码仓库。 | [Official repository](https://github.com/vinhnx/VTCode) |
+| `vtcode` | VT Code | VT Code is an open-source Rust terminal coding agent. | VT Code 是使用 Rust 开发的开源终端编程 Agent。 | [GitHub About](https://github.com/vinhnx/VTCode) |
 | `workbuddy` | WorkBuddy | Tencent's AI workspace that plans workflows, uses tools, and creates finished documents, spreadsheets, presentations, and other work. | 腾讯推出的 AI 工作台，可规划流程、调用工具并交付文档、表格、演示文稿等工作成果。 | [Documentation](https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide) |
-| `zed` | Zed | Open-source code editor with integrated collaboration and AI tools. | 集成协作与 AI 工具的开源代码编辑器。 | [Documentation](https://zed.dev/docs/) |
+| `zed` | Zed | Code at the speed of thought – Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter. | 由 Atom 和 Tree-sitter 创作者打造的高性能多人协作代码编辑器，让编程跟上思考速度。 | [GitHub About](https://github.com/zed-industries/zed) |
 
 Applications that need product information can implement a separate local
 `AGENT_INFO(canonical_id)` lookup from this table at the same pinned source
@@ -402,7 +406,8 @@ commit as their detection rules. It returns the following public metadata:
 }
 ```
 
-Source link labels map to types as follows: `Website` to `website`,
+Source link labels map to types as follows: `GitHub About` to `github-about`,
+`Website` to `website`,
 `Documentation` to `documentation`, `Company announcement` to
 `company-announcement`, and `Official repository` to `official-repository`.
 The review date above applies to every row. Names and descriptions are strings;

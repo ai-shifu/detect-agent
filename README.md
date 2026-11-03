@@ -88,7 +88,9 @@ rules and cases stay reproducible.
 
 Product names, English and Chinese descriptions, official sources and review
 dates are defined in the specification's [product metadata](detect-agent.md#product-metadata),
-keyed by the same canonical IDs as the recognition rules. Implementers can embed
+keyed by the same canonical IDs as the recognition rules. Descriptions prefer the
+official product repository's GitHub About text when available, with official
+product pages as fallbacks. Implementers can embed
 this table locally and look up the detected ID to obtain its description.
 
 The development tools read the specification directly and return JSON:

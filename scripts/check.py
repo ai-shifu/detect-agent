@@ -25,6 +25,7 @@ METADATA_HEADER = (
     "| Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |"
 )
 SOURCE_TYPES = {
+    "GitHub About": "github-about",
     "Website": "website",
     "Documentation": "documentation",
     "Company announcement": "company-announcement",

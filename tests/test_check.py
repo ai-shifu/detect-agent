@@ -125,10 +125,20 @@ class CheckTests(unittest.TestCase):
                 "reviewed_at": synthetic_date,
             },
         )
-        self.assertEqual(
-            {record["source"]["type"] for record in spec.agent_metadata.values()},
-            {"website", "documentation", "company-announcement", "official-repository"},
-        )
+        for label, source_type in (
+            ("GitHub About", "github-about"),
+            ("Website", "website"),
+            ("Documentation", "documentation"),
+            ("Company announcement", "company-announcement"),
+            ("Official repository", "official-repository"),
+        ):
+            with self.subTest(source_type=source_type):
+                source_document = document.replace(
+                    "[Documentation](https://example.com/codex)",
+                    f"[{label}](https://example.com/codex)",
+                )
+                source_spec = check.Specification(source_document)
+                self.assertEqual(source_spec.agent_info("codex")["source"]["type"], source_type)
 
     def test_product_metadata_lookup_accepts_only_exact_canonical_ids(self):
         for agent_id in self.spec.catalog:
