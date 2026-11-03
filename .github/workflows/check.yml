@@ -26,7 +26,8 @@ jobs:
       - run: pre-commit run --all-files --show-diff-on-failure
 
   check:
-    runs-on: ubuntu-latest
+    # Python 3.9 has published builds for Ubuntu 24.04, not newer runner images.
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python-version: ['3.9', '3.13']

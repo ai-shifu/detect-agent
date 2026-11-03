@@ -207,6 +207,24 @@ class Specification:
                 "Duplicate alias or unknown alias target.",
             )
             self.aliases[alias] = target
+        self.declaration_formats = []
+        format_names = set()
+        for row in table(markdown, "| Declaration format | Full-string pattern | Name capture |"):
+            require(
+                re.fullmatch(r"[a-z][a-z0-9-]*", row[0]) is not None and row[0] not in format_names,
+                "Invalid or duplicate declaration format name.",
+            )
+            format_names.add(row[0])
+            pattern = re.fullmatch(r"`([^`\n]+)`", row[1])
+            require(pattern is not None, "Invalid declaration pattern syntax.")
+            require(re.fullmatch(r"[1-9][0-9]*", row[2]) is not None, "Invalid name capture.")
+            try:
+                compiled = re.compile(pattern.group(1))
+            except re.error:
+                raise CheckError("Invalid declaration regular expression.") from None
+            capture = int(row[2])
+            require(capture <= compiled.groups, "Declaration name capture does not exist.")
+            self.declaration_formats.append((compiled, capture))
         self.keys = {"AI_AGENT", "AGENT"}
         for _, node in self.runtime + self.contexts:
             self.keys.update(predicate_keys(node))
@@ -217,12 +235,32 @@ class Specification:
                 value = lookup(key)
                 if value is not None and value.strip(ASCII_SPACE):
                     declared = ascii_lower(value.strip(ASCII_SPACE))
-                    declared = self.aliases.get(declared, declared)
                     return {
-                        "agent_id": declared if declared in self.catalog else None,
+                        "agent_id": self.resolve_declaration(declared),
                         "evidence": "declared",
                     }
+        return next(
+            self._automatic_matches(lookup, files, stdout_is_tty, path_separator),
+            {"agent_id": None, "evidence": "none"},
+        )
 
+    def resolve_declaration(self, value):
+        declared = self.aliases.get(value, value)
+        if declared in self.catalog:
+            return declared
+        for pattern, capture in self.declaration_formats:
+            match = pattern.fullmatch(value)
+            if match is not None:
+                name = match.group(capture)
+                declared = self.aliases.get(name, name)
+                return declared if declared in self.catalog else None
+        return None
+
+    def matches(self, lookup, files=None, stdout_is_tty=None, path_separator=":"):
+        """Return all automatic rule matches for diagnostics, without declarations or values."""
+        return list(self._automatic_matches(lookup, files, stdout_is_tty, path_separator))
+
+    def _automatic_matches(self, lookup, files, stdout_is_tty, path_separator):
         def matches(node):
             kind = node[0]
             if kind == "non-empty":
@@ -248,15 +286,14 @@ class Specification:
         for rows, evidence in ((self.runtime, "runtime-marker"), (self.contexts, "context-hint")):
             for agent_id, node in rows:
                 if matches(node):
-                    return {"agent_id": agent_id, "evidence": evidence}
-        return {"agent_id": None, "evidence": "none"}
+                    yield {"agent_id": agent_id, "evidence": evidence}
 
 
 def load_spec(root=ROOT):
     return Specification((root / "detect-agent.md").read_text(encoding="utf-8"))
 
 
-def validate_fixtures(data, spec):
+def validate_fixtures(data, spec, *, all_matches=False):
     require(
         type(data) is dict and set(data) == {"spec_version", "cases"},
         "Invalid conformance document fields.",
@@ -308,27 +345,51 @@ def validate_fixtures(data, spec):
         if "path_separator" in case:
             require(case["path_separator"] in (":", ";"), "Invalid synthetic PATH separator.")
         expected = case["expected"]
-        require(
-            type(expected) is dict and set(expected) == {"agent_id", "evidence"},
-            "Invalid expected result fields.",
-        )
-        agent_id, evidence = expected["agent_id"], expected["evidence"]
-        require(
-            agent_id is None or type(agent_id) is str and agent_id in spec.catalog,
-            "Unknown expected canonical ID.",
-        )
-        require(
-            evidence in ("none", "declared", "runtime-marker", "context-hint"),
-            "Invalid expected evidence.",
-        )
-        require(
-            (evidence != "none" or agent_id is None)
-            and (evidence not in ("runtime-marker", "context-hint") or agent_id is not None),
-            "Inconsistent expected result.",
-        )
+        if all_matches:
+            require(type(expected) is list, "Expected matches must be a list.")
+            seen = set()
+            for result in expected:
+                validate_result(result, spec)
+                pair = (result["agent_id"], result["evidence"])
+                require(pair in automatic_pairs(spec), "Expected match is not an automatic rule.")
+                require(pair not in seen, "Duplicate expected match.")
+                seen.add(pair)
+        else:
+            validate_result(expected, spec)
 
 
-def run_case(spec, case):
+def validate_result(result, spec):
+    require(
+        type(result) is dict and set(result) == {"agent_id", "evidence"},
+        "Invalid expected result fields.",
+    )
+    agent_id, evidence = result["agent_id"], result["evidence"]
+    require(
+        agent_id is None or type(agent_id) is str and agent_id in spec.catalog,
+        "Unknown expected canonical ID.",
+    )
+    require(
+        evidence in ("none", "declared", "runtime-marker", "context-hint"),
+        "Invalid expected evidence.",
+    )
+    require(
+        (evidence != "none" or agent_id is None)
+        and (evidence not in ("runtime-marker", "context-hint") or agent_id is not None),
+        "Inconsistent expected result.",
+    )
+
+
+def validate_match_fixtures(data, spec):
+    validate_fixtures(data, spec, all_matches=True)
+
+
+def automatic_pairs(spec):
+    return {(agent_id, "runtime-marker") for agent_id, _ in spec.runtime} | {
+        (agent_id, "context-hint") for agent_id, _ in spec.contexts
+    }
+
+
+def run_case(spec, case, *, all_matches=False):
     env = case["env"]
     if case.get("env_name_case") == "ascii-insensitive":
         env = {ascii_lower(k): v for k, v in env.items()}
@@ -337,12 +398,17 @@ def run_case(spec, case):
             return env.get(ascii_lower(key))
     else:
         lookup = env.get
-    return spec.detect(
+    evaluate = spec.matches if all_matches else spec.detect
+    return evaluate(
         lookup,
         files=case.get("files"),
         stdout_is_tty=case.get("stdout_is_tty"),
         path_separator=case.get("path_separator", ":"),
     )
+
+
+def run_match_case(spec, case):
+    return run_case(spec, case, all_matches=True)
 
 
 def conformance(spec, root=ROOT):
@@ -356,21 +422,39 @@ def conformance(spec, root=ROOT):
             failures.append({"case_number": index, "expected": case["expected"], "actual": actual})
         else:
             coverage.add((actual["agent_id"], actual["evidence"]))
-    required = {(row[0], "runtime-marker") for row in spec.runtime}
-    required.update((row[0], "context-hint") for row in spec.contexts)
+    required = automatic_pairs(spec)
     required.update((agent_id, "declared") for agent_id in spec.declaration_only)
     missing = [
         {"agent_id": agent_id, "evidence": evidence}
         for agent_id, evidence in sorted(required - coverage)
     ]
-    failed = bool(failures or missing)
+    match_data = json.loads((root / "conformance" / "matches.json").read_text(encoding="utf-8"))
+    validate_match_fixtures(match_data, spec)
+    match_failures = []
+    match_coverage = set()
+    for index, case in enumerate(match_data["cases"], 1):
+        actual = run_match_case(spec, case)
+        if actual != case["expected"]:
+            match_failures.append(
+                {"case_number": index, "expected": case["expected"], "actual": actual}
+            )
+        else:
+            match_coverage.update((result["agent_id"], result["evidence"]) for result in actual)
+    missing_matches = [
+        {"agent_id": agent_id, "evidence": evidence}
+        for agent_id, evidence in sorted(automatic_pairs(spec) - match_coverage)
+    ]
+    failed = bool(failures or missing or match_failures or missing_matches)
     return {
         "spec_version": spec.version,
         "status": "failed" if failed else "passed",
         "cases": len(data["cases"]),
+        "match_cases": len(match_data["cases"]),
         "canonical_ids": len(spec.catalog),
         "failures": failures,
         "missing_coverage": missing,
+        "match_failures": match_failures,
+        "missing_match_coverage": missing_matches,
     }, int(failed)
 
 
@@ -397,6 +481,12 @@ def self_check(
         path_separator=os.pathsep if path_separator is None else path_separator,
         automatic=True,
     )
+    matches = spec.matches(
+        snapshot.get,
+        files=files,
+        stdout_is_tty=stdout_is_tty,
+        path_separator=os.pathsep if path_separator is None else path_separator,
+    )
     status = "observed"
     if expected is not None:
         target = {"agent_id": expected, "evidence": "runtime-marker"}
@@ -416,6 +506,7 @@ def self_check(
         "spec_version": spec.version,
         "result": result,
         "automatic_result": automatic,
+        "matches": matches,
         "expected_agent_id": expected,
         "status": status,
     }, int(expected is not None and status != "detected")

@@ -1,0 +1,2219 @@
+{
+  "spec_version": "0.1.11",
+  "cases": [
+    {
+      "name": "isolated runtime crush",
+      "env": {
+        "CRUSH": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "crush",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime hermes session",
+      "env": {
+        "HERMES_SESSION_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "hermes-agent",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime hermes agent",
+      "env": {
+        "HERMES_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "hermes-agent",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime kilo code",
+      "env": {
+        "KILOCODE_FEATURE": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "kilo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime trae",
+      "env": {
+        "TRAE_AI_SHELL_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "trae",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime vtcode",
+      "env": {
+        "VTCODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "vtcode",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime workbuddy application",
+      "env": {
+        "WORKBUDDY_APPLICATION_NAME": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "workbuddy",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime workbuddy app",
+      "env": {
+        "WORKBUDDY_APP_NAME": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "workbuddy",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime grok bot local",
+      "env": {
+        "SAND_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-bot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime grok bot cloud includes cursor compatibility",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-bot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime qwenwork",
+      "env": {
+        "QODER_WORK_INTEGRATION_PRODUCT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "qwenwork",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cue worker",
+      "env": {
+        "MANUS_LONG_DESKTOP_WORKER": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cue",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cue platform",
+      "env": {
+        "MANUS_OPERATOR_PLATFORM": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "cue",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime muse assignment",
+      "env": {
+        "JARVIS_IS_ASSIGNED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "muse",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime muse tool call",
+      "env": {
+        "JARVIS_TOOL_CALL_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "muse",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime manus descriptor path",
+      "env": {
+        "MANUS_ADDON_RUNTIME_SPEC_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "manus",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime manus descriptor revision",
+      "env": {
+        "MANUS_ADDON_RUNTIME_SPECS_REVISION": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "manus",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime doubao work",
+      "env": {
+        "DOUBAO_OFFICE_AGENT_NAME": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "doubao-work",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime kimi",
+      "env": {
+        "KIMI_PLUGIN_ROOT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "kimi",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime grok build terminal",
+      "env": {
+        "GROK_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime grok build plugin root",
+      "env": {
+        "GROK_PLUGIN_ROOT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime grok build plugin data",
+      "env": {
+        "GROK_PLUGIN_DATA": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime qwen code",
+      "env": {
+        "QWEN_CODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime gemini cli",
+      "env": {
+        "GEMINI_CLI": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime roo active",
+      "env": {
+        "ROO_ACTIVE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime roo cli",
+      "env": {
+        "ROO_CLI_RUNTIME": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cline active",
+      "env": {
+        "CLINE_ACTIVE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cline wrapper",
+      "env": {
+        "CLINE_WRAPPER_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime codex sandbox",
+      "env": {
+        "CODEX_SANDBOX": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime codex ci",
+      "env": {
+        "CODEX_CI": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime codex thread",
+      "env": {
+        "CODEX_THREAD_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime codex network",
+      "env": {
+        "CODEX_SANDBOX_NETWORK_DISABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime antigravity agent",
+      "env": {
+        "ANTIGRAVITY_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "antigravity",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime antigravity alias",
+      "env": {
+        "ANTIGRAVITY_CLI_ALIAS": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "antigravity",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime augment cli",
+      "env": {
+        "AUGMENT_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "augment-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime opencode client",
+      "env": {
+        "OPENCODE_CLIENT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "opencode",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime opencode",
+      "env": {
+        "OPENCODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "opencode",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime goose",
+      "env": {
+        "GOOSE_TERMINAL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "goose",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime junie",
+      "env": {
+        "JUNIE_SHIM_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "junie",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime pi",
+      "env": {
+        "PI_CODING_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "pi",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cowork includes claude compatibility",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cowork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cowork alternate claude compatibility",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDE_CODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cowork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime claudecode",
+      "env": {
+        "CLAUDECODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime claude underscore",
+      "env": {
+        "CLAUDE_CODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cursor agent",
+      "env": {
+        "CURSOR_AGENT": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime cursor execution role",
+      "env": {
+        "CURSOR_EXTENSION_HOST_ROLE": "agent-exec"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime copilot cli",
+      "env": {
+        "COPILOT_CLI": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime copilot session",
+      "env": {
+        "COPILOT_AGENT_SESSION_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime kiro",
+      "env": {
+        "AGENT_CONTEXT_OUT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "kiro",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime openclaw",
+      "env": {
+        "OPENCLAW_SHELL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "openclaw",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime devin directory",
+      "env": {
+        "DEVIN_DIR": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime devin expansion",
+      "env": {
+        "DEVIN_DISABLE_HISTEXPAND": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime instinct use id",
+      "env": {
+        "INSTINCT_OUTER_TOOL_USE_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "instinct",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime instinct start",
+      "env": {
+        "INSTINCT_OUTER_TOOL_USE_STARTED_AT": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "instinct",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime instinct timeout",
+      "env": {
+        "INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "instinct",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime lingguang",
+      "env": {
+        "EXEC_FROM": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "lingguang",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime deepseek harness",
+      "env": {
+        "DSH_SHELL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "isolated context pi path",
+      "env": {
+        "PATH": "/tmp/.pi/agent/bin:/usr/bin"
+      },
+      "path_separator": ":",
+      "expected": [
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context kiro non tty",
+      "env": {
+        "TERM_PROGRAM": "synthetic-kiro-terminal"
+      },
+      "stdout_is_tty": false,
+      "expected": [
+        {
+          "agent_id": "kiro",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context goose provider",
+      "env": {
+        "GOOSE_PROVIDER": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context copilot model",
+      "env": {
+        "COPILOT_MODEL": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context copilot permission",
+      "env": {
+        "COPILOT_ALLOW_ALL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context copilot credential",
+      "env": {
+        "COPILOT_GITHUB_TOKEN": "synthetic-test-token"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context replit workspace",
+      "env": {
+        "REPL_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "replit",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context devin file",
+      "env": {},
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": [
+        {
+          "agent_id": "devin",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context cursor editor",
+      "env": {
+        "CURSOR_TRACE_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated context zed terminal",
+      "env": {
+        "ZED_TERM": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "qwen code zero marker match list",
+      "env": {
+        "QWEN_CODE": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "qwen code false marker match list",
+      "env": {
+        "QWEN_CODE": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "qwen code whitespace marker match list",
+      "env": {
+        "QWEN_CODE": " "
+      },
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "qwen code empty marker match list",
+      "env": {
+        "QWEN_CODE": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "roo active zero marker match list",
+      "env": {
+        "ROO_ACTIVE": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo active false marker match list",
+      "env": {
+        "ROO_ACTIVE": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo active whitespace marker match list",
+      "env": {
+        "ROO_ACTIVE": " "
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo active empty marker match list",
+      "env": {
+        "ROO_ACTIVE": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "roo cli runtime zero marker match list",
+      "env": {
+        "ROO_CLI_RUNTIME": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo cli runtime false marker match list",
+      "env": {
+        "ROO_CLI_RUNTIME": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo cli runtime whitespace marker match list",
+      "env": {
+        "ROO_CLI_RUNTIME": " "
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo cli runtime empty marker match list",
+      "env": {
+        "ROO_CLI_RUNTIME": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "cline active zero marker match list",
+      "env": {
+        "CLINE_ACTIVE": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline active false marker match list",
+      "env": {
+        "CLINE_ACTIVE": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline active whitespace marker match list",
+      "env": {
+        "CLINE_ACTIVE": " "
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline active empty marker match list",
+      "env": {
+        "CLINE_ACTIVE": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "cline wrapper zero marker match list",
+      "env": {
+        "CLINE_WRAPPER_PATH": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline wrapper false marker match list",
+      "env": {
+        "CLINE_WRAPPER_PATH": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline wrapper whitespace marker match list",
+      "env": {
+        "CLINE_WRAPPER_PATH": " "
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cline wrapper empty marker match list",
+      "env": {
+        "CLINE_WRAPPER_PATH": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "copilot cli zero marker match list",
+      "env": {
+        "COPILOT_CLI": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot cli false marker match list",
+      "env": {
+        "COPILOT_CLI": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot cli whitespace marker match list",
+      "env": {
+        "COPILOT_CLI": " "
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot cli empty marker match list",
+      "env": {
+        "COPILOT_CLI": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "copilot agent session zero marker match list",
+      "env": {
+        "COPILOT_AGENT_SESSION_ID": "0"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot agent session false marker match list",
+      "env": {
+        "COPILOT_AGENT_SESSION_ID": "false"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot agent session whitespace marker match list",
+      "env": {
+        "COPILOT_AGENT_SESSION_ID": " "
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "copilot agent session empty marker match list",
+      "env": {
+        "COPILOT_AGENT_SESSION_ID": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "no environment has no matches",
+      "env": {},
+      "expected": []
+    },
+    {
+      "name": "known declaration alone adds no match",
+      "env": {
+        "AI_AGENT": "codex"
+      },
+      "expected": []
+    },
+    {
+      "name": "unknown declaration alone adds no match",
+      "env": {
+        "AGENT": "unknown-test-agent"
+      },
+      "expected": []
+    },
+    {
+      "name": "versioned declaration alone adds no match",
+      "env": {
+        "AI_AGENT": "qwen-code@v1"
+      },
+      "expected": []
+    },
+    {
+      "name": "claude formatted declaration alone adds no match",
+      "env": {
+        "AGENT": "claude-code_2-1-205_agent"
+      },
+      "expected": []
+    },
+    {
+      "name": "unknown declaration does not hide runtime matches",
+      "env": {
+        "AI_AGENT": "unknown-test-agent",
+        "CODEX_THREAD_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "known declaration does not hide foreign runtime matches",
+      "env": {
+        "AI_AGENT": "claude-code",
+        "QWEN_CODE": "1",
+        "GEMINI_CLI": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "second declaration does not add a match",
+      "env": {
+        "AI_AGENT": "codex@1",
+        "AGENT": "manus",
+        "CLINE_WRAPPER_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "unknown declaration does not hide context matches",
+      "env": {
+        "AI_AGENT": "unknown-test-agent",
+        "ZED_TERM": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "all alternatives in one runtime row remain one match",
+      "env": {
+        "HERMES_AGENT": "1",
+        "HERMES_SESSION_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "hermes-agent",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "roo and cline coexist in specification order",
+      "env": {
+        "ROO_ACTIVE": "1",
+        "ROO_CLI_RUNTIME": "1",
+        "CLINE_ACTIVE": "1",
+        "CLINE_WRAPPER_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "both cline alternatives remain one match",
+      "env": {
+        "CLINE_ACTIVE": "1",
+        "CLINE_WRAPPER_PATH": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "all codex alternatives remain one match",
+      "env": {
+        "CODEX_SANDBOX": "synthetic",
+        "CODEX_CI": "1",
+        "CODEX_THREAD_ID": "synthetic",
+        "CODEX_SANDBOX_NETWORK_DISABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "both copilot alternatives remain one match",
+      "env": {
+        "COPILOT_CLI": "1",
+        "COPILOT_AGENT_SESSION_ID": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cowork and both claude alternatives include each row once",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "1",
+        "CLAUDE_CODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cowork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "local and cloud grok bot alternatives include each row once",
+      "env": {
+        "SAND_AGENT": "1",
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "grok-bot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "pi runtime and context are separate matches",
+      "env": {
+        "PI_CODING_AGENT": "1",
+        "PATH": "/tmp/.pi/agent/bin"
+      },
+      "path_separator": ":",
+      "expected": [
+        {
+          "agent_id": "pi",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "kiro runtime and context are separate matches",
+      "env": {
+        "AGENT_CONTEXT_OUT": "synthetic",
+        "TERM_PROGRAM": "kiro"
+      },
+      "stdout_is_tty": false,
+      "expected": [
+        {
+          "agent_id": "kiro",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "goose runtime and context are separate matches",
+      "env": {
+        "GOOSE_TERMINAL": "1",
+        "GOOSE_PROVIDER": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "goose",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "copilot runtime and context are separate matches",
+      "env": {
+        "COPILOT_CLI": "1",
+        "COPILOT_AGENT_SESSION_ID": "synthetic",
+        "COPILOT_MODEL": "synthetic",
+        "COPILOT_ALLOW_ALL": "1",
+        "COPILOT_GITHUB_TOKEN": "synthetic-test-token"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "devin runtime and context are separate matches",
+      "env": {
+        "DEVIN_DIR": "synthetic",
+        "DEVIN_DISABLE_HISTEXPAND": "1"
+      },
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": [
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "runtime order precedes earlier context row",
+      "env": {
+        "COPILOT_CLI": "1",
+        "GOOSE_PROVIDER": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "nested and host markers are all reported",
+      "env": {
+        "CODEX_THREAD_ID": "synthetic",
+        "DEVIN_DIR": "synthetic",
+        "DSH_SHELL": "1",
+        "ZED_TERM": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "partial grok cloud missing supervisor keeps cursor only",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "partial grok cloud missing manifest keeps cursor only",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "partial grok cloud missing cursor has no matches",
+      "env": {
+        "SAND_MANIFEST_V2": "1",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": []
+    },
+    {
+      "name": "empty grok cloud member keeps cursor only",
+      "env": {
+        "CURSOR_AGENT": "1",
+        "SAND_MANIFEST_V2": "",
+        "SAND_SUPERVISOR_ENABLED": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "cowork flag without claude has no matches",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1"
+      },
+      "expected": []
+    },
+    {
+      "name": "cowork flag with empty claude has no matches",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "",
+        "CLAUDE_CODE": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "empty cowork flag leaves claude only",
+      "env": {
+        "CLAUDE_CODE_IS_COWORK": "",
+        "CLAUDECODE": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "empty ordinary markers do not add matches",
+      "env": {
+        "CLAUDECODE": "",
+        "CRUSH": "",
+        "DEVIN_DIR": "",
+        "GEMINI_CLI": "",
+        "DSH_SHELL": ""
+      },
+      "expected": []
+    },
+    {
+      "name": "wrong exact runtime sentinels do not add matches",
+      "env": {
+        "GROK_AGENT": "true",
+        "CURSOR_EXTENSION_HOST_ROLE": "AGENT-EXEC"
+      },
+      "expected": []
+    },
+    {
+      "name": "exact runtime values are not trimmed",
+      "env": {
+        "GROK_AGENT": "1\n",
+        "CURSOR_EXTENSION_HOST_ROLE": " agent-exec"
+      },
+      "expected": []
+    },
+    {
+      "name": "same prefix configuration does not add matches",
+      "env": {
+        "JUNIE_DATA": "synthetic",
+        "KIMI_CODE_HOME": "synthetic",
+        "DSH_HOME": "synthetic",
+        "WORKBUDDY_IS_PACKAGED": "1",
+        "QWEN_CODE_CONFIG": "synthetic",
+        "ROO_CODE_TASK_ID": "synthetic",
+        "CLINE_DIR": "synthetic",
+        "COPILOT_CLI_CONFIG": "synthetic"
+      },
+      "expected": []
+    },
+    {
+      "name": "similar pi path component does not match",
+      "env": {
+        "PATH": "/tmp/.pi/agents/bin:/usr/bin"
+      },
+      "path_separator": ":",
+      "expected": []
+    },
+    {
+      "name": "pi path is case sensitive",
+      "env": {
+        "PATH": "/tmp/.PI/agent/bin"
+      },
+      "path_separator": ":",
+      "expected": []
+    },
+    {
+      "name": "pi windows path separator and backslashes are explicit",
+      "env": {
+        "PATH": "C:\\synthetic\\.pi\\agent\\bin;C:\\Windows"
+      },
+      "path_separator": ";",
+      "expected": [
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "kiro context requires tty capability",
+      "env": {
+        "TERM_PROGRAM": "kiro"
+      },
+      "expected": []
+    },
+    {
+      "name": "kiro context rejects human tty",
+      "env": {
+        "TERM_PROGRAM": "kiro"
+      },
+      "stdout_is_tty": true,
+      "expected": []
+    },
+    {
+      "name": "kiro context substring is case sensitive",
+      "env": {
+        "TERM_PROGRAM": "KIRO"
+      },
+      "stdout_is_tty": false,
+      "expected": []
+    },
+    {
+      "name": "missing filesystem capability adds no devin hint",
+      "env": {},
+      "expected": []
+    },
+    {
+      "name": "available empty filesystem adds no devin hint",
+      "env": {},
+      "files": [],
+      "expected": []
+    },
+    {
+      "name": "similar devin file is not the exact probe",
+      "env": {},
+      "files": [
+        "/opt/.devin-extra"
+      ],
+      "expected": []
+    },
+    {
+      "name": "ASCII-insensitive provider matches multiple rows",
+      "env": {
+        "qwen_code": "1",
+        "gemini_cli": "1",
+        "zed_term": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": [
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "sensitive provider does not normalize runtime names",
+      "env": {
+        "qwen_code": "1",
+        "roo_active": "1",
+        "copilot_cli": "1"
+      },
+      "env_name_case": "sensitive",
+      "expected": []
+    },
+    {
+      "name": "ASCII-insensitive provider preserves exact sentinel value case",
+      "env": {
+        "cursor_extension_host_role": "AGENT-EXEC",
+        "grok_agent": "1"
+      },
+      "env_name_case": "ascii-insensitive",
+      "expected": [
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "all context rows preserve table order",
+      "env": {
+        "PATH": "/tmp/.pi/agent/bin:/usr/bin",
+        "TERM_PROGRAM": "kiro",
+        "GOOSE_PROVIDER": "synthetic",
+        "COPILOT_MODEL": "synthetic",
+        "REPL_ID": "synthetic",
+        "CURSOR_TRACE_ID": "synthetic",
+        "ZED_TERM": "1"
+      },
+      "path_separator": ":",
+      "stdout_is_tty": false,
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": [
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "replit",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "cursor",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "a runtime match does not hide any context rows",
+      "env": {
+        "CODEX_THREAD_ID": "synthetic",
+        "PATH": "/tmp/.pi/agent/bin:/usr/bin",
+        "TERM_PROGRAM": "kiro",
+        "GOOSE_PROVIDER": "synthetic",
+        "COPILOT_MODEL": "synthetic",
+        "REPL_ID": "synthetic",
+        "CURSOR_TRACE_ID": "synthetic",
+        "ZED_TERM": "1"
+      },
+      "path_separator": ":",
+      "stdout_is_tty": false,
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "replit",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "cursor",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "all runtime rows preserve table order",
+      "env": {
+        "CRUSH": "1",
+        "HERMES_AGENT": "1",
+        "KILOCODE_FEATURE": "synthetic",
+        "TRAE_AI_SHELL_ID": "synthetic",
+        "VTCODE": "1",
+        "WORKBUDDY_APP_NAME": "synthetic",
+        "SAND_AGENT": "1",
+        "QODER_WORK_INTEGRATION_PRODUCT": "synthetic",
+        "MANUS_OPERATOR_PLATFORM": "synthetic",
+        "JARVIS_IS_ASSIGNED": "1",
+        "MANUS_ADDON_RUNTIME_SPEC_PATH": "synthetic",
+        "DOUBAO_OFFICE_AGENT_NAME": "synthetic",
+        "KIMI_PLUGIN_ROOT": "synthetic",
+        "GROK_AGENT": "1",
+        "QWEN_CODE": "1",
+        "GEMINI_CLI": "1",
+        "ROO_ACTIVE": "1",
+        "CLINE_ACTIVE": "1",
+        "CODEX_THREAD_ID": "synthetic",
+        "ANTIGRAVITY_AGENT": "1",
+        "AUGMENT_AGENT": "1",
+        "OPENCODE": "1",
+        "GOOSE_TERMINAL": "1",
+        "JUNIE_SHIM_PATH": "synthetic",
+        "PI_CODING_AGENT": "1",
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "1",
+        "CURSOR_AGENT": "1",
+        "COPILOT_CLI": "1",
+        "AGENT_CONTEXT_OUT": "synthetic",
+        "OPENCLAW_SHELL": "1",
+        "DEVIN_DIR": "synthetic",
+        "INSTINCT_OUTER_TOOL_USE_ID": "synthetic",
+        "EXEC_FROM": "synthetic",
+        "DSH_SHELL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "crush",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "hermes-agent",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kilo-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "trae",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "vtcode",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "workbuddy",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "grok-bot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "qwenwork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cue",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "muse",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "manus",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "doubao-work",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kimi",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "antigravity",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "augment-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "opencode",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "junie",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "pi",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cowork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "openclaw",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "instinct",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "lingguang",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "all rows survive declaration masking in stage order",
+      "env": {
+        "AI_AGENT": "unknown-test-agent@1",
+        "CRUSH": "1",
+        "HERMES_AGENT": "1",
+        "KILOCODE_FEATURE": "synthetic",
+        "TRAE_AI_SHELL_ID": "synthetic",
+        "VTCODE": "1",
+        "WORKBUDDY_APP_NAME": "synthetic",
+        "SAND_AGENT": "1",
+        "QODER_WORK_INTEGRATION_PRODUCT": "synthetic",
+        "MANUS_OPERATOR_PLATFORM": "synthetic",
+        "JARVIS_IS_ASSIGNED": "1",
+        "MANUS_ADDON_RUNTIME_SPEC_PATH": "synthetic",
+        "DOUBAO_OFFICE_AGENT_NAME": "synthetic",
+        "KIMI_PLUGIN_ROOT": "synthetic",
+        "GROK_AGENT": "1",
+        "QWEN_CODE": "1",
+        "GEMINI_CLI": "1",
+        "ROO_ACTIVE": "1",
+        "CLINE_ACTIVE": "1",
+        "CODEX_THREAD_ID": "synthetic",
+        "ANTIGRAVITY_AGENT": "1",
+        "AUGMENT_AGENT": "1",
+        "OPENCODE": "1",
+        "GOOSE_TERMINAL": "1",
+        "JUNIE_SHIM_PATH": "synthetic",
+        "PI_CODING_AGENT": "1",
+        "CLAUDE_CODE_IS_COWORK": "1",
+        "CLAUDECODE": "1",
+        "CURSOR_AGENT": "1",
+        "COPILOT_CLI": "1",
+        "AGENT_CONTEXT_OUT": "synthetic",
+        "OPENCLAW_SHELL": "1",
+        "DEVIN_DIR": "synthetic",
+        "INSTINCT_OUTER_TOOL_USE_ID": "synthetic",
+        "EXEC_FROM": "synthetic",
+        "DSH_SHELL": "1",
+        "PATH": "/tmp/.pi/agent/bin:/usr/bin",
+        "TERM_PROGRAM": "kiro",
+        "GOOSE_PROVIDER": "synthetic",
+        "COPILOT_MODEL": "synthetic",
+        "REPL_ID": "synthetic",
+        "CURSOR_TRACE_ID": "synthetic",
+        "ZED_TERM": "1"
+      },
+      "path_separator": ":",
+      "stdout_is_tty": false,
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": [
+        {
+          "agent_id": "crush",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "hermes-agent",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kilo-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "trae",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "vtcode",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "workbuddy",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "grok-bot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "qwenwork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cue",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "muse",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "manus",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "doubao-work",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kimi",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "grok-build",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "qwen-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "roo-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cline",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "antigravity",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "augment-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "opencode",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "junie",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "pi",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cowork",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "claude-code",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "cursor-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "openclaw",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "instinct",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "lingguang",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "pi",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "kiro",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "goose",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "github-copilot",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "replit",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "devin",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "cursor",
+          "evidence": "context-hint"
+        },
+        {
+          "agent_id": "zed",
+          "evidence": "context-hint"
+        }
+      ]
+    }
+  ]
+}
