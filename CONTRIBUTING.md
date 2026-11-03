@@ -37,6 +37,13 @@ establish an environment-variable contract. Do not include actual credentials,
 session/message/log IDs, internal service addresses, user paths, environment
 dumps, or proprietary source. Small fixed sentinel values are appropriate.
 
+For every product description, use a concise factual summary of the product's
+official website, documentation or company announcement, and link the supporting
+page. If the official repository is the product's published home, label that
+source explicitly. Keep the descriptions and source links in both README catalogs
+aligned, record the review date, and keep product positioning separate from marker
+evidence. Do not use another detector's description as an official product source.
+
 ## Verification
 
 Check that all canonical IDs are unique, context hints stay separate from runtime

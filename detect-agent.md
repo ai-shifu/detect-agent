@@ -601,14 +601,20 @@ every product, interface or platform covered by the referenced projects.
 
 ### Official product identity references
 
+The [English product catalog](README.md#agent-descriptions) and its
+[Chinese translation](README.zh-CN.md#agent-介绍) describe every canonical
+product using its linked official website, documentation, company announcement
+or explicitly labeled official repository. Those descriptions establish product
+positioning only; marker evidence and execution coverage remain defined above.
+
 - [Claude Cowork](https://claude.com/product/cowork).
-- [WorkBuddy](https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide),
-  [QwenWork](https://qwenwork.cn/docs/product-introduction),
+- [WorkBuddy](https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide),
+  [QwenWork](https://docs.qwenwork.cn/product-introduction),
   [Doubao Work introduction](https://www.feishu.cn/content/article/7677519271848610746)
   and [official English usage](https://www.feishu.cn/hc/en-US/articles/428390929435-admin-configure-screen-capture-protection).
 - [Grok Bot](https://cursor.com/docs/grok-bot),
-  [Cue](https://cue.im/) and its [Manus API association](https://open.manus.ai/docs/v2/agents-overview),
-  [Muse](https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse),
+  [Cue](https://heycue.io/) and its [Manus API association](https://open.manus.ai/docs/v2/agents-overview),
+  [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/),
   [Manus](https://www.manus.im/about).
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 - [Instinct](https://instinct.com/).
