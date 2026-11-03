@@ -38,6 +38,30 @@ the responsible layer rather than changing upstream rules to fit incorrect code.
 For an implementation repair, add a regression that fails before the repair and
 passes afterward. Integrate only the capability the user requested.
 
+## Provide product metadata when needed
+
+If the application needs product descriptions, implement the specification's
+optional [product metadata lookup](../detect-agent.md#product-metadata) alongside
+the detector. Read names, both language descriptions, official sources and the
+review date from the same pinned specification commit as the rules. Generate or
+embed a local mapping in the project's language, keyed by canonical ID, and use
+the detector's returned `agent_id` to query it. Preserve source attribution with
+the description. Null or unknown IDs return null and never echo an unrecognized
+declaration. Keep `agent_id` and `evidence` unchanged in the detection result.
+
+For a development-time JSON export, run this from the pinned reference checkout:
+
+```sh
+python3 scripts/check.py export-metadata > agent-metadata.json
+python3 scripts/check.py agent-info --id codex
+```
+
+The commands parse the specification; the generated JSON is not an independent
+source to edit. Production code uses its embedded mapping, without Python or
+runtime network requests. Verify the target's lookup for every canonical ID,
+both descriptions and sources, plus null and unknown inputs. Treat a metadata
+lookup as product information only; it does not strengthen detection evidence.
+
 ## Run the fixtures through the target implementation
 
 Create a test adapter in the target language that loads the pinned cases and

@@ -37,6 +37,20 @@ establish an environment-variable contract. Do not include actual credentials,
 session/message/log IDs, internal service addresses, user paths, environment
 dumps, or proprietary source. Small fixed sentinel values are appropriate.
 
+For every product description, prefer the non-empty GitHub About description of
+the official product repository. Verify the product and publisher; a namesake,
+SDK or related research repository is not a substitute. Preserve concise About
+wording or summarize it faithfully, translate the other language from the same
+source, and label its link `GitHub About`. If no applicable About is available,
+use the product's official website, documentation, company announcement or
+explicitly labeled official repository README. Maintain names, both language
+descriptions and source links in the specification's product metadata table,
+with exactly one row for every
+canonical ID. Record its review date and keep product positioning separate from
+marker evidence. Do not use another detector's description as an official product
+source or maintain independent copies in the READMEs or a JSON catalog. JSON
+exports must be derived from the specification at the same pinned revision.
+
 ## Verification
 
 Check that all canonical IDs are unique, context hints stay separate from runtime

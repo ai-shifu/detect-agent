@@ -13,12 +13,24 @@ import json
 import os
 import re
 import sys
+from copy import deepcopy
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ASCII_SPACE = "\t\n\v\f\r "
 ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
 ID = re.compile(r"`([a-z][a-z0-9-]*)`\Z")
+METADATA_HEADER = (
+    "| Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |"
+)
+SOURCE_TYPES = {
+    "GitHub About": "github-about",
+    "Website": "website",
+    "Documentation": "documentation",
+    "Company announcement": "company-announcement",
+    "Official repository": "official-repository",
+}
 TOKEN = re.compile(r"non-empty `[A-Z][A-Z0-9_]*`|`[A-Z][A-Z0-9_]*` equals `[^`\n]+`|AND|OR|[()]")
 PATH_CONDITION = (
     "A PATH entry contains consecutive path components `.pi` and `agent`. "
@@ -197,6 +209,7 @@ class Specification:
             "Declaration-only ID has an automatic rule.",
         )
         self.catalog = automatic_ids | set(self.declaration_only)
+        self.agent_metadata = self._parse_metadata(markdown)
         self.aliases = {}
         for row in table(markdown, "| Alias | Canonical ID |"):
             match = re.fullmatch(r"`([a-z][a-z0-9_-]*)`", row[0])
@@ -228,6 +241,43 @@ class Specification:
         self.keys = {"AI_AGENT", "AGENT"}
         for _, node in self.runtime + self.contexts:
             self.keys.update(predicate_keys(node))
+
+    def _parse_metadata(self, markdown):
+        dates = re.findall(r"^Product metadata reviewed: \*\*([^*\n]+)\*\*$", markdown, re.M)
+        require(len(dates) == 1, "Missing or duplicate product metadata review date.")
+        require(
+            re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", dates[0]) is not None,
+            "Invalid product metadata review date.",
+        )
+        try:
+            date.fromisoformat(dates[0])
+        except ValueError:
+            raise CheckError("Invalid product metadata review date.") from None
+        metadata = {}
+        for row in table(markdown, METADATA_HEADER):
+            agent_id = canonical(row[0])
+            require(agent_id not in metadata, "Duplicate product metadata ID.")
+            require(all(row[1:4]), "Product name and both descriptions must be non-empty.")
+            source = re.fullmatch(r"\[([^\]]+)\]\((https://[^\s)]+)\)", row[4])
+            require(
+                source is not None and source.group(1) in SOURCE_TYPES,
+                "Invalid official product metadata source.",
+            )
+            metadata[agent_id] = {
+                "agent_id": agent_id,
+                "name": row[1],
+                "descriptions": {"en": row[2], "zh-CN": row[3]},
+                "source": {"type": SOURCE_TYPES[source.group(1)], "url": source.group(2)},
+                "reviewed_at": dates[0],
+            }
+        require(set(metadata) == self.catalog, "Product metadata must cover exactly the catalog.")
+        return metadata
+
+    def agent_info(self, agent_id):
+        """Look up public metadata by canonical ID without consulting the environment."""
+        if not isinstance(agent_id, str):
+            return None
+        return deepcopy(self.agent_metadata.get(agent_id))
 
     def detect(self, lookup, files=None, stdout_is_tty=None, path_separator=":", automatic=False):
         if not automatic:
@@ -529,15 +579,21 @@ def main(argv=None):
         arguments = list(sys.argv[1:] if argv is None else argv)
         # Keep parsing independent of locale/environment lookups and never echo
         # rejected arguments, which may accidentally contain private values.
-        if arguments in (["--help"], ["-h"], ["conformance", "--help"], ["self-check", "--help"]):
+        commands = ("conformance", "self-check", "agent-info", "export-metadata")
+        if arguments in (["--help"], ["-h"]) or (
+            len(arguments) == 2 and arguments[0] in commands and arguments[1] == "--help"
+        ):
             print(
                 "Usage: python3 scripts/check.py conformance\n"
                 "       python3 scripts/check.py self-check [--expect CANONICAL_ID]\n"
+                "       python3 scripts/check.py agent-info --id CANONICAL_ID\n"
+                "       python3 scripts/check.py export-metadata\n"
                 "Development checks only; detection does not authenticate the immediate caller."
             )
             return 0
-        require(bool(arguments), "Choose conformance or self-check; see --help.")
-        command, expected = arguments[0], None
+        usage_error = "Choose conformance, self-check, agent-info or export-metadata; see --help."
+        require(bool(arguments), usage_error)
+        command, expected, agent_id = arguments[0], None, None
         if command == "conformance":
             require(len(arguments) == 1, "conformance accepts no arguments; see --help.")
         elif command == "self-check":
@@ -548,11 +604,29 @@ def main(argv=None):
                     len(arguments) == 1,
                     "self-check accepts only --expect CANONICAL_ID; see --help.",
                 )
+        elif command == "agent-info":
+            require(
+                len(arguments) == 3 and arguments[1] == "--id",
+                "agent-info requires --id CANONICAL_ID; see --help.",
+            )
+            agent_id = arguments[2]
+        elif command == "export-metadata":
+            require(len(arguments) == 1, "export-metadata accepts no arguments; see --help.")
         else:
-            raise CheckError("Choose conformance or self-check; see --help.")
+            raise CheckError(usage_error)
         spec = load_spec()
         if command == "conformance":
             output, code = conformance(spec)
+        elif command == "agent-info":
+            output, code = spec.agent_info(agent_id), 0
+        elif command == "export-metadata":
+            output, code = (
+                {
+                    "spec_version": spec.version,
+                    "agents": [spec.agent_info(key) for key in sorted(spec.catalog)],
+                },
+                0,
+            )
         else:
             files, tty = live_capabilities()
             output, code = self_check(spec, expected, files=files, stdout_is_tty=tty)

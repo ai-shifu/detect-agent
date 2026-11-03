@@ -18,6 +18,8 @@
 具体覆盖范围和匹配条件以[规范](detect-agent.md)为准。上下文提示说明编辑器或工作区环境，
 不能确认 Agent 正在执行；所有列出的产品也都支持显式声明。
 
+产品描述与官方来源可按产品 ID 从规范的[产品元数据表](detect-agent.md#product-metadata)获取。
+
 **选一个场景，把对应提示词复制给你的 Agent 即可。** 它会自行读取流程和规范、完成工作并验证结果。
 你只需要理解这两个场景，无需先研究规则表或选择 SDK。
 
@@ -72,6 +74,24 @@ Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.js
 运行时也不依赖本仓库联网。Agent 开始任务时固定来源 commit，让规则和测试可以复现。
 
 完整规范和 Agent 工作流以英文维护；上面的中文提示词可以直接使用。
+
+## 产品元数据
+
+产品名、中英文描述、官方来源和核验日期统一维护在规范的[产品元数据表](detect-agent.md#product-metadata)中，
+使用与识别特征相同的产品 ID。描述优先采用官方产品仓库的 GitHub About 文案，
+没有适用 About 时使用官网等官方资料。实现检测时，可从同一版本读取规则和元数据，
+将元数据内置为本地映射，再按检测返回的 `agent_id` 直接获取描述。
+
+开发工具可从规范读取数据并输出 JSON：
+
+```sh
+python3 scripts/check.py agent-info --id codex
+python3 scripts/check.py export-metadata > agent-metadata.json
+```
+
+导出用于开发时生成当前项目语言的本地数据表。元数据查询与检测的两个返回字段分开，
+未知 ID 返回 null；生产查询无需联网或依赖 Python。
+具体约定见[实现工作流](docs/implement-detection.md#provide-product-metadata-when-needed)。
 
 ## 致谢
 

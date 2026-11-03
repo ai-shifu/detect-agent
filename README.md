@@ -18,6 +18,8 @@ Coverage and matching conditions are defined in [the specification](detect-agent
 Context hints describe an editor or workspace environment; they do not confirm
 active agent execution. Every listed product can also be explicitly declared.
 
+Read [product metadata](detect-agent.md#product-metadata) to obtain descriptions and official sources by canonical ID.
+
 Choose one of the two tasks below and **paste its prompt into your agent**. The
 agent follows the linked workflow, reads the rules, does the work, and verifies
 the result. You do not need to study the rule tables or choose an SDK.
@@ -81,6 +83,27 @@ The specification and [synthetic cases](conformance/cases.json) can be read with
 an agent's normal tools. A consuming implementation needs no SDK or runtime
 connection to this repository. Agents pin a source commit when they start, so
 rules and cases stay reproducible.
+
+## Product metadata
+
+Product names, English and Chinese descriptions, official sources and review
+dates are defined in the specification's [product metadata](detect-agent.md#product-metadata),
+keyed by the same canonical IDs as the recognition rules. Descriptions prefer the
+official product repository's GitHub About text when available, with official
+product pages as fallbacks. Implementers can embed
+this table locally and look up the detected ID to obtain its description.
+
+The development tools read the specification directly and return JSON:
+
+```sh
+python3 scripts/check.py agent-info --id codex
+python3 scripts/check.py export-metadata > agent-metadata.json
+```
+
+Use exports to generate a table in your project's language at development time.
+The optional metadata lookup returns null for unknown IDs and remains separate
+from the two-field detection result. Production lookup requires no network or
+Python dependency. See the [implementation workflow](docs/implement-detection.md#provide-product-metadata-when-needed).
 
 ## Acknowledgments
 

@@ -28,6 +28,10 @@
 
 ## Unreleased
 
+- Add official-source bilingual product metadata, preferring official GitHub
+  About descriptions, keyed by canonical ID in the
+  specification, with optional local lookup and development-time JSON exports.
+  Preserve the detection result, rules and 0.1.11 conformance contract.
 - Add pinned pre-commit lint/style checks for Python, Markdown and repository
   file hygiene, with matching local commands and a dedicated CI job.
 - Consolidate Agent guidance into implementation, contribution and shared
