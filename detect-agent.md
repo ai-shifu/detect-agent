@@ -210,7 +210,7 @@ Important boundaries:
 - Doubao Work requires only non-empty `DOUBAO_OFFICE_AGENT_NAME`; do not require
   a particular agent-name value. The internal `OFFICE` namespace is retained
   even though the product's official English name is Doubao Work.
-- Cue's [official product site](https://heycue.io/) establishes its identity, not
+- Cue's [official product site](https://cue.im/) establishes its identity, not
   an environment-variable contract. Non-empty `MANUS_LONG_DESKTOP_WORKER` is the
   previously reported Cue marker; its observed `1` is not a matching restriction.
 - Non-empty `MANUS_OPERATOR_PLATFORM` is an alternative Cue marker based on a
@@ -613,7 +613,7 @@ positioning only; marker evidence and execution coverage remain defined above.
   [Doubao Work introduction](https://www.feishu.cn/content/article/7677519271848610746)
   and [official English usage](https://www.feishu.cn/hc/en-US/articles/428390929435-admin-configure-screen-capture-protection).
 - [Grok Bot](https://cursor.com/docs/grok-bot),
-  [Cue](https://heycue.io/) and its [Manus API association](https://open.manus.ai/docs/v2/agents-overview),
+  [Cue](https://cue.im/) and its [Manus API association](https://open.manus.ai/docs/v2/agents-overview),
   [Muse](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/),
   [Manus](https://www.manus.im/about).
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).

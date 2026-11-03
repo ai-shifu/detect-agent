@@ -101,7 +101,7 @@ in the specification.
 | `cline` | Cline | Open source coding agent runtime that plans tasks, edits projects and runs terminal commands across editors, CLI and SDK integrations. | [Website](https://cline.bot/) |
 | `codex` | Codex | OpenAI’s coding agent for implementing features, debugging, refactoring and reviewing code across ChatGPT, editors, terminals and cloud environments. | [Website](https://openai.com/codex/) |
 | `crush` | Crush | Terminal coding assistant connecting existing tools, code and workflows to a language model of your choice. | [Website](https://charm.land/) |
-| `cue` | Cue | Desktop AI assistant using voice requests and screen context to help with everyday work, including drafting, tasks and meeting notes. | [Website](https://heycue.io/) |
+| `cue` | Cue | Manus’s personal agent app, where agents have their own identities, tools and permissions and can collaborate on tasks. | [Website](https://cue.im/) |
 | `cursor` | Cursor (editor) | AI editor and coding agent for understanding codebases, building features, fixing bugs, and reviewing changes. | [Documentation](https://cursor.com/docs) |
 | `cursor-cli` | Cursor CLI | Coding agents in the terminal, with interactive use, scripts, automation and GitHub Actions integration. | [Website](https://cursor.com/cli) |
 | `deepseek-harness` | DeepSeek Harness | Open source agent harness using composable plugins for everyday work, coding, research and customized agent capabilities. | [Website](https://deepseek.com/harness/) |

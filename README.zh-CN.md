@@ -90,7 +90,7 @@ Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.js
 | `cline` | Cline | 开源编程 Agent 运行时，可通过编辑器、命令行和 SDK 规划任务、修改项目并执行终端命令。 | [官网](https://cline.bot/) |
 | `codex` | Codex | OpenAI 的编程 Agent，可在 ChatGPT、编辑器、终端和云端实现功能、调试、重构及审查代码。 | [官网](https://openai.com/codex/) |
 | `crush` | Crush | 终端编程助手，将现有工具、代码和工作流连接到用户选择的语言模型。 | [官网](https://charm.land/) |
-| `cue` | Cue | 桌面 AI 助手，结合语音请求和屏幕上下文，协助日常写作、任务执行与会议记录。 | [官网](https://heycue.io/) |
+| `cue` | Cue | Manus 的个人 Agent 应用，每个 Agent 都有自己的身份、工具与权限，并可协作完成任务。 | [官网](https://cue.im/) |
 | `cursor` | Cursor（编辑器） | AI 编辑器与编程 Agent，可理解代码库、开发功能、修复问题和审查改动。 | [官方文档](https://cursor.com/docs) |
 | `cursor-cli` | Cursor CLI | 在终端中使用编程 Agent，支持交互操作、脚本、自动化及 GitHub Actions 集成。 | [官网](https://cursor.com/cli) |
 | `deepseek-harness` | DeepSeek Harness | 开源 Agent Harness，通过可组合插件处理日常工作、编程和资料研究，并定制 Agent 能力。 | [官网](https://deepseek.com/harness/) |
