@@ -25,6 +25,8 @@ conventions. Accept a caller-supplied environment lookup provider and optional
 filesystem/TTY capabilities. Preserve provider name semantics and both result
 fields; follow the specification for normalization, matching, priority and
 per-call evaluation. Derive any boolean using its documented evidence rule.
+Resolve literal declarations and aliases before the specification's versioned
+formats; discard version text and retain unknown-declaration blocking.
 
 Keep the detector local and testable. Do not import the repository's Python
 checker as a production SDK, add Python to another-language application, parse
@@ -57,6 +59,12 @@ fields or treat unimplemented capabilities as passing. Run the inline specificat
 examples too. For languages with configurable default locales, check relevant
 host locale settings, including Turkish where available; configure the runtime,
 not an invented fixture field or merely an environment entry named `locale`.
+
+If the target also exposes all-match diagnostics, run
+`conformance/matches.json` through that path and compare each complete ordered
+array, including lower-priority matches. Its input capabilities have the same
+isolation requirements. This optional diagnostic matrix does not require a
+diagnostic API in a core-only implementation.
 
 Run relevant application integration checks: confirm callers receive the result
 and evidence, forward optional capabilities deliberately, and avoid unrelated

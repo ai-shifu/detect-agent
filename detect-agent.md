@@ -1,6 +1,6 @@
 # Detect Agent Specification
 
-Version: **0.1.10** · Evidence reviewed: **2026-11-02** · License: **MIT**
+Version: **0.1.11** · Evidence reviewed: **2026-11-03** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -122,8 +122,13 @@ lookup below uses the same supplied provider and its name-lookup semantics.
 DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
     for key in [AI_AGENT, AGENT], in that order:
         if key exists and ASCII_TRIM(environment[key]) is not empty:
-            id = ASCII_LOWERCASE(ASCII_TRIM(environment[key]))
-            id = map documented compatibility aliases to canonical IDs
+            normalized = ASCII_LOWERCASE(ASCII_TRIM(environment[key]))
+            id = resolve normalized as a full literal ID or compatibility alias
+            if id is not in the canonical catalog:
+                for format in the declaration format table, in order:
+                    if the normalized declaration matches the entire pattern:
+                        id = resolve capture 1 as a literal ID or compatibility alias
+                        break
             if id is in the canonical catalog:
                 return {agent_id: id, evidence: declared}
             return {agent_id: null, evidence: declared}
@@ -169,24 +174,27 @@ where the marker information came from; it is not a probability score.
 | 12 | `doubao-work` | Doubao Work | non-empty `DOUBAO_OFFICE_AGENT_NAME` | reported-shell |
 | 13 | `kimi` | Kimi Code | non-empty `KIMI_PLUGIN_ROOT` | public-source |
 | 14 | `grok-build` | Grok Build | `GROK_AGENT` equals `1` OR non-empty `GROK_PLUGIN_ROOT` OR non-empty `GROK_PLUGIN_DATA` | public-source |
-| 15 | `gemini-cli` | Gemini CLI | non-empty `GEMINI_CLI` | registry |
-| 16 | `cline` | Cline | non-empty `CLINE_ACTIVE` | registry |
-| 17 | `codex` | Codex | non-empty `CODEX_SANDBOX` OR non-empty `CODEX_CI` OR non-empty `CODEX_THREAD_ID` OR non-empty `CODEX_SANDBOX_NETWORK_DISABLED` | public-source / registry |
-| 18 | `antigravity` | Antigravity | non-empty `ANTIGRAVITY_AGENT` OR non-empty `ANTIGRAVITY_CLI_ALIAS` | registry |
-| 19 | `augment-cli` | Augment CLI | non-empty `AUGMENT_AGENT` | registry |
-| 20 | `opencode` | opencode | non-empty `OPENCODE_CLIENT` OR non-empty `OPENCODE` | registry |
-| 21 | `goose` | Goose | non-empty `GOOSE_TERMINAL` | registry |
-| 22 | `junie` | Junie | non-empty `JUNIE_SHIM_PATH` | public-source |
-| 23 | `pi` | Pi | non-empty `PI_CODING_AGENT` | registry |
-| 24 | `cowork` | Claude Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
-| 25 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
-| 26 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
-| 27 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
-| 28 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
-| 29 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
-| 30 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
-| 31 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
-| 32 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
+| 15 | `qwen-code` | Qwen Code | non-empty `QWEN_CODE` | public-source |
+| 16 | `gemini-cli` | Gemini CLI | non-empty `GEMINI_CLI` | registry |
+| 17 | `roo-code` | Roo Code | non-empty `ROO_ACTIVE` OR non-empty `ROO_CLI_RUNTIME` | public-source |
+| 18 | `cline` | Cline | non-empty `CLINE_ACTIVE` OR non-empty `CLINE_WRAPPER_PATH` | public-source / registry |
+| 19 | `codex` | Codex | non-empty `CODEX_SANDBOX` OR non-empty `CODEX_CI` OR non-empty `CODEX_THREAD_ID` OR non-empty `CODEX_SANDBOX_NETWORK_DISABLED` | public-source / registry |
+| 20 | `antigravity` | Antigravity | non-empty `ANTIGRAVITY_AGENT` OR non-empty `ANTIGRAVITY_CLI_ALIAS` | registry |
+| 21 | `augment-cli` | Augment CLI | non-empty `AUGMENT_AGENT` | registry |
+| 22 | `opencode` | opencode | non-empty `OPENCODE_CLIENT` OR non-empty `OPENCODE` | registry |
+| 23 | `goose` | Goose | non-empty `GOOSE_TERMINAL` | registry |
+| 24 | `junie` | Junie | non-empty `JUNIE_SHIM_PATH` | public-source |
+| 25 | `pi` | Pi | non-empty `PI_CODING_AGENT` | registry |
+| 26 | `cowork` | Claude Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
+| 27 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
+| 28 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
+| 29 | `github-copilot` | GitHub Copilot CLI | non-empty `COPILOT_CLI` OR non-empty `COPILOT_AGENT_SESSION_ID` | public-source |
+| 30 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
+| 31 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
+| 32 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
+| 33 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
+| 34 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
+| 35 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
 
 Important boundaries:
 
@@ -221,6 +229,25 @@ Important boundaries:
   `JUNIE_DATA` configures the data directory and can be set globally by the user;
   it is ignored for detection. Junie execution without the shim marker is not
   covered by this rule.
+- Qwen Code is distinct from QwenWork. Its published shell executor injects
+  `QWEN_CODE` into both ordinary and PTY child environments. Its manual `!`
+  shell escape also receives the marker: it identifies associated execution
+  context, not proof that a model initiated the command. Qwen Code precedes
+  Gemini CLI because a fork or inherited environment can carry both markers.
+- Roo Code's VS Code terminal path injects `ROO_ACTIVE`; its headless CLI sets
+  `ROO_CLI_RUNTIME` process-wide. The inline execa provider does not itself set
+  `ROO_ACTIVE`, so those two paths do not establish coverage of every Roo interface.
+  Roo Code precedes Cline compatibility markers. Other simultaneous runtime
+  markers retain table order; no ancestry is inferred.
+- Cline's npm CLI wrapper sets `CLINE_WRAPPER_PATH`, which its bash executor
+  propagates to child commands. This alternative covers that CLI path; it is
+  not a guarantee for every editor integration. A configured API key or data
+  directory alone is not a runtime marker.
+- GitHub Copilot CLI documents `COPILOT_CLI` in subprocesses and
+  `COPILOT_AGENT_SESSION_ID` in shell commands and MCP servers. These dedicated
+  execution markers are distinct from the model, permission and token settings
+  in the context table. The rule identifies the CLI-associated environment, not
+  every GitHub Copilot product or execution surface.
 - Claude Cowork requires both its specific marker and a Claude Code marker here.
   This is more restrictive than registries that check the Claude Cowork flag alone.
 - Devin's [official product site](https://devin.ai/) establishes its identity, not
@@ -294,7 +321,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 36 unique canonical IDs.
+The runtime and context tables together define 38 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -303,7 +330,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **38 IDs**. Explicit declaration also works
+The complete catalog therefore has **40 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 Accept these compatibility spellings in **declarations only**:
@@ -327,6 +354,33 @@ The `grok` alias records the Together/Vercel detector's historical Grok Build ID
 it does not mean that every product named Grok is Grok Build. Product names such
 as Manus and Doubao Work have canonical IDs `manus` and `doubao-work`.
 
+### Versioned declarations
+
+After ASCII trimming and lowercasing, first resolve the **entire** declaration
+as a literal ID or compatibility alias. Only if that fails, evaluate these
+full-string patterns in table order. The patterns use ASCII character classes;
+`+` means one or more repetitions and capture 1 is the product name. Resolve
+that capture using the same catalog and alias table. Do not recursively parse
+the captured name or accept an unknown product.
+
+| Declaration format | Full-string pattern | Name capture |
+| --- | --- | --- |
+| name-at-version | `([a-z][a-z0-9_-]*)@([a-z0-9][a-z0-9.+-]*)` | 1 |
+| claude-agent | `(claude-code)_[0-9]+-[0-9]+-[0-9]+_agent` | 1 |
+| claude-harness | `(claude-code)_[0-9]+-[0-9]+-[0-9]+_harness` | 1 |
+
+The `@` suffix is an opaque, non-empty ASCII version label, not a SemVer claim.
+The Claude forms cover its three numeric version components with dots encoded
+as hyphens and the two execution labels in the inspected distribution. They are not a
+general underscore-splitting convention. Literal `claude_code` remains the
+existing alias; `claude_code_2-1-205_agent` is not a supported spelling.
+Only the canonical product ID is returned. Discard version/mode text and never
+echo the declaration. Malformed formats and unknown names still return
+`(null, declared)` and block all fallback, including the second declaration.
+
+The naming convention and inspected producer scope are recorded in the evidence
+references below. These are compatibility rules, not an authentication scheme.
+
 ## 7. Inline conformance examples
 
 All values below are synthetic, except fixed product/sentinel constants.
@@ -336,6 +390,10 @@ All values below are synthetic, except fixed product/sentinel constants.
 | --- | --- |
 | `{}` | `(null, none)` |
 | `AI_AGENT=" codex_cli "`, `CURSOR_AGENT="1"` | `(codex, declared)` |
+| `AI_AGENT="codex@1.0"`, `CLAUDECODE="1"` | `(codex, declared)` |
+| `AI_AGENT="claude-code_2-1-205_agent"`, `CLAUDECODE="1"` | `(claude-code, declared)` |
+| `AI_AGENT="claude_code"` | `(claude-code, declared)` |
+| `AI_AGENT="unknown@1.0"`, `CODEX_THREAD_ID="synthetic-thread"` | `(null, declared)` |
 | `AI_AGENT="HI"` | `(hi, declared)` |
 | `AGENT="KIMI"` | `(kimi, declared)` |
 | `AI_AGENT="KIMI"` (U+212A Kelvin sign) | `(null, declared)` |
@@ -378,6 +436,10 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `DSH_SHELL="1"` | `(deepseek-harness, runtime-marker)` |
 | `DSH_HOME="synthetic-home"` | `(null, none)` |
 | `DSH_SHELL="1"`, `CODEX_THREAD_ID="synthetic-thread"` | `(codex, runtime-marker)` |
+| `QWEN_CODE="1"`, `GEMINI_CLI="1"` | `(qwen-code, runtime-marker)` |
+| `ROO_CLI_RUNTIME="1"`, `CLINE_ACTIVE="1"` | `(roo-code, runtime-marker)` |
+| `CLINE_WRAPPER_PATH="synthetic-wrapper"` | `(cline, runtime-marker)` |
+| `COPILOT_CLI="1"`, `COPILOT_MODEL="synthetic-model"` | `(github-copilot, runtime-marker)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
 input/output data, not another source of rules. The optional `env_name_case`
@@ -394,6 +456,32 @@ platform's PATH-list separator, so tests do not depend on the host platform.
 `files: []` means an available probe that reports no listed paths exist. Never use
 the machine's actual environment, filesystem, or terminal state when running
 these cases.
+
+### Optional all-match diagnostics
+
+The production result remains exactly the two-field result in section 1, with
+declaration precedence and first-match selection unchanged. An optional diagnostic
+may additionally return `matches`: every matching runtime row in table order,
+followed by every matching context row in table order. Each item has only
+`agent_id` and `evidence`, with evidence limited to `runtime-marker` or
+`context-hint`. Include a row once even when multiple alternatives match. The
+same product may appear once per evidence stage. No matches is an empty array.
+
+This diagnostic ignores declarations without modifying the supplied environment.
+It uses the same named-key snapshot, provider semantics and optional capabilities
+as detection. Missing capabilities remain unavailable. Do not return marker
+values, paths, session IDs or arbitrary declared names, and do not inspect a
+process tree. Ordering expresses this specification's priority, not agent ancestry.
+The first match, when present, is the declaration-omitting `automatic_result`.
+
+The optional development checker exposes this list in `self-check`; core-only
+consumers do not need a diagnostic API. [The match matrix](conformance/matches.json)
+uses the same synthetic input fields and `spec_version` as the core fixtures,
+but each case's `expected` is the complete ordered match array. It checks foreign
+matches hidden by a correct winner, deliberate coexistence and unavailable probes.
+The matrix must cover each runtime/context row with no unlisted foreign matches;
+compound rules may necessarily match their documented compatibility row as well.
+Its expectations are test data, not a second rule source.
 
 ## 8. Evidence, coverage and references
 
@@ -455,6 +543,28 @@ local policy; it does not claim an upstream change or a new vendor contract.
 
 ### Published marker injection references
 
+- [Qwen Code shell executor](https://github.com/QwenLM/qwen-code/blob/212fedbdc7d95562a8448d926ce4731d112a561d/packages/core/src/services/shellExecutionService.ts#L1010-L1020)
+  and its [PTY path](https://github.com/QwenLM/qwen-code/blob/212fedbdc7d95562a8448d926ce4731d112a561d/packages/core/src/services/shellExecutionService.ts#L2000-L2010)
+  inject `QWEN_CODE`; the [shell-tool documentation](https://github.com/QwenLM/qwen-code/blob/212fedbdc7d95562a8448d926ce4731d112a561d/docs/developers/tools/shell.md#L169-L171)
+  and [manual shell escape documentation](https://github.com/QwenLM/qwen-code/blob/212fedbdc7d95562a8448d926ce4731d112a561d/docs/users/features/commands.md#L531-L537)
+  establish the execution-context boundary. The official repository establishes
+  the Qwen Code product identity, distinct from QwenWork.
+- [Roo Code terminal environment](https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/integrations/terminal/Terminal.ts#L153-L160)
+  and [terminal creation](https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/integrations/terminal/Terminal.ts#L15-L20)
+  inject `ROO_ACTIVE`; the [headless CLI](https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/apps/cli/src/agent/extension-host.ts#L175-L182)
+  sets `ROO_CLI_RUNTIME`. The [inline execa provider](https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/integrations/terminal/ExecaTerminalProcess.ts#L42-L54)
+  does not independently inject the terminal marker. The official repository
+  establishes the Roo Code product identity.
+- [Cline CLI wrapper](https://github.com/cline/cline/blob/5b454165353ac1edc9a7db0ff416739044985908/apps/cli/bin/cline#L19-L24)
+  sets `CLINE_WRAPPER_PATH` and [passes it to the CLI child](https://github.com/cline/cline/blob/5b454165353ac1edc9a7db0ff416739044985908/apps/cli/bin/cline#L68-L72);
+  the [bash executor](https://github.com/cline/cline/blob/5b454165353ac1edc9a7db0ff416739044985908/sdk/packages/core/src/extensions/tools/executors/bash.ts#L733-L736)
+  inherits that environment. This is evidence for the wrapper-launched CLI path.
+- [GitHub Copilot CLI 1.0.29 release notes](https://github.com/github/copilot-cli/blob/e1928292498bd60d8b8730381ed3818e82453711/changelog.md#L2020-L2027)
+  document `COPILOT_AGENT_SESSION_ID` in shell commands and MCP servers;
+  [0.0.421 release notes](https://github.com/github/copilot-cli/blob/e1928292498bd60d8b8730381ed3818e82453711/changelog.md#L2566-L2573)
+  document `COPILOT_CLI` in subprocesses. These published paths were reviewed on
+  2026-11-03 without running the vendor agents; synthetic coverage is separate
+  from live recognition on a particular installation.
 - [Kimi plugin hooks](https://github.com/MoonshotAI/kimi-code/blob/18c6d64272952503baccf706bff455bb6a2c488e/docs/en/customization/plugins.md#L482-L486).
 - [Grok Build marker definition](https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-tools/src/util/env.rs#L31-L42)
   and [terminal injection](https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-tools/src/computer/local/terminal.rs#L3315-L3323).
@@ -480,6 +590,25 @@ local policy; it does not claim an upstream change or a new vendor contract.
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 - [Instinct](https://instinct.com/).
 - [Lingguang](https://www.lingguang.com/).
+
+### Declaration-format references
+
+- [Vercel's recommended naming convention](https://github.com/vercel/detect-agent/blob/3ab1df1e4eaae153cf66f4a5018e4c5854855212/README.md#L104-L108)
+  recommends an `@` separator for versioned names. This is a community proposal,
+  not a vendor-wide standard. This specification accepts only known IDs/aliases
+  and the bounded ASCII suffix syntax in its own declaration table; it does not
+  return arbitrary names or version text.
+- **static-distribution**: [Anthropic's official macOS ARM64 distribution,
+  version 2.1.205](https://www.npmjs.com/package/@anthropic-ai/claude-code-darwin-arm64/v/2.1.205),
+  with [official version metadata](https://registry.npmjs.org/@anthropic-ai/claude-code-darwin-arm64/2.1.205),
+  was statically inspected on 2026-11-03. It constructs `AI_AGENT` in the
+  `claude-code_<version>_<mode>` format, replaces version dots with hyphens,
+  and uses `harness` in an initialization path and `agent` in an agent-environment
+  path. The inspected tarball's SHA-256 is
+  `2491465de769953037bb8fd315aafecbe3607325b1fb07efbae4ca7bd5540b28`.
+  No package or vendor agent was executed. This supports the two compatibility
+  formats for that distribution; it does not establish injection in every
+  shell/interface, platform or release. No proprietary source is reproduced here.
 
 ## 9. Adding or changing rules
 

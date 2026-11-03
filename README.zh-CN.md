@@ -5,12 +5,12 @@
 
 ## 支持识别的 Agent
 
-规范目前覆盖 **38 个产品 ID**：
+规范目前覆盖 **40 个产品 ID**：
 
 | 识别方式 | Agent |
 | --- | --- |
-| 运行标记（32） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、DeepSeek Harness、Devin、豆包工作、Gemini CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、灵光、Manus、Muse、OpenClaw、opencode、Pi、千问办公、TRAE、VT Code、WorkBuddy |
-| 上下文提示（4） | Cursor（编辑器）、GitHub Copilot、Replit、Zed |
+| 运行标记（35） | Antigravity、Augment CLI、Claude Code、Claude Cowork、Cline、Codex、Crush、Cue、Cursor CLI、DeepSeek Harness、Devin、豆包工作、Gemini CLI、GitHub Copilot CLI、Goose、Grok Bot、Grok Build、Hermes Agent、Instinct、Junie、Kilo Code、Kimi Code、Kiro、灵光、Manus、Muse、OpenClaw、opencode、Pi、Qwen Code、千问办公、Roo Code、TRAE、VT Code、WorkBuddy |
+| 上下文提示（3） | Cursor（编辑器）、Replit、Zed |
 | 仅显式声明（2） | hi、SandBase Harness |
 
 具体覆盖范围和匹配条件以[规范](detect-agent.md)为准。上下文提示说明编辑器或工作区环境，
@@ -59,8 +59,12 @@
 
 ## 项目提供什么
 
-[规范 0.1.10](detect-agent.md) 覆盖 **38 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
+[规范 0.1.11](detect-agent.md) 覆盖 **40 个统一产品 ID**，定义声明身份、运行标记、上下文提示、
 匹配语义和判定优先级。检测结果描述进程环境，不能证明当前命令由谁直接发起。
+
+已知身份的声明可携带版本后缀。可选诊断保留所有运行标记和上下文命中，且不输出变量值；
+[交叉匹配案例](conformance/matches.json)检查允许的重叠和被正确结果遮住的误报。
+核心检测不读取进程树。
 
 Agent 可通过自己的工具读取规范和[合成案例](conformance/cases.json)。实现无需 SDK，
 运行时也不依赖本仓库联网。Agent 开始任务时固定来源 commit，让规则和测试可以复现。

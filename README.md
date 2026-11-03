@@ -5,12 +5,12 @@ to recognize AI agent execution environments using local signals.
 
 ## Supported agents
 
-The specification covers **38 product IDs**:
+The specification covers **40 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
-| Runtime markers (32) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, DeepSeek Harness, Devin, Doubao Work, Gemini CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, QwenWork, TRAE, VT Code, WorkBuddy |
-| Context hints (4) | Cursor (editor), GitHub Copilot, Replit, Zed |
+| Runtime markers (35) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, DeepSeek Harness, Devin, Doubao Work, Gemini CLI, GitHub Copilot CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, Qwen Code, QwenWork, Roo Code, TRAE, VT Code, WorkBuddy |
+| Context hints (3) | Cursor (editor), Replit, Zed |
 | Explicit declaration only (2) | hi, SandBase Harness |
 
 Coverage and matching conditions are defined in [the specification](detect-agent.md).
@@ -66,10 +66,15 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.10](detect-agent.md) covers **38 canonical product IDs**. It
+[Specification 0.1.11](detect-agent.md) covers **40 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.
+
+Known declarations can include a version suffix. Optional diagnostics retain
+all runtime and context matches without exposing their values; the
+[match matrix](conformance/matches.json) checks intended overlaps and foreign
+matches hidden by a correct winner. Core detection does not inspect process trees.
 
 The specification and [synthetic cases](conformance/cases.json) can be read with
 an agent's normal tools. A consuming implementation needs no SDK or runtime

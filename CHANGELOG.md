@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.11 — 2026-11-03
+
+- Accept bounded versioned declarations for known IDs/aliases and Claude Code's
+  agent/harness formats, preserving literal alias precedence, ASCII normalization
+  and unknown-declaration blocking; discard all version/mode text from results.
+- Add Qwen Code and Roo Code, dedicated GitHub Copilot CLI runtime markers, and
+  Cline's wrapper-launched CLI marker, with pinned injection-path evidence and
+  scoped coverage limits. Keep Copilot configuration as context hints.
+- Add redacted all-match diagnostics and a separate cross-rule match matrix to
+  expose foreign matches hidden by a correct winner. Preserve the two-field core
+  result, per-call named lookups and optional capabilities; add no process probes.
+
 ## 0.1.10 — 2026-11-02
 
 - Add a lowest-priority DeepSeek Harness runtime rule: non-empty `DSH_SHELL`,

@@ -21,6 +21,9 @@ For a rule change, include:
 4. Synthetic positive and negative cases in `conformance/cases.json`, including
    missing/empty values, discriminator wrong values, partial conjunctions,
    and coexistence.
+   Keep `conformance/matches.json` aligned: assert every runtime/context match,
+   including intended compatibility overlaps, and no foreign matches hidden by
+   the winning result.
 5. A specification version and changelog update if behavior changes.
 
 Use non-empty checks for ordinary runtime markers. Any exact-value predicate
@@ -78,7 +81,9 @@ rule form, extend the checker and its focused tests as needed; unsupported forms
 must fail explicitly. Do not introduce a second rule catalog. For a behavior
 change, keep the specification version, fixture `spec_version`, both README
 version references, and changelog in sync. Documentation/tooling-only changes do
-not require a detection-contract version bump.
+not require a detection-contract version bump. Both conformance files must use
+the current specification version. The match matrix is diagnostic test data;
+the specification remains the only source of rules.
 
 ## Submission
 

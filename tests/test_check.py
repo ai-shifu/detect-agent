@@ -21,6 +21,9 @@ class CheckTests(unittest.TestCase):
         cls.markdown = (ROOT / "detect-agent.md").read_text(encoding="utf-8")
         cls.spec = check.Specification(cls.markdown)
         cls.fixtures = json.loads((ROOT / "conformance" / "cases.json").read_text(encoding="utf-8"))
+        cls.match_fixtures = json.loads(
+            (ROOT / "conformance" / "matches.json").read_text(encoding="utf-8")
+        )
 
     def test_all_fixtures_are_isolated_from_host(self):
         class NoHostEnvironment:
@@ -36,6 +39,8 @@ class CheckTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(output["status"], "passed")
         self.assertEqual(output["cases"], len(self.fixtures["cases"]))
+        self.assertEqual(output["match_cases"], len(self.match_fixtures["cases"]))
+        self.assertFalse(output["missing_match_coverage"])
 
     def test_missing_fixture_capabilities_stay_unavailable(self):
         cases = [
@@ -172,6 +177,241 @@ class CheckTests(unittest.TestCase):
         output, code = check.self_check(self.spec, "zed", environment={"ZED_TERM": "secret"})
         self.assertEqual((output["status"], code), ("context-only", 1))
 
+    def test_versioned_declarations_share_literal_normalization_and_precedence(self):
+        examples = [
+            (" codex@V1.2+BUILD-3 ", "codex"),
+            ("GEMINI_CLI@preview-1", "gemini-cli"),
+            ("claude_code", "claude-code"),
+            ("CLAUDE-CODE_2-1-205_AGENT", "claude-code"),
+            ("claude-code_00-01-002_harness", "claude-code"),
+            ("unknown-test-agent@1.0", None),
+            ("codex@", None),
+            ("codex@.1", None),
+            ("codex@-1", None),
+            ("codex@+1", None),
+            ("codex@1_2", None),
+            ("codex@1/2", None),
+            ("codex@1@2", None),
+            ("codex@1\nextra", None),
+            ("codex@\u0661", None),
+            ("\u00a0codex@1\u00a0", None),
+            ("claude_code_2-1-205_agent", None),
+            ("claude-code_2-1_agent", None),
+            ("claude-code_2-1-205_unknown", None),
+            ("claude-code_2-1-205_agent_extra", None),
+            ("claude-code_2-1-205_agent@1", None),
+        ]
+        for key in ("AI_AGENT", "AGENT"):
+            for value, agent_id in examples:
+                with self.subTest(key=key, value=value):
+                    env = {key: value, "CRUSH": "synthetic-runtime"}
+                    if key == "AI_AGENT":
+                        env["AGENT"] = "manus"
+                    self.assertEqual(
+                        self.spec.detect(env.get),
+                        {"agent_id": agent_id, "evidence": "declared"},
+                    )
+
+    def test_declaration_patterns_and_capture_are_read_from_the_specification(self):
+        original = "| name-at-version | `([a-z][a-z0-9_-]*)@([a-z0-9][a-z0-9.+-]*)` | 1 |"
+        changed = self.markdown.replace(original, "| name-at-version | `(codex):[0-9]+` | 1 |")
+        self.assertNotEqual(changed, self.markdown)
+        spec = check.Specification(changed)
+        self.assertEqual(
+            spec.detect({"AI_AGENT": "codex:7"}.get),
+            {"agent_id": "codex", "evidence": "declared"},
+        )
+        self.assertEqual(
+            spec.detect({"AI_AGENT": "codex@7"}.get),
+            {"agent_id": None, "evidence": "declared"},
+        )
+        changed_capture = self.markdown.replace(original, original.replace(" | 1 |", " | 2 |"))
+        spec = check.Specification(changed_capture)
+        self.assertEqual(
+            spec.detect({"AI_AGENT": "codex@hi"}.get),
+            {"agent_id": "hi", "evidence": "declared"},
+        )
+
+    def test_literal_alias_wins_before_declaration_format_parsing(self):
+        document = self.markdown.replace(
+            "| `grok` | `grok-build` |",
+            "| `grok` | `grok-build` |\n| `claude-code_2-1-205_agent` | `hi` |",
+        )
+        spec = check.Specification(document)
+        self.assertEqual(
+            spec.detect({"AI_AGENT": "claude-code_2-1-205_agent"}.get),
+            {"agent_id": "hi", "evidence": "declared"},
+        )
+
+    def test_malformed_declaration_format_tables_fail_closed(self):
+        original = "| name-at-version | `([a-z][a-z0-9_-]*)@([a-z0-9][a-z0-9.+-]*)` | 1 |"
+        replacements = [
+            "| name-at-version | `(` | 1 |",
+            "| name-at-version | `(codex)` | 0 |",
+            "| name-at-version | `(codex)` | 2 |",
+            "| name-at-version | `(codex)` | 1.0 |",
+            "| name-at-version | (codex) | 1 |",
+            original + "\n" + original,
+        ]
+        for replacement in replacements:
+            with self.subTest(replacement=replacement):
+                with self.assertRaises(check.CheckError):
+                    check.Specification(self.markdown.replace(original, replacement))
+        with self.assertRaises(check.CheckError):
+            check.Specification(
+                self.markdown.replace(
+                    "| Declaration format | Full-string pattern | Name capture |",
+                    "| Unsupported declaration table | Pattern | Capture |",
+                )
+            )
+
+    def test_all_match_diagnostics_preserve_order_stages_and_redaction(self):
+        env = {
+            "AI_AGENT": "unknown-secret@1.0",
+            "AGENT": "manus",
+            "CLAUDE_CODE_IS_COWORK": "secret-cowork",
+            "CLAUDECODE": "secret-claude",
+            "CODEX_THREAD_ID": "secret-thread",
+            "COPILOT_CLI": "secret-cli",
+            "COPILOT_AGENT_SESSION_ID": "secret-session",
+            "COPILOT_MODEL": "secret-model",
+            "ZED_TERM": "secret-editor",
+        }
+        expected = [
+            {"agent_id": "codex", "evidence": "runtime-marker"},
+            {"agent_id": "cowork", "evidence": "runtime-marker"},
+            {"agent_id": "claude-code", "evidence": "runtime-marker"},
+            {"agent_id": "github-copilot", "evidence": "runtime-marker"},
+            {"agent_id": "github-copilot", "evidence": "context-hint"},
+            {"agent_id": "zed", "evidence": "context-hint"},
+        ]
+        original = dict(env)
+        output, code = check.self_check(self.spec, environment=env)
+        self.assertEqual(code, 0)
+        self.assertEqual(output["result"], {"agent_id": None, "evidence": "declared"})
+        self.assertEqual(output["matches"], expected)
+        self.assertEqual(output["automatic_result"], expected[0])
+        self.assertEqual(env, original)
+        self.assertNotIn("secret", json.dumps(output))
+        self.assertEqual(self.spec.matches({}.get), [])
+
+    def test_all_match_capabilities_stay_explicit_and_synthetic(self):
+        env = {"TERM_PROGRAM": "kiro", "PATH": "C:\\synthetic\\.pi\\agent\\bin;C:\\other"}
+        case = {"env": env, "path_separator": ";"}
+        self.assertEqual(
+            check.run_match_case(self.spec, case),
+            [{"agent_id": "pi", "evidence": "context-hint"}],
+        )
+        case.update(stdout_is_tty=False, files=["/opt/.devin"])
+        self.assertEqual(
+            check.run_match_case(self.spec, case),
+            [
+                {"agent_id": "pi", "evidence": "context-hint"},
+                {"agent_id": "kiro", "evidence": "context-hint"},
+                {"agent_id": "devin", "evidence": "context-hint"},
+            ],
+        )
+        self.assertEqual(
+            check.run_match_case(
+                self.spec,
+                {"env": {"codex_thread_id": "synthetic"}, "env_name_case": "ascii-insensitive"},
+            ),
+            [{"agent_id": "codex", "evidence": "runtime-marker"}],
+        )
+
+    def test_core_detection_stops_before_unneeded_lookups_and_file_probes(self):
+        def named_lookup(key):
+            if key not in ("AI_AGENT", "AGENT", "CRUSH"):
+                raise AssertionError("First-match detection evaluated a later rule")
+            return "synthetic" if key == "CRUSH" else None
+
+        class UnavailableFiles:
+            def __contains__(self, path):
+                raise AssertionError("First-match detection probed optional files")
+
+        self.assertEqual(
+            self.spec.detect(named_lookup, files=UnavailableFiles()),
+            {"agent_id": "crush", "evidence": "runtime-marker"},
+        )
+
+    def test_detection_and_matches_are_reevaluated_on_each_call(self):
+        env = {"CRUSH": "synthetic"}
+        self.assertEqual(self.spec.detect(env.get)["agent_id"], "crush")
+        self.assertEqual(
+            self.spec.matches(env.get), [{"agent_id": "crush", "evidence": "runtime-marker"}]
+        )
+        env.clear()
+        env["CLINE_WRAPPER_PATH"] = "synthetic"
+        self.assertEqual(self.spec.detect(env.get)["agent_id"], "cline")
+        self.assertEqual(
+            self.spec.matches(env.get), [{"agent_id": "cline", "evidence": "runtime-marker"}]
+        )
+        env.clear()
+        self.assertEqual(self.spec.detect(env.get), {"agent_id": None, "evidence": "none"})
+        self.assertEqual(self.spec.matches(env.get), [])
+
+    def test_match_fixture_schema_rejects_invalid_results_and_inputs(self):
+        valid = {
+            "spec_version": self.spec.version,
+            "cases": [{"name": "synthetic empty", "env": {}, "expected": []}],
+        }
+        check.validate_match_fixtures(valid, self.spec)
+        invalid_expected = [
+            {"agent_id": None, "evidence": "none"},
+            [{"agent_id": None, "evidence": "none"}],
+            [{"agent_id": "codex", "evidence": "declared"}],
+            [{"agent_id": "hi", "evidence": "runtime-marker"}],
+            [{"agent_id": "unknown-test-agent", "evidence": "runtime-marker"}],
+            [{"agent_id": "codex", "evidence": "runtime-marker", "value": "secret"}],
+            [
+                {"agent_id": "codex", "evidence": "runtime-marker"},
+                {"agent_id": "codex", "evidence": "runtime-marker"},
+            ],
+        ]
+        for expected in invalid_expected:
+            document = copy.deepcopy(valid)
+            document["cases"][0]["expected"] = expected
+            with self.subTest(expected=expected):
+                with self.assertRaises(check.CheckError):
+                    check.validate_match_fixtures(document, self.spec)
+        for field, value in (("unknown", True), ("stdout_is_tty", 0), ("files", "secret-path")):
+            document = copy.deepcopy(valid)
+            document["cases"][0][field] = value
+            with self.subTest(field=field):
+                with self.assertRaises(check.CheckError):
+                    check.validate_match_fixtures(document, self.spec)
+
+    def test_match_matrix_catches_foreign_rules_hidden_by_the_winner(self):
+        spec = check.Specification(self.markdown)
+        cline_index = next(i for i, row in enumerate(spec.runtime) if row[0] == "cline")
+        # A broad Cline predicate would be hidden by a correct Qwen winner in
+        # core fixtures. The complete expected match array must still reject it.
+        spec.runtime[cline_index] = (
+            "cline",
+            ("or", spec.runtime[cline_index][1], ("non-empty", "QWEN_CODE")),
+        )
+        output, code = check.conformance(spec)
+        self.assertEqual(code, 1)
+        self.assertFalse(output["failures"])
+        self.assertTrue(output["match_failures"])
+        self.assertNotIn("env", json.dumps(output))
+
+    def test_missing_match_coverage_is_conformance_failure(self):
+        incomplete = copy.deepcopy(self.match_fixtures)
+        incomplete["cases"] = [
+            case
+            for case in incomplete["cases"]
+            if not any(result["agent_id"] == "crush" for result in case["expected"])
+        ]
+        with mock.patch.object(check.json, "loads", side_effect=[self.fixtures, incomplete]):
+            output, code = check.conformance(self.spec)
+        self.assertEqual(code, 1)
+        self.assertFalse(output["match_failures"])
+        self.assertIn(
+            {"agent_id": "crush", "evidence": "runtime-marker"},
+            output["missing_match_coverage"],
+        )
+
     def test_no_expectation_reports_observation_only(self):
         output, code = check.self_check(self.spec, environment={"CODEX_THREAD_ID": "secret-thread"})
         self.assertEqual(
@@ -195,7 +435,7 @@ class CheckTests(unittest.TestCase):
         incomplete["cases"] = [
             case for case in incomplete["cases"] if case["expected"]["agent_id"] != "hi"
         ]
-        with mock.patch.object(check.json, "loads", return_value=incomplete):
+        with mock.patch.object(check.json, "loads", side_effect=[incomplete, self.match_fixtures]):
             output, code = check.conformance(self.spec)
         self.assertEqual(code, 1)
         self.assertFalse(output["failures"])
@@ -203,11 +443,13 @@ class CheckTests(unittest.TestCase):
 
     def test_only_allowlisted_keys_are_looked_up_without_enumeration(self):
         spec = self.spec
+        lookups = []
 
         class NamedLookupOnly:
             def get(self, key):
                 if key not in spec.keys:
                     raise AssertionError("Non-allowlisted key")
+                lookups.append(key)
                 return "secret-token" if key == "COPILOT_GITHUB_TOKEN" else None
 
             def __iter__(self):
@@ -216,6 +458,10 @@ class CheckTests(unittest.TestCase):
         output, code = check.self_check(spec, "github-copilot", environment=NamedLookupOnly())
         self.assertEqual((output["status"], code), ("context-only", 1))
         self.assertNotIn("secret-token", json.dumps(output))
+        self.assertEqual(sorted(lookups), sorted(spec.keys))
+        self.assertEqual(
+            output["matches"], [{"agent_id": "github-copilot", "evidence": "context-hint"}]
+        )
 
     def test_cli_exit_status_and_error_redaction(self):
         commands = [

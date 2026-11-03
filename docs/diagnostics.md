@@ -60,6 +60,18 @@ counterfactual that ignores only `AI_AGENT` and `AGENT` in a local lookup provid
 It changes neither the process/shell environment nor production declaration
 precedence. Never replace production detection with this diagnostic.
 
+`matches` lists every runtime and context match, in specification order, using
+the same named-key snapshot and optional capabilities. It contains only canonical
+IDs and evidence types. It can explain a lower-priority match hidden by the winner
+or a declaration. Multiple alternatives in one rule produce one entry; the same
+product can have separate runtime and context entries. An empty list means no
+automatic evidence was found. This ordering does not establish nested ancestry.
+No process-tree inspection or raw environment output is needed.
+
+For example, synthetic Codex and Cursor editor markers can produce a Codex
+`automatic_result` while `matches` retains both the Codex runtime match and the
+Cursor context hint. Keep the distinction when explaining the result.
+
 For `self-check`:
 
 - With `--expect`, exit **0** means both results match the expected ID with
@@ -124,7 +136,7 @@ Expected product / canonical ID / product version (or unknown):
 Execution scope / platform / detector and call site:
 Implementation version / source commit / specification version:
 Expected and actual (agent_id, evidence), before and after if repaired:
-Standard result / automatic diagnostic result (or not run):
+Standard result / automatic diagnostic result / all matches (or not run):
 Self-check status and exit code (or not run):
 Diagnosis / responsible layer / authorized write target:
 Regression, fixture count and integration commands/results:
