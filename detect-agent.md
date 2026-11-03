@@ -541,6 +541,29 @@ matching policy. Ordinary markers here use non-empty checks even where a source
 snapshot compares a fixed sentinel or product spelling. This is a deliberate
 local policy; it does not claim an upstream change or a new vendor contract.
 
+Additional detector and design references reviewed on 2026-11-03:
+
+- [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/d2f8b90f539fd6e3af3c74e76cd0bd200fa8aee0/src/agents.ts)
+  supplied CLI-marker candidates. Its [strategy implementation](https://github.com/expo/agent-cli-detector/blob/d2f8b90f539fd6e3af3c74e76cd0bd200fa8aee0/src/detector.ts)
+  informed the separation of rules and diagnostic capabilities. Adopted CLI
+  markers are supported by the producer-path references below.
+- [am-i-vibing provider snapshot](https://github.com/ascorbic/am-i-vibing/blob/76104566f3cb3a399e8420e31bb14fff03ffa26d/packages/am-i-vibing/src/providers.ts)
+  supplied recognition leads and execution-environment classification ideas.
+  Editor or workspace context remains distinct from runtime evidence here.
+- [uarix detector snapshot](https://github.com/uarix/agent-harness-detector/blob/1c0df54832c6173f07ac99113bcc5c3cb3be4daf/src/detectors.ts)
+  supplied investigation leads for additional desktop and hosted products.
+  Configuration, directory and credential heuristics require separate injection
+  evidence before they can become runtime rules in this specification.
+- [ai-agent-detect claims snapshot](https://github.com/agent-detect/ai-agent-detect/blob/771f5bb5d46db473d01eacaf370ba601d6e76881/index.js)
+  and its [cross-detector test matrix](https://github.com/agent-detect/ai-agent-detect/blob/771f5bb5d46db473d01eacaf370ba601d6e76881/test/matrix.test.js)
+  informed all-match diagnostics and tests for foreign matches hidden by a winner.
+  This specification's diagnostics retain only canonical IDs and evidence types.
+
+These snapshots supplied research leads and design references. The rule tables
+and individual producer references define the adopted signals and their scope.
+Synthetic checks are separate from live recognition; this review did not exercise
+every product, interface or platform covered by the referenced projects.
+
 ### Published marker injection references
 
 - [Qwen Code shell executor](https://github.com/QwenLM/qwen-code/blob/212fedbdc7d95562a8448d926ce4731d112a561d/packages/core/src/services/shellExecutionService.ts#L1010-L1020)
