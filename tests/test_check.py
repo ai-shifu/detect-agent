@@ -93,6 +93,192 @@ class CheckTests(unittest.TestCase):
             {"agent_id": "synthetic-agent", "evidence": "runtime-marker"},
         )
 
+    def metadata_row(self, agent_id="codex"):
+        header = (
+            "| Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |"
+        )
+        self.assertIn(header, self.markdown)
+        body = self.markdown.split(header, 1)[1].split("\n\n", 1)[0]
+        return next(line for line in body.splitlines() if line.startswith(f"| `{agent_id}` |"))
+
+    def test_product_metadata_is_complete_and_read_from_the_specification(self):
+        reviewed_at = self.spec.agent_metadata["codex"]["reviewed_at"]
+        date_line = f"Product metadata reviewed: **{reviewed_at}**"
+        synthetic_date = "2000-01-01" if reviewed_at != "2000-01-01" else "2000-01-02"
+        self.assertIn(date_line, self.markdown)
+        replacement = (
+            "| `codex` | Synthetic Codex | Synthetic English description. | 合成中文描述。 | "
+            "[Documentation](https://example.com/codex) |"
+        )
+        document = self.markdown.replace(self.metadata_row(), replacement, 1).replace(
+            date_line, f"Product metadata reviewed: **{synthetic_date}**"
+        )
+        spec = check.Specification(document)
+        self.assertEqual(set(spec.agent_metadata), spec.catalog)
+        self.assertEqual(
+            spec.agent_info("codex"),
+            {
+                "agent_id": "codex",
+                "name": "Synthetic Codex",
+                "descriptions": {"en": "Synthetic English description.", "zh-CN": "合成中文描述。"},
+                "source": {"type": "documentation", "url": "https://example.com/codex"},
+                "reviewed_at": synthetic_date,
+            },
+        )
+        self.assertEqual(
+            {record["source"]["type"] for record in spec.agent_metadata.values()},
+            {"website", "documentation", "company-announcement", "official-repository"},
+        )
+
+    def test_product_metadata_lookup_accepts_only_exact_canonical_ids(self):
+        for agent_id in self.spec.catalog:
+            with self.subTest(agent_id=agent_id):
+                self.assertEqual(self.spec.agent_info(agent_id)["agent_id"], agent_id)
+        unknown_ids = (
+            None,
+            "",
+            "unknown-private-agent",
+            "codex_cli",
+            "CODEX",
+            " codex ",
+            "codex@1",
+        )
+        for agent_id in unknown_ids:
+            with self.subTest(agent_id=agent_id):
+                self.assertIsNone(self.spec.agent_info(agent_id))
+
+    def test_malformed_product_metadata_fails_closed(self):
+        row = self.metadata_row()
+        cells = [cell.strip() for cell in row.strip("|").split("|")]
+        replacements = [
+            "",
+            row + "\n" + row,
+            row + "\n" + row.replace("`codex`", "`extra-agent`", 1),
+        ]
+        for index in (1, 2, 3):
+            empty = list(cells)
+            empty[index] = " "
+            replacements.append("| " + " | ".join(empty) + " |")
+        for source in (
+            "[Third-party](https://example.com/product)",
+            "[Website](javascript:synthetic)",
+            "https://example.com/product",
+        ):
+            changed = list(cells)
+            changed[4] = source
+            replacements.append("| " + " | ".join(changed) + " |")
+        documents = [self.markdown.replace(row, replacement, 1) for replacement in replacements]
+        reviewed_at = self.spec.agent_metadata["codex"]["reviewed_at"]
+        date_line = f"Product metadata reviewed: **{reviewed_at}**"
+        self.assertIn(date_line, self.markdown)
+        for replacement in (
+            "",
+            "Product metadata reviewed: **2026-02-30**",
+            "Product metadata reviewed: **20261103**",
+            date_line + "\n" + date_line,
+        ):
+            documents.append(self.markdown.replace(date_line, replacement, 1))
+        documents.append(
+            self.markdown.replace(
+                "| Description (en) | Description (zh-CN) |", "| English | Chinese |", 1
+            )
+        )
+        for index, document in enumerate(documents):
+            with self.subTest(index=index):
+                self.assertNotEqual(document, self.markdown)
+                with self.assertRaises(check.CheckError):
+                    check.Specification(document)
+
+    def test_product_metadata_records_are_independent_copies(self):
+        original = copy.deepcopy(self.spec.agent_metadata["codex"])
+        record = self.spec.agent_info("codex")
+        record["agent_id"] = "changed"
+        record["descriptions"]["en"] = "changed"
+        record["descriptions"]["zh-CN"] = "已修改"
+        record["source"]["url"] = "https://example.com/changed"
+        self.assertEqual(self.spec.agent_info("codex"), original)
+        self.assertEqual(self.spec.agent_metadata["codex"], original)
+
+    def test_product_metadata_edits_do_not_change_detection(self):
+        replacement = (
+            "| `codex` | Synthetic Product | Synthetic English description. | 合成介绍。 | "
+            "[Website](https://example.com/product) |"
+        )
+        spec = check.Specification(self.markdown.replace(self.metadata_row(), replacement, 1))
+        self.assertEqual(spec.keys, self.spec.keys)
+        for case in self.fixtures["cases"]:
+            with self.subTest(case=case["name"]):
+                self.assertEqual(check.run_case(spec, case), case["expected"])
+        for case in self.match_fixtures["cases"]:
+            with self.subTest(match_case=case["name"]):
+                self.assertEqual(check.run_match_case(spec, case), case["expected"])
+
+    def test_product_metadata_cli_is_offline_and_exports_sorted_complete_records(self):
+        class NoHostEnvironment:
+            def get(self, key):
+                raise AssertionError("Metadata command touched host environment")
+
+            __getitem__ = get
+
+            def __iter__(self):
+                raise AssertionError("Metadata command enumerated host environment")
+
+        commands = [
+            (["agent-info", "--id", "codex"], self.spec.agent_info("codex")),
+            (["agent-info", "--id", "private-unregistered"], None),
+            (["agent-info", "--id", "codex_cli"], None),
+            (
+                ["export-metadata"],
+                {
+                    "spec_version": self.spec.version,
+                    "agents": [
+                        self.spec.agent_info(agent_id) for agent_id in sorted(self.spec.catalog)
+                    ],
+                },
+            ),
+        ]
+        for argv, expected in commands:
+            with (
+                self.subTest(command=argv[0]),
+                mock.patch.object(check.os, "environ", NoHostEnvironment()),
+                mock.patch.object(
+                    check, "live_capabilities", side_effect=AssertionError("live probe")
+                ),
+                mock.patch.object(
+                    check.Specification, "detect", side_effect=AssertionError("detect")
+                ),
+                mock.patch.object(
+                    check.Specification, "matches", side_effect=AssertionError("matches")
+                ),
+                contextlib.redirect_stdout(io.StringIO()) as stdout,
+            ):
+                code = check.main(argv)
+            self.assertEqual(code, 0)
+            self.assertEqual(json.loads(stdout.getvalue()), expected)
+            self.assertNotIn("private-unregistered", stdout.getvalue())
+
+    def test_product_metadata_cli_rejects_bad_arguments_and_redacts_load_errors(self):
+        commands = [
+            ["agent-info"],
+            ["agent-info", "--id"],
+            ["agent-info", "--unknown", "private-argument"],
+            ["agent-info", "--id", "codex", "private-argument"],
+            ["export-metadata", "private-argument"],
+        ]
+        for argv in commands:
+            with self.subTest(argv=argv), contextlib.redirect_stdout(io.StringIO()) as stdout:
+                self.assertEqual(check.main(argv), 2)
+            self.assertEqual(json.loads(stdout.getvalue())["status"], "error")
+            self.assertNotIn("private-argument", stdout.getvalue())
+        for argv in (["agent-info", "--id", "codex"], ["export-metadata"]):
+            with (
+                mock.patch.object(check, "load_spec", side_effect=OSError("private-source-path")),
+                contextlib.redirect_stdout(io.StringIO()) as stdout,
+            ):
+                self.assertEqual(check.main(argv), 2)
+            self.assertEqual(json.loads(stdout.getvalue())["status"], "error")
+            self.assertNotIn("private-source-path", stdout.getvalue())
+
     def test_indented_table_rows_do_not_silently_drop_rules(self):
         document = "\n".join(
             " " + line + " " if line.startswith("|") else line

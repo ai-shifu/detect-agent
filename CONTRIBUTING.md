@@ -40,9 +40,12 @@ dumps, or proprietary source. Small fixed sentinel values are appropriate.
 For every product description, use a concise factual summary of the product's
 official website, documentation or company announcement, and link the supporting
 page. If the official repository is the product's published home, label that
-source explicitly. Keep the descriptions and source links in both README catalogs
-aligned, record the review date, and keep product positioning separate from marker
-evidence. Do not use another detector's description as an official product source.
+source explicitly. Maintain names, both language descriptions and source links in
+the specification's product metadata table, with exactly one row for every
+canonical ID. Record its review date and keep product positioning separate from
+marker evidence. Do not use another detector's description as an official product
+source or maintain independent copies in the READMEs or a JSON catalog. JSON
+exports must be derived from the specification at the same pinned revision.
 
 ## Verification
 
