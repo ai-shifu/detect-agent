@@ -5,7 +5,7 @@ Choose the user's task before editing:
 | Task | Workflow | Write target | Deliverable |
 | --- | --- | --- | --- |
 | Implement or update detection | [Implement detection](docs/implement-detection.md) | The user's project | Integrated detector and tests against the shared fixtures |
-| Contribute recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent Detect Agent checkout | Verified coverage report, or an evidence-backed rule change and PR |
+| Contribute recognition signals | [Contribute your signals](docs/contribute-agent.md) | An independent detect-agent.md checkout | Verified coverage report, or an evidence-backed rule change and PR |
 
 [Diagnostics](docs/diagnostics.md) is the shared path for self-checks, unexpected
 results, controlled reproductions and repair routing. It is not a prerequisite
@@ -24,7 +24,7 @@ production SDK or validation of an implementation in another project.
   rule source; [conformance/cases.json](conformance/cases.json) supplies synthetic
   cases. Do not infer rules from product names, variable prefixes or a partial table.
 - **Respect the write target.** Follow the target project's own instructions and
-  preserve unrelated work. Reading Detect Agent as a reference does not authorize
+  preserve unrelated work. Reading detect-agent.md as a reference does not authorize
   modifying it, another repository, or launcher/global shell configuration.
 - **Protect values.** Query only documented variable names or specific
   evidence-backed candidates. Never dump environment values, scan prefixes or publish
@@ -38,6 +38,6 @@ production SDK or validation of an implementation in another project.
   actually run and remaining limitations. A verified upstream proposal can complete
   a proposal task; acceptance, downstream adoption and live verification remain
   separate states. Do not claim a repaired application merely because a PR exists.
-- **Submit safely.** For changes to Detect Agent, follow [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Submit safely.** For changes to detect-agent.md, follow [CONTRIBUTING.md](CONTRIBUTING.md)
   for rule evidence, checks and submission requirements. Use feature branches and
   PRs; never push directly to or merge code into `main`.

@@ -1,7 +1,8 @@
-# Detect Agent
+# detect-agent.md
 
-A shared specification that agents can implement and maintain. It describes how
-to recognize AI agent execution environments using local signals.
+A Markdown specification that agents implement and maintain.
+
+It describes how to recognize AI agent execution environments using local signals.
 
 ## Supported agents
 
@@ -50,7 +51,7 @@ checks existing coverage, investigates real signals, and proposes a change to
 **this repository** when the evidence supports one.
 
 ```text
-Help Detect Agent recognize the agent product running this task.
+Help detect-agent.md recognize the agent product running this task.
 Read https://github.com/ai-shifu/detect-agent and follow docs/contribute-agent.md
 from a single pinned commit. Use your actual command environment to check the
 existing rule, and gather evidence for any missing or incorrect signals.

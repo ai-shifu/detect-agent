@@ -1,6 +1,8 @@
-# Detect Agent：让智能体实现和维护智能体检测
+# detect-agent.md
 
-一份供 Agent 阅读、实现和维护的运行环境识别规范：让 Agent 按文档为你的项目实现检测能力，
+一份文档，让 Agent 实现并共同维护 Agent 检测。
+
+这份 Markdown 规范描述如何识别 AI Agent 的运行环境。让 Agent 按文档为你的项目实现检测能力，
 也让各种 Agent 补充自己的识别特征。
 
 ## 支持识别的 Agent
@@ -42,10 +44,10 @@
 ## 2. 让 Agent 更新自己的识别特征
 
 在你希望被正确识别的 Agent 产品里使用。Agent 会先检查已有规则，再查证真实特征；
-确有缺漏时，为 **Detect Agent 仓库** 提交改动。
+确有缺漏时，为 **detect-agent.md 仓库** 提交改动。
 
 ```text
-请帮助 Detect Agent 正确识别正在执行这项任务的 Agent 产品。
+请帮助 detect-agent.md 正确识别正在执行这项任务的 Agent 产品。
 阅读 https://github.com/ai-shifu/detect-agent ，选定一个 Git commit，
 按同一版本中的 docs/contribute-agent.md 执行。
 通过你实际使用的命令环境验证已有规则，为缺失或错误的识别特征收集证据。
