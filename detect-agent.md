@@ -346,6 +346,8 @@ company announcements or explicitly labeled official repository READMEs. Keep
 concise source wording or summarize it faithfully, and translate the other
 language from the same source. Product positioning does not establish a runtime
 marker or extend recognition coverage.
+Codex uses its official product page to cover its ChatGPT, editor, terminal and
+cloud interfaces.
 Every canonical ID must have exactly one metadata row, with both descriptions
 and an official source. The table does not introduce additional canonical IDs.
 
@@ -355,7 +357,7 @@ and an official source. The table does not introduce additional canonical IDs.
 | `augment-cli` | Augment CLI | An AI agent that brings Augment Code's power to the terminal. | 将 Augment Code 的能力带入终端的 AI Agent。 | [GitHub About](https://github.com/augmentcode/auggie) |
 | `claude-code` | Claude Code | Terminal coding agent that understands codebases, executes routine tasks, explains complex code and handles Git workflows through natural language. | 在终端中理解代码库、执行日常任务、解释复杂代码，并通过自然语言处理 Git 工作流的编程 Agent。 | [GitHub About](https://github.com/anthropics/claude-code) |
 | `cline` | Cline | Autonomous coding agent as an SDK, IDE extension, or CLI assistant. | 可作为 SDK、IDE 扩展或命令行助手使用的自主编程 Agent。 | [GitHub About](https://github.com/cline/cline) |
-| `codex` | Codex | Lightweight coding agent that runs in your terminal | 在终端中运行的轻量编程 Agent。 | [GitHub About](https://github.com/openai/codex) |
+| `codex` | Codex | OpenAI’s coding agent for engineering tasks, parallel agent workflows and code review across ChatGPT, editors, terminals and the cloud. | OpenAI 的编程 Agent，可在 ChatGPT、编辑器、终端和云端处理工程任务，并支持多 Agent 并行协作及代码审查。 | [Website](https://openai.com/codex/) |
 | `cowork` | Claude Cowork | Now part of Claude, Cowork works across files and tools to produce documents, spreadsheets, research and other deliverables. | 现已融入 Claude，可跨文件和工具完成工作，交付文档、表格、研究等成果。 | [Website](https://claude.com/product/cowork) |
 | `crush` | Crush | Glamourous agentic coding for all 💘 | 面向所有人的精彩 Agent 编程体验。 | [GitHub About](https://github.com/charmbracelet/crush) |
 | `cue` | Cue | Manus’s personal agent app, where agents have their own identities, tools and permissions and can collaborate on tasks. | Manus 的个人 Agent 应用，每个 Agent 都有自己的身份、工具与权限，并可协作完成任务。 | [Website](https://cue.im/) |
