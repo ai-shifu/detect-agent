@@ -1,6 +1,6 @@
 # detect-agent.md
 
-Version: **0.1.11** · Evidence reviewed: **2026-11-03** · License: **MIT**
+Version: **0.1.12** · Evidence reviewed: **2026-11-03** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -195,6 +195,7 @@ where the marker information came from; it is not a probability score.
 | 33 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
 | 34 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
 | 35 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
+| 36 | `today` | Today | non-empty `TODAY_ENV` | reported-shell |
 
 Important boundaries:
 
@@ -321,7 +322,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 38 unique canonical IDs.
+The runtime and context tables together define 39 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -330,7 +331,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **40 IDs**. Explicit declaration also works
+The complete catalog therefore has **41 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 ### Product metadata
@@ -727,6 +728,7 @@ rules; marker evidence and execution coverage remain separate from descriptions.
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 - [Instinct](https://instinct.com/).
 - [Lingguang](https://www.lingguang.com/).
+- [Today](https://today.ai), [Google Play listing](https://play.google.com/store/apps/details?id=ai.today.android.app).
 
 ### Declaration-format references
 
