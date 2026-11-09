@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.11",
+  "spec_version": "0.1.12",
   "cases": [
     {
       "name": "isolated runtime crush",
@@ -2212,6 +2212,18 @@
         {
           "agent_id": "zed",
           "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime today",
+      "env": {
+        "TODAY_ENV": "production"
+      },
+      "expected": [
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
         }
       ]
     }
