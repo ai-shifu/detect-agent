@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.12 — 2026-11-09
+
+- Add `today` (Today AI personal assistant) as a runtime-marker product at
+  priority 36, using non-empty `TODAY_ENV`; add synthetic positive, negative,
+  declaration and coexistence regressions.
+
 ## 0.1.11 — 2026-11-03
 
 - Accept bounded versioned declarations for known IDs/aliases and Claude Code's
