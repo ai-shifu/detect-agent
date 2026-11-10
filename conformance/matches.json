@@ -2226,6 +2226,40 @@
           "evidence": "runtime-marker"
         }
       ]
+    },
+    {
+      "name": "today coexists with codex",
+      "env": {
+        "TODAY_ENV": "production",
+        "CODEX_SANDBOX": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "today coexists with deepseek-harness",
+      "env": {
+        "TODAY_ENV": "production",
+        "DSH_SHELL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        }
+      ]
     }
   ]
 }
