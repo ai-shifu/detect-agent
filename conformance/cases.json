@@ -3765,6 +3765,16 @@
         "agent_id": "deepseek-harness",
         "evidence": "runtime-marker"
       }
+    },
+    {
+      "name": "today skill dir only is not a marker",
+      "env": {
+        "TODAY_SKILL_DIR": "/opt/today/skills"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
     }
   ]
 }
