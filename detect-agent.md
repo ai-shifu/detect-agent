@@ -1,6 +1,6 @@
 # detect-agent.md
 
-Version: **0.1.11** · Evidence reviewed: **2026-11-03** · License: **MIT**
+Version: **0.1.12** · Evidence reviewed: **2026-11-09** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -147,9 +147,9 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
-editor hint. Devin's, Instinct's, Lingguang's and DeepSeek Harness's runtime
-markers are evaluated last, so a nested agent CLI's own marker wins over any
-inherited command environment.
+editor hint. The command-environment markers for Devin, Instinct, Lingguang,
+DeepSeek Harness and Today follow the CLI markers, so a nested agent CLI's own
+marker wins over these inherited command-environment markers.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -195,6 +195,7 @@ where the marker information came from; it is not a probability score.
 | 33 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
 | 34 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
 | 35 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
+| 36 | `today` | Today | non-empty `TODAY_ENV` | reported-shell (task-command sandbox) |
 
 Important boundaries:
 
@@ -292,11 +293,17 @@ Important boundaries:
   agent calls but always alongside it, `DSH_HOME` is the harness-home
   configuration name, `DSH_PROFILE`/`DSH_PROFILE_DIR` are launch context, and
   plugin-registered facts (for example `DSH_DEPLOYMENT_REGION`) are not
-  asserted. The rule is evaluated last because a nested agent CLI started from a
-  harness shell inherits these names, and the markers are rebuilt per execution
-  rather than inherited. This does not cover human terminals, cloud workers,
-  non-desktop builds or other harness interfaces. Match presence only; do not
-  infer identity from a `DSH_` prefix.
+  asserted. The rule follows the CLI markers because a nested agent CLI
+  inherits these names from the harness shell. The harness rebuilds the markers
+  per execution. This does not cover human terminals, cloud workers, non-desktop
+  builds or other harness interfaces. Match only the named sentinel and ignore
+  other `DSH_` names.
+- Today's rule is based on a redacted task-command sandbox observation on
+  2026-11-09 that recorded only the non-empty status of `TODAY_ENV`. The
+  observation is limited to that sandbox and does not establish a vendor-wide
+  injection guarantee or coverage across other versions and launch paths.
+  Match only non-empty `TODAY_ENV`. Ignore `TODAY_SKILL_DIR` and other
+  `TODAY_` configuration variables.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -321,7 +328,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 38 unique canonical IDs.
+The runtime and context tables together define 39 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -330,7 +337,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **40 IDs**. Explicit declaration also works
+The complete catalog therefore has **41 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 ### Product metadata
@@ -389,6 +396,7 @@ and an official source. The table does not introduce additional canonical IDs.
 | `replit` | Replit | AI application platform that turns natural language ideas into apps and provides hosting, databases, authentication, and monitoring. | 将自然语言想法变为应用的 AI 平台，并提供托管、数据库、身份认证和监控。 | [Website](https://replit.com/) |
 | `roo-code` | Roo Code | Roo Code gives you a whole dev team of AI agents in your code editor. | 在代码编辑器中为你提供一整支 AI Agent 开发团队。 | [GitHub About](https://github.com/RooCodeInc/Roo-Code) |
 | `sandbase-harness` | SandBase Harness | Local-first, self-hosted AI agent runtime and MCP bridge with sandboxed sessions, memory, credentials, audit/replay, and a local Console. | 以本地为先、可自行托管的 AI Agent 运行时与 MCP 桥接，提供沙箱会话、记忆、凭据、审计回放和本地控制台。 | [GitHub About](https://github.com/sandbaseai/sandbase-harness) |
+| `today` | Today | AI personal assistant with long-term memory that plans, remembers, and helps manage work and life across channels. | 具备长期记忆的 AI 个人助手，可规划、记忆并帮助管理跨渠道的工作与生活。 | [Website](https://today.ai) |
 | `trae` | TRAE | AI coding environment combining an assisted IDE with an autonomous agent for planning, implementing, and delivering software. | 融合 AI 辅助 IDE 与自主编程 Agent 的开发环境，可规划、实现并交付软件。 | [Website](https://www.trae.ai/blog/trae_work_0609) |
 | `vtcode` | VT Code | VT Code is an open-source Rust terminal coding agent. | VT Code 是使用 Rust 开发的开源终端编程 Agent。 | [GitHub About](https://github.com/vinhnx/VTCode) |
 | `workbuddy` | WorkBuddy | Tencent's AI workspace that plans workflows, uses tools, and creates finished documents, spreadsheets, presentations, and other work. | 腾讯推出的 AI 工作台，可规划流程、调用工具并交付文档、表格、演示文稿等工作成果。 | [Documentation](https://www.workbuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Product-Guide) |
@@ -612,8 +620,9 @@ contributions are not claims of upstream acceptance or deployed availability.
   independently reproduced and are not public stability guarantees. Later
   redacted task-command observations cover Cue (2026-10-30), Devin's agent
   command tool on a Linux cloud VM (2026-10-31), Instinct's agent command
-  environments on Linux cloud sandboxes (2026-10-31) and Lingguang's agent
-  command environments on Linux cloud sandboxes (2026-10-31).
+  environments on Linux cloud sandboxes (2026-10-31), Lingguang's agent command
+  environments on Linux cloud sandboxes (2026-10-31), and Today's task-command
+  sandbox (2026-11-09).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
@@ -726,6 +735,7 @@ rules; marker evidence and execution coverage remain separate from descriptions.
   [Manus](https://www.manus.im/about).
 - [Devin](https://devin.ai/) and its [documentation](https://docs.devin.ai/).
 - [Instinct](https://instinct.com/).
+- [Today](https://today.ai), [Google Play listing](https://play.google.com/store/apps/details?id=ai.today.android.app).
 - [Lingguang](https://www.lingguang.com/).
 
 ### Declaration-format references

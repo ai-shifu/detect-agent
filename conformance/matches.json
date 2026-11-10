@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.11",
+  "spec_version": "0.1.12",
   "cases": [
     {
       "name": "isolated runtime crush",
@@ -1843,7 +1843,8 @@
         "DEVIN_DIR": "synthetic",
         "INSTINCT_OUTER_TOOL_USE_ID": "synthetic",
         "EXEC_FROM": "synthetic",
-        "DSH_SHELL": "1"
+        "DSH_SHELL": "1",
+        "TODAY_ENV": "synthetic"
       },
       "expected": [
         {
@@ -1985,6 +1986,10 @@
         {
           "agent_id": "deepseek-harness",
           "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
         }
       ]
     },
@@ -2027,6 +2032,7 @@
         "INSTINCT_OUTER_TOOL_USE_ID": "synthetic",
         "EXEC_FROM": "synthetic",
         "DSH_SHELL": "1",
+        "TODAY_ENV": "synthetic",
         "PATH": "/tmp/.pi/agent/bin:/usr/bin",
         "TERM_PROGRAM": "kiro",
         "GOOSE_PROVIDER": "synthetic",
@@ -2182,6 +2188,10 @@
           "evidence": "runtime-marker"
         },
         {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        },
+        {
           "agent_id": "pi",
           "evidence": "context-hint"
         },
@@ -2212,6 +2222,52 @@
         {
           "agent_id": "zed",
           "evidence": "context-hint"
+        }
+      ]
+    },
+    {
+      "name": "isolated runtime today",
+      "env": {
+        "TODAY_ENV": "production"
+      },
+      "expected": [
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "today coexists with codex",
+      "env": {
+        "TODAY_ENV": "production",
+        "CODEX_SANDBOX": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "codex",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "today coexists with deepseek-harness",
+      "env": {
+        "TODAY_ENV": "production",
+        "DSH_SHELL": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "deepseek-harness",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
         }
       ]
     }
