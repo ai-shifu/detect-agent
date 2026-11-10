@@ -1,6 +1,6 @@
 # detect-agent.md
 
-Version: **0.1.12** · Evidence reviewed: **2026-11-03** · License: **MIT**
+Version: **0.1.12** · Evidence reviewed: **2026-11-09** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -298,6 +298,13 @@ Important boundaries:
   rather than inherited. This does not cover human terminals, cloud workers,
   non-desktop builds or other harness interfaces. Match presence only; do not
   infer identity from a `DSH_` prefix.
+- Today requires a non-empty `TODAY_ENV`, observed non-empty in a task-command
+  sandbox on 2026-11-09. `TODAY_SKILL_DIR`, `TODAY_RUNTIME_MITM_PROXY_URL` and
+  other `TODAY_` configuration variables are not markers; they can be set
+  independently and are ignored for detection. This observation covers the
+  sandbox command scope only and does not establish a vendor-wide injection
+  guarantee or coverage across other versions and launch paths. Match presence
+  only; do not infer identity from a `TODAY_` prefix.
 
 ## 5. Context hints — only after all runtime rules fail
 
