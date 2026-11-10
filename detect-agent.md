@@ -147,9 +147,9 @@ DETECT(environment, optional filesystem_probe, optional stdout_is_tty):
 First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
-editor hint. Devin's, Instinct's, Lingguang's and DeepSeek Harness's runtime
-markers are evaluated last, so a nested agent CLI's own marker wins over any
-inherited command environment.
+editor hint. The command-environment markers for Devin, Instinct, Lingguang,
+DeepSeek Harness and Today follow the CLI markers, so a nested agent CLI's own
+marker wins over these inherited command-environment markers.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -195,7 +195,7 @@ where the marker information came from; it is not a probability score.
 | 33 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
 | 34 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
 | 35 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
-| 36 | `today` | Today | non-empty `TODAY_ENV` | reported-shell |
+| 36 | `today` | Today | non-empty `TODAY_ENV` | reported-shell (task-command sandbox) |
 
 Important boundaries:
 
@@ -293,18 +293,17 @@ Important boundaries:
   agent calls but always alongside it, `DSH_HOME` is the harness-home
   configuration name, `DSH_PROFILE`/`DSH_PROFILE_DIR` are launch context, and
   plugin-registered facts (for example `DSH_DEPLOYMENT_REGION`) are not
-  asserted. The rule is evaluated last because a nested agent CLI started from a
-  harness shell inherits these names, and the markers are rebuilt per execution
-  rather than inherited. This does not cover human terminals, cloud workers,
-  non-desktop builds or other harness interfaces. Match presence only; do not
-  infer identity from a `DSH_` prefix.
-- Today requires a non-empty `TODAY_ENV`, observed non-empty in a task-command
-  sandbox on 2026-11-09. `TODAY_SKILL_DIR`, `TODAY_RUNTIME_MITM_PROXY_URL` and
-  other `TODAY_` configuration variables are not markers; they can be set
-  independently and are ignored for detection. This observation covers the
-  sandbox command scope only and does not establish a vendor-wide injection
-  guarantee or coverage across other versions and launch paths. Match presence
-  only; do not infer identity from a `TODAY_` prefix.
+  asserted. The rule follows the CLI markers because a nested agent CLI
+  inherits these names from the harness shell. The harness rebuilds the markers
+  per execution. This does not cover human terminals, cloud workers, non-desktop
+  builds or other harness interfaces. Match only the named sentinel and ignore
+  other `DSH_` names.
+- Today's rule is based on a redacted task-command sandbox observation on
+  2026-11-09 that recorded only the non-empty status of `TODAY_ENV`. The
+  observation is limited to that sandbox and does not establish a vendor-wide
+  injection guarantee or coverage across other versions and launch paths.
+  Match only non-empty `TODAY_ENV`. Ignore `TODAY_SKILL_DIR` and other
+  `TODAY_` configuration variables.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -621,8 +620,9 @@ contributions are not claims of upstream acceptance or deployed availability.
   independently reproduced and are not public stability guarantees. Later
   redacted task-command observations cover Cue (2026-10-30), Devin's agent
   command tool on a Linux cloud VM (2026-10-31), Instinct's agent command
-  environments on Linux cloud sandboxes (2026-10-31) and Lingguang's agent
-  command environments on Linux cloud sandboxes (2026-10-31).
+  environments on Linux cloud sandboxes (2026-10-31), Lingguang's agent command
+  environments on Linux cloud sandboxes (2026-10-31), and Today's task-command
+  sandbox (2026-11-09).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
