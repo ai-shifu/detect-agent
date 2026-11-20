@@ -51,6 +51,8 @@ CONTEXT_EXPLANATIONS = {
     "This may be persistent provider configuration.",
     "Model, permission and credential configuration alone does not establish an active agent.",
     "This identifies a Replit workspace.",
+    "This identifies a Bolt workspace.",
+    "This may be persistent endpoint configuration.",
     "This can be inherited from an editor terminal.",
     "This can identify a human-operated editor terminal.",
 }

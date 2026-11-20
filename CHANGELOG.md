@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.13 — 2026-11-20
+
+- Add `muse-code` (Meta Muse Code) as a registry runtime rule at priority 26,
+  using non-empty `MUSE_RELEASE_INFO`, ahead of the Claude Code and Cursor CLI
+  compatibility markers and distinct from the `muse` personal agent.
+- Add `bolt` (non-empty `BOLT_ENV`, `BOLT_ORIGIN` or `BOLT_SERVER_URL`) and
+  `rork` (non-empty `RORK_API_URL`) context hints, and accept non-empty
+  `REPLIT_SESSION` as a Replit workspace alternative. These registry names do
+  not establish agent execution and are not runtime markers.
+- Keep Factory Droid's `FACTORY_ENV` unadopted; cite the Expo detector and
+  sandbox-detector snapshots reviewed on 2026-11-20, and add product metadata,
+  synthetic boundary, declaration, coexistence and match-matrix regressions.
+
 ## 0.1.12 — 2026-11-09
 
 - Add `today` (Today AI personal assistant) as a runtime-marker product at

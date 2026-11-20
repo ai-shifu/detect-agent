@@ -1,6 +1,6 @@
 # detect-agent.md
 
-Version: **0.1.12** · Evidence reviewed: **2026-11-09** · License: **MIT**
+Version: **0.1.13** · Evidence reviewed: **2026-11-20** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -185,17 +185,18 @@ where the marker information came from; it is not a probability score.
 | 23 | `goose` | Goose | non-empty `GOOSE_TERMINAL` | registry |
 | 24 | `junie` | Junie | non-empty `JUNIE_SHIM_PATH` | public-source |
 | 25 | `pi` | Pi | non-empty `PI_CODING_AGENT` | registry |
-| 26 | `cowork` | Claude Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
-| 27 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
-| 28 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
-| 29 | `github-copilot` | GitHub Copilot CLI | non-empty `COPILOT_CLI` OR non-empty `COPILOT_AGENT_SESSION_ID` | public-source |
-| 30 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
-| 31 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
-| 32 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
-| 33 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
-| 34 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
-| 35 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
-| 36 | `today` | Today | non-empty `TODAY_ENV` | reported-shell (task-command sandbox) |
+| 26 | `muse-code` | Muse Code | non-empty `MUSE_RELEASE_INFO` | registry |
+| 27 | `cowork` | Claude Cowork | non-empty `CLAUDE_CODE_IS_COWORK` AND (non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE`) | registry |
+| 28 | `claude-code` | Claude Code | non-empty `CLAUDECODE` OR non-empty `CLAUDE_CODE` | registry |
+| 29 | `cursor-cli` | Cursor CLI | non-empty `CURSOR_AGENT` OR `CURSOR_EXTENSION_HOST_ROLE` equals `agent-exec` | registry |
+| 30 | `github-copilot` | GitHub Copilot CLI | non-empty `COPILOT_CLI` OR non-empty `COPILOT_AGENT_SESSION_ID` | public-source |
+| 31 | `kiro` | Kiro | non-empty `AGENT_CONTEXT_OUT` | registry |
+| 32 | `openclaw` | OpenClaw | non-empty `OPENCLAW_SHELL` | registry |
+| 33 | `devin` | Devin | non-empty `DEVIN_DIR` OR non-empty `DEVIN_DISABLE_HISTEXPAND` | reported-shell |
+| 34 | `instinct` | Instinct | non-empty `INSTINCT_OUTER_TOOL_USE_ID` OR non-empty `INSTINCT_OUTER_TOOL_USE_STARTED_AT` OR non-empty `INSTINCT_OUTER_TOOL_USE_TIMEOUT_SECONDS` | reported-shell |
+| 35 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
+| 36 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
+| 37 | `today` | Today | non-empty `TODAY_ENV` | reported-shell (task-command sandbox) |
 
 Important boundaries:
 
@@ -251,6 +252,17 @@ Important boundaries:
   every GitHub Copilot product or execution surface.
 - Claude Cowork requires both its specific marker and a Claude Code marker here.
   This is more restrictive than registries that check the Claude Cowork flag alone.
+- Muse Code (Meta's terminal and CI coding agent) is distinct from Muse, Meta's
+  personal agent, and uses its own canonical ID. Non-empty `MUSE_RELEASE_INFO`
+  is a registry rule from the [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/0d57f1e68ddf2853e4d563c0a85c56ab20a0af9b/src/agents.ts),
+  whose [adding change](https://github.com/expo/agent-cli-detector/pull/18)
+  states that the harness exports it to the commands it runs. The
+  [official documentation](https://dev.meta.ai/docs/muse-code) reviewed on
+  2026-11-20 does not name this variable, and no vendor agent was run for this
+  rule. Match presence only; do not infer identity from a `MUSE_` prefix, and
+  ignore user-set `MUSE_` configuration such as permission or tracing switches.
+  Muse Code follows the other CLI markers ahead of it in table order, and
+  precedes the Claude Code and Cursor CLI compatibility markers.
 - Devin's [official product site](https://devin.ai/) establishes its identity, not
   an environment-variable contract. Non-empty `DEVIN_DIR` or
   `DEVIN_DISABLE_HISTEXPAND` is based on a redacted observation of Devin's agent
@@ -316,19 +328,34 @@ to `runtime-marker` solely to report more detected agents.
 | 2 | `kiro` | `TERM_PROGRAM` contains the case-sensitive substring `kiro` AND the caller explicitly supplies `stdout_is_tty = false`. Missing TTY information does not satisfy this condition. |
 | 3 | `goose` | non-empty `GOOSE_PROVIDER`. This may be persistent provider configuration. |
 | 4 | `github-copilot` | non-empty `COPILOT_MODEL` OR non-empty `COPILOT_ALLOW_ALL` OR non-empty `COPILOT_GITHUB_TOKEN`. Model, permission and credential configuration alone does not establish an active agent. |
-| 5 | `replit` | non-empty `REPL_ID`. This identifies a Replit workspace. |
-| 6 | `devin` | The caller-provided filesystem probe reports that `/opt/.devin` exists. Skip this hint if no probe is supplied or if access is unavailable. Do not run a subprocess to check it. |
-| 7 | `cursor` | non-empty `CURSOR_TRACE_ID`. This can be inherited from an editor terminal. |
-| 8 | `zed` | non-empty `ZED_TERM`. This can identify a human-operated editor terminal. |
+| 5 | `replit` | non-empty `REPL_ID` OR non-empty `REPLIT_SESSION`. This identifies a Replit workspace. |
+| 6 | `bolt` | non-empty `BOLT_ENV` OR non-empty `BOLT_ORIGIN` OR non-empty `BOLT_SERVER_URL`. This identifies a Bolt workspace. |
+| 7 | `rork` | non-empty `RORK_API_URL`. This may be persistent endpoint configuration. |
+| 8 | `devin` | The caller-provided filesystem probe reports that `/opt/.devin` exists. Skip this hint if no probe is supplied or if access is unavailable. Do not run a subprocess to check it. |
+| 9 | `cursor` | non-empty `CURSOR_TRACE_ID`. This can be inherited from an editor terminal. |
+| 10 | `zed` | non-empty `ZED_TERM`. This can identify a human-operated editor terminal. |
+
+Bolt and Rork hints and Replit's `REPLIT_SESSION` alternative are registry
+rules from the [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/0d57f1e68ddf2853e4d563c0a85c56ab20a0af9b/src/agents.ts),
+which reports them as agent markers. The same publisher's
+[sandbox detector](https://github.com/expo/sandbox-cli-detector/blob/0cdc7148f4c2708e9c8112946b54c45fd80e779b/src/sandboxes.ts)
+classifies the Bolt names and `REPLIT_SESSION` as sandbox-environment markers,
+and `RORK_API_URL` names an endpoint setting. No injection path or task-command
+observation shows that they distinguish agent execution from a human shell in
+the same workspace, so they stay context hints. Factory Droid's
+`FACTORY_ENV` is not adopted: the registry compares a generic `production`
+value, and no injection evidence establishes that it distinguishes agent
+execution.
 
 This specification deliberately treats several broad upstream heuristics as
 context hints. In particular, a Copilot token, Goose provider setting, PATH entry,
-Replit workspace, or editor terminal may exist without an active agent. This is
+Replit or Bolt workspace, Rork endpoint setting, or editor terminal may exist
+without an active agent. This is
 not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 39 unique canonical IDs.
+The runtime and context tables together define 42 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -337,7 +364,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **41 IDs**. Explicit declaration also works
+The complete catalog therefore has **44 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 ### Product metadata
@@ -356,12 +383,14 @@ marker or extend recognition coverage.
 Codex uses its official product page to cover its ChatGPT, editor, terminal and
 cloud interfaces.
 Every canonical ID must have exactly one metadata row, with both descriptions
-and an official source. The table does not introduce additional canonical IDs.
+and an official source. The `bolt`, `muse-code` and `rork` rows were added and
+reviewed on 2026-11-20; the review date above applies to every other row. The table does not introduce additional canonical IDs.
 
 | Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |
 | --- | --- | --- | --- | --- |
 | `antigravity` | Antigravity | Google’s agent development platform, with app, CLI and IDE interfaces for building software with coding agents. | Google 的 Agent 开发平台，通过应用、命令行和 IDE 支持与编程 Agent 协作开发软件。 | [Website](https://antigravity.google/) |
 | `augment-cli` | Augment CLI | An AI agent that brings Augment Code's power to the terminal. | 将 Augment Code 的能力带入终端的 AI Agent。 | [GitHub About](https://github.com/augmentcode/auggie) |
+| `bolt` | Bolt | Prompt, run, edit, and deploy full-stack web applications. | 通过提示词运行、编辑和部署全栈 Web 应用。 | [GitHub About](https://github.com/stackblitz/bolt.new) |
 | `claude-code` | Claude Code | Terminal coding agent that understands codebases, executes routine tasks, explains complex code and handles Git workflows through natural language. | 在终端中理解代码库、执行日常任务、解释复杂代码，并通过自然语言处理 Git 工作流的编程 Agent。 | [GitHub About](https://github.com/anthropics/claude-code) |
 | `cline` | Cline | Autonomous coding agent as an SDK, IDE extension, or CLI assistant. | 可作为 SDK、IDE 扩展或命令行助手使用的自主编程 Agent。 | [GitHub About](https://github.com/cline/cline) |
 | `codex` | Codex | OpenAI’s coding agent for engineering tasks, parallel agent workflows and code review across ChatGPT, editors, terminals and the cloud. | OpenAI 的编程 Agent，可在 ChatGPT、编辑器、终端和云端处理工程任务，并支持多 Agent 并行协作及代码审查。 | [Website](https://openai.com/codex/) |
@@ -388,6 +417,7 @@ and an official source. The table does not introduce additional canonical IDs.
 | `lingguang` | Lingguang | Ant Group’s multimodal personal AI agent that identifies needs and manages tasks over time with user authorization. | 蚂蚁集团的多模态个人 AI Agent，在用户授权下识别需求并持续管理任务。 | [Company announcement](https://www.antgroup.com/en/news-media/press-releases/1793066400000) |
 | `manus` | Manus | General-purpose AI agent for automating workflows, conducting research and turning instructions into completed work. | 可自动执行工作流、开展研究，并将指令转化为实际成果的通用 AI Agent。 | [Website](https://manus.im/about) |
 | `muse` | Muse | Meta’s personal AI agent that handles tasks and projects across everyday apps and turns long-term goals into action plans. | Meta 的个人 AI Agent，可跨日常应用处理任务和项目，并将长期目标转化为行动计划。 | [Company announcement](https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/) |
+| `muse-code` | Muse Code | Meta’s coding agent for the terminal and CI, built for Muse Spark. | Meta 面向终端和 CI 的编程 Agent，为 Muse Spark 打造。 | [Documentation](https://dev.meta.ai/docs/muse-code) |
 | `openclaw` | OpenClaw | The AI that really does things. Any OS. Any Platform. The lobster way. 🦞 | 真正能办事的 AI。支持各种操作系统与平台，走龙虾自己的路。🦞 | [GitHub About](https://github.com/openclaw/openclaw) |
 | `opencode` | opencode | The open source coding agent. | 开源编程 Agent。 | [GitHub About](https://github.com/anomalyco/opencode) |
 | `pi` | Pi | AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI | AI Agent 工具包，包含统一的大模型 API、Agent 循环、终端界面和编程 Agent 命令行。 | [GitHub About](https://github.com/earendil-works/pi) |
@@ -395,6 +425,7 @@ and an official source. The table does not introduce additional canonical IDs.
 | `qwenwork` | QwenWork | Alibaba's AI office platform for completing tasks and delivering documents, spreadsheets, presentations, websites, and other work products. | 阿里巴巴推出的一站式 AI 办公平台，可执行复杂任务并交付文档、表格、PPT、网页等成果。 | [Documentation](https://docs.qwenwork.cn/product-introduction) |
 | `replit` | Replit | AI application platform that turns natural language ideas into apps and provides hosting, databases, authentication, and monitoring. | 将自然语言想法变为应用的 AI 平台，并提供托管、数据库、身份认证和监控。 | [Website](https://replit.com/) |
 | `roo-code` | Roo Code | Roo Code gives you a whole dev team of AI agents in your code editor. | 在代码编辑器中为你提供一整支 AI Agent 开发团队。 | [GitHub About](https://github.com/RooCodeInc/Roo-Code) |
+| `rork` | Rork | AI app builder that turns a chat description into a native iPhone, Android or web app, runs it in a cloud simulator and publishes it to app stores or the web. | AI 应用构建平台，可根据对话描述生成原生 iPhone、Android 或 Web 应用，在云端模拟器中运行并发布到应用商店或网页。 | [Website](https://rork.com/) |
 | `sandbase-harness` | SandBase Harness | Local-first, self-hosted AI agent runtime and MCP bridge with sandboxed sessions, memory, credentials, audit/replay, and a local Console. | 以本地为先、可自行托管的 AI Agent 运行时与 MCP 桥接，提供沙箱会话、记忆、凭据、审计回放和本地控制台。 | [GitHub About](https://github.com/sandbaseai/sandbase-harness) |
 | `today` | Today | AI personal assistant with long-term memory that plans, remembers, and helps manage work and life across channels. | 具备长期记忆的 AI 个人助手，可规划、记忆并帮助管理跨渠道的工作与生活。 | [Website](https://today.ai) |
 | `trae` | TRAE | AI coding environment combining an assisted IDE with an autonomous agent for planning, implementing, and delivering software. | 融合 AI 辅助 IDE 与自主编程 Agent 的开发环境，可规划、实现并交付软件。 | [Website](https://www.trae.ai/blog/trae_work_0609) |
@@ -558,6 +589,13 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `ROO_CLI_RUNTIME="1"`, `CLINE_ACTIVE="1"` | `(roo-code, runtime-marker)` |
 | `CLINE_WRAPPER_PATH="synthetic-wrapper"` | `(cline, runtime-marker)` |
 | `COPILOT_CLI="1"`, `COPILOT_MODEL="synthetic-model"` | `(github-copilot, runtime-marker)` |
+| `MUSE_RELEASE_INFO="0"` | `(muse-code, runtime-marker)` |
+| `MUSE_RELEASE_INFO="synthetic"`, `CLAUDECODE="1"` | `(muse-code, runtime-marker)` |
+| `JARVIS_IS_ASSIGNED="1"`, `MUSE_RELEASE_INFO="synthetic"` | `(muse, runtime-marker)` |
+| `REPLIT_SESSION="synthetic-session"` | `(replit, context-hint)` |
+| `BOLT_SERVER_URL="synthetic"` | `(bolt, context-hint)` |
+| `RORK_API_URL="synthetic"` | `(rork, context-hint)` |
+| `FACTORY_ENV="production"` | `(null, none)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
 input/output data, not another source of rules. The optional `env_name_case`
@@ -650,6 +688,12 @@ The underlying open-source projects retain their own licenses and attribution:
   (Apache-2.0), with [marker and product evidence](https://github.com/vercel/detect-agent/blob/e3dd1b263646d913482c3504acae9aa91926e800/docs/environment-marker-evidence.md).
 - [Together Python port contribution snapshot](https://github.com/togethercomputer/detect_agent/blob/a804bd9a94bacd0d50bf7ee7b072374c297f3e6d/detect_agent/agents.json)
   (Apache-2.0; Together).
+- [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/0d57f1e68ddf2853e4d563c0a85c56ab20a0af9b/src/agents.ts)
+  (MIT; Expo), reviewed on 2026-11-20, for the Muse Code runtime rule and the
+  Bolt, Rork and Replit `REPLIT_SESSION` context hints. Its
+  [sandbox detector snapshot](https://github.com/expo/sandbox-cli-detector/blob/0cdc7148f4c2708e9c8112946b54c45fd80e779b/src/sandboxes.ts)
+  informed the context classification. That snapshot's Devin rule matches the
+  reported-shell observation recorded above and adds no separate evidence.
 
 The Hugging Face snapshot uses simpler OR matching and does not contain the
 compound Grok Bot cloud rule. This specification can express the conjunction
@@ -662,7 +706,7 @@ local policy; it does not claim an upstream change or a new vendor contract.
 
 Additional detector and design references reviewed on 2026-11-03:
 
-- [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/d2f8b90f539fd6e3af3c74e76cd0bd200fa8aee0/src/agents.ts)
+- An earlier [Expo detector snapshot](https://github.com/expo/agent-cli-detector/blob/d2f8b90f539fd6e3af3c74e76cd0bd200fa8aee0/src/agents.ts)
   supplied CLI-marker candidates. Its [strategy implementation](https://github.com/expo/agent-cli-detector/blob/d2f8b90f539fd6e3af3c74e76cd0bd200fa8aee0/src/detector.ts)
   informed the separation of rules and diagnostic capabilities. Adopted CLI
   markers are supported by the producer-path references below.

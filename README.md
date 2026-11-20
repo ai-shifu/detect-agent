@@ -6,12 +6,12 @@ It describes how to recognize AI agent execution environments using local signal
 
 ## Supported agents
 
-The specification covers **41 product IDs**:
+The specification covers **44 product IDs**:
 
 | Recognition | Agents |
 | --- | --- |
-| Runtime markers (36) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, DeepSeek Harness, Devin, Doubao Work, Gemini CLI, GitHub Copilot CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, OpenClaw, opencode, Pi, Qwen Code, QwenWork, Roo Code, TRAE, VT Code, WorkBuddy, Today |
-| Context hints (3) | Cursor (editor), Replit, Zed |
+| Runtime markers (37) | Antigravity, Augment CLI, Claude Code, Claude Cowork, Cline, Codex, Crush, Cue, Cursor CLI, DeepSeek Harness, Devin, Doubao Work, Gemini CLI, GitHub Copilot CLI, Goose, Grok Bot, Grok Build, Hermes Agent, Instinct, Junie, Kilo Code, Kimi Code, Kiro, Lingguang, Manus, Muse, Muse Code, OpenClaw, opencode, Pi, Qwen Code, QwenWork, Roo Code, TRAE, VT Code, WorkBuddy, Today |
+| Context hints (5) | Bolt, Cursor (editor), Replit, Rork, Zed |
 | Explicit declaration only (2) | hi, SandBase Harness |
 
 Coverage and matching conditions are defined in [the specification](detect-agent.md).
@@ -69,7 +69,7 @@ that already works does not need a new rule. [Agent workflow →](docs/contribut
 
 ## How it works
 
-[Specification 0.1.12](detect-agent.md) covers **41 canonical product IDs**. It
+[Specification 0.1.13](detect-agent.md) covers **44 canonical product IDs**. It
 defines declarations, ordered runtime rules, context hints and exact matching
 semantics. Detection describes environment context; it does not authenticate
 the immediate caller.
