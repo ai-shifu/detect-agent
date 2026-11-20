@@ -199,6 +199,23 @@ class CheckTests(unittest.TestCase):
                 with self.assertRaises(check.CheckError):
                     check.Specification(document)
 
+    def test_later_reviewed_metadata_rows_use_their_own_date(self):
+        table_date = self.spec.agent_metadata["codex"]["reviewed_at"]
+        later_row = "| `rork` | 2026-11-20 |"
+        self.assertIn(later_row, self.markdown)
+        self.assertEqual(self.spec.agent_info("rork")["reviewed_at"], "2026-11-20")
+        self.assertEqual(self.spec.agent_info("codex")["reviewed_at"], table_date)
+        for replacement in (
+            "| `unknown-product` | 2026-11-20 |",
+            later_row + "\n" + later_row,
+            "| `rork` | 2026-02-30 |",
+            "| `rork` | 20261120 |",
+            f"| `rork` | {table_date} |",
+        ):
+            with self.subTest(replacement=replacement):
+                with self.assertRaises(check.CheckError):
+                    check.Specification(self.markdown.replace(later_row, replacement, 1))
+
     def test_product_metadata_records_are_independent_copies(self):
         original = copy.deepcopy(self.spec.agent_metadata["codex"])
         record = self.spec.agent_info("codex")

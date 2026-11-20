@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ASCII_SPACE = "\t\n\v\f\r "
 ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
 ID = re.compile(r"`([a-z][a-z0-9-]*)`\Z")
+LATER_REVIEW_HEADER = "| Later-reviewed ID | Reviewed |"
 METADATA_HEADER = (
     "| Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |"
 )
@@ -273,6 +274,28 @@ class Specification:
                 "reviewed_at": dates[0],
             }
         require(set(metadata) == self.catalog, "Product metadata must cover exactly the catalog.")
+        if LATER_REVIEW_HEADER in (line.strip() for line in markdown.splitlines()):
+            later = set()
+            for row in table(markdown, LATER_REVIEW_HEADER):
+                agent_id = canonical(row[0])
+                require(
+                    agent_id in metadata and agent_id not in later,
+                    "Unknown or duplicate later-reviewed metadata ID.",
+                )
+                require(
+                    re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", row[1]) is not None,
+                    "Invalid later product metadata review date.",
+                )
+                try:
+                    reviewed = date.fromisoformat(row[1])
+                except ValueError:
+                    raise CheckError("Invalid later product metadata review date.") from None
+                require(
+                    reviewed > date.fromisoformat(dates[0]),
+                    "Later product metadata review date must follow the table date.",
+                )
+                later.add(agent_id)
+                metadata[agent_id]["reviewed_at"] = row[1]
         return metadata
 
     def agent_info(self, agent_id):

@@ -383,8 +383,15 @@ marker or extend recognition coverage.
 Codex uses its official product page to cover its ChatGPT, editor, terminal and
 cloud interfaces.
 Every canonical ID must have exactly one metadata row, with both descriptions
-and an official source. The `bolt`, `muse-code` and `rork` rows were added and
-reviewed on 2026-11-20; the review date above applies to every other row. The table does not introduce additional canonical IDs.
+and an official source. The table does not introduce additional canonical IDs.
+The review date above applies to every row, except the rows listed in the
+later-review table below, which use their own date:
+
+| Later-reviewed ID | Reviewed |
+| --- | --- |
+| `bolt` | 2026-11-20 |
+| `muse-code` | 2026-11-20 |
+| `rork` | 2026-11-20 |
 
 | Canonical ID | Product | Description (en) | Description (zh-CN) | Official source |
 | --- | --- | --- | --- | --- |
@@ -443,7 +450,7 @@ commit as their detection rules. It returns the following public metadata:
   name: Product column,
   descriptions: {"en": Description (en), "zh-CN": Description (zh-CN)},
   source: {type: source type, url: linked official URL},
-  reviewed_at: product metadata review date in YYYY-MM-DD format
+  reviewed_at: the row's review date in YYYY-MM-DD format
 }
 ```
 
@@ -451,7 +458,8 @@ Source link labels map to types as follows: `GitHub About` to `github-about`,
 `Website` to `website`,
 `Documentation` to `documentation`, `Company announcement` to
 `company-announcement`, and `Official repository` to `official-repository`.
-The review date above applies to every row. Names and descriptions are strings;
+`reviewed_at` is the row's later-review date when listed, otherwise the
+product metadata review date. Names and descriptions are strings;
 the two description keys are language tags, with no implicit locale selection.
 
 Look up the complete canonical ID exactly. Null, unknown IDs, declaration aliases
