@@ -22,8 +22,9 @@ coverage report or an evidence-backed rule change and PR.
 ## Gather evidence
 
 Follow [the evidence and rule requirements](../CONTRIBUTING.md#evidence-and-rule-requirements).
-Use published source/documentation, a permitted distribution inspection or an
-honestly scoped redacted observation; the specification defines the evidence types.
+Use published source/documentation, a permitted distribution inspection, an
+honestly scoped redacted observation or a pinned registry snapshot under the
+limits in CONTRIBUTING.md; the specification defines the evidence types.
 A product website establishes identity, and your own identity claim establishes
 neither a marker contract nor its injection scope.
 

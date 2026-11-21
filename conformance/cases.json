@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.12",
+  "spec_version": "0.1.13",
   "cases": [
     {
       "name": "empty environment",
@@ -3770,6 +3770,332 @@
       "name": "today skill dir only is not a marker",
       "env": {
         "TODAY_SKILL_DIR": "/opt/today/skills"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "muse code release marker",
+      "env": {
+        "MUSE_RELEASE_INFO": "synthetic"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code release marker with zero value is non-empty",
+      "env": {
+        "MUSE_RELEASE_INFO": "0"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code release marker with false value is non-empty",
+      "env": {
+        "MUSE_RELEASE_INFO": "false"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code release marker with whitespace-only value is non-empty",
+      "env": {
+        "MUSE_RELEASE_INFO": " "
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code empty release marker fails",
+      "env": {
+        "MUSE_RELEASE_INFO": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "muse code user configuration alone fails",
+      "env": {
+        "MUSE_TRANSPORT_TRACE": "1",
+        "MUSE_PERMISSION_PROFILE_FAIL_OPEN": "1"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "muse code mcp session variable alone fails",
+      "env": {
+        "MUSE_SESSION_ID": "synthetic-session"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "muse code precedes claude code compatibility marker",
+      "env": {
+        "MUSE_RELEASE_INFO": "synthetic",
+        "CLAUDECODE": "1"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code precedes cursor cli compatibility marker",
+      "env": {
+        "MUSE_RELEASE_INFO": "synthetic",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "pi precedes muse code",
+      "env": {
+        "PI_CODING_AGENT": "true",
+        "MUSE_RELEASE_INFO": "synthetic"
+      },
+      "expected": {
+        "agent_id": "pi",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse personal agent precedes muse code",
+      "env": {
+        "JARVIS_IS_ASSIGNED": "1",
+        "MUSE_RELEASE_INFO": "synthetic"
+      },
+      "expected": {
+        "agent_id": "muse",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "muse code declaration",
+      "env": {
+        "AI_AGENT": "Muse-Code"
+      },
+      "expected": {
+        "agent_id": "muse-code",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "muse code underscore spelling is not an alias",
+      "env": {
+        "AI_AGENT": "muse_code",
+        "MUSE_RELEASE_INFO": "synthetic"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "replit session marker is context only",
+      "env": {
+        "REPLIT_SESSION": "synthetic-session"
+      },
+      "expected": {
+        "agent_id": "replit",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "replit empty session marker fails",
+      "env": {
+        "REPLIT_SESSION": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "replit session marker yields to runtime marker",
+      "env": {
+        "REPLIT_SESSION": "synthetic-session",
+        "CODEX_THREAD_ID": "synthetic-thread"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "bolt environment name is context only",
+      "env": {
+        "BOLT_ENV": "synthetic"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "bolt origin is context only",
+      "env": {
+        "BOLT_ORIGIN": "synthetic"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "bolt server url is context only",
+      "env": {
+        "BOLT_SERVER_URL": "synthetic"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "bolt false value is non-empty",
+      "env": {
+        "BOLT_ENV": "false"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "bolt empty alternatives fail",
+      "env": {
+        "BOLT_ENV": "",
+        "BOLT_ORIGIN": "",
+        "BOLT_SERVER_URL": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "bolt workspace yields to runtime marker",
+      "env": {
+        "BOLT_ENV": "synthetic",
+        "CLAUDECODE": "1"
+      },
+      "expected": {
+        "agent_id": "claude-code",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "replit precedes bolt context",
+      "env": {
+        "REPL_ID": "synthetic",
+        "BOLT_ENV": "synthetic"
+      },
+      "expected": {
+        "agent_id": "replit",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "rork endpoint setting is context only",
+      "env": {
+        "RORK_API_URL": "synthetic"
+      },
+      "expected": {
+        "agent_id": "rork",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "rork empty endpoint setting fails",
+      "env": {
+        "RORK_API_URL": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "bolt precedes rork context",
+      "env": {
+        "BOLT_SERVER_URL": "synthetic",
+        "RORK_API_URL": "synthetic"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "rork precedes devin file context",
+      "env": {
+        "RORK_API_URL": "synthetic"
+      },
+      "files": [
+        "/opt/.devin"
+      ],
+      "expected": {
+        "agent_id": "rork",
+        "evidence": "context-hint"
+      }
+    },
+    {
+      "name": "rork endpoint setting yields to runtime marker",
+      "env": {
+        "RORK_API_URL": "synthetic",
+        "CURSOR_AGENT": "1"
+      },
+      "expected": {
+        "agent_id": "cursor-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "bolt declaration",
+      "env": {
+        "AGENT": "bolt"
+      },
+      "expected": {
+        "agent_id": "bolt",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "rork declaration",
+      "env": {
+        "AI_AGENT": "rork@1.0"
+      },
+      "expected": {
+        "agent_id": "rork",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "factory environment setting is not adopted",
+      "env": {
+        "FACTORY_ENV": "production"
       },
       "expected": {
         "agent_id": null,
