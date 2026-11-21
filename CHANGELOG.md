@@ -47,6 +47,10 @@
 
 ## Unreleased
 
+- Document registry snapshots as an accepted, limited evidence type in the
+  contribution requirements, matching the specification's evidence types:
+  label the snapshot, keep its claims scoped, and keep registry-only
+  configuration or workspace names in the context table.
 - Add official-source bilingual product metadata, preferring official GitHub
   About descriptions, keyed by canonical ID in the
   specification, with optional local lookup and development-time JSON exports.

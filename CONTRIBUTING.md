@@ -14,8 +14,15 @@ follow [Implement detection](docs/implement-detection.md).
 For a rule change, include:
 
 1. The canonical product ID and official identity reference.
-2. A published injection path, a distribution/version inspection, or a redacted
-   runtime observation. Label the evidence type and execution scope honestly.
+2. A published injection path, a distribution/version inspection, a redacted
+   runtime observation, or a registry entry. Label the evidence type and
+   execution scope honestly. A registry entry is a name in a pinned snapshot of
+   an open-source detector that the specification cites. It shows only that
+   another detector uses the name: it is not a vendor contract, an injection
+   path or a live observation. Record that snapshot's own source claim, if any,
+   and its coverage limits. Prefer producer evidence when it is available. A
+   registry-only name that may be persistent configuration or a workspace or
+   endpoint setting belongs in the context table, not the runtime table.
 3. Exact variable names, non-empty or exact-value semantics, AND/OR grouping,
    and priority relative to inherited host markers.
 4. Synthetic positive and negative cases in `conformance/cases.json`, including
