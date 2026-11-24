@@ -319,15 +319,16 @@ Important boundaries:
   `TODAY_` configuration variables.
 - Tasks in Gemini (formerly Gemini Spark, distinct from `gemini-cli`) uses
   non-empty `GEMINI_WORKSPACE_DIR`, based on a redacted observation of the
-  Gemini macOS desktop app's task-command sandbox on 2026-11-23. The variable
-  was present and non-empty in the spawned command process environment, while
-  a fresh login shell, `/etc` shell profiles and user shell startup files had
-  neither `GEMINI_WORKSPACE_DIR` nor `BASH_ENV`/`ENV`. The rule follows the
-  CLI markers so a nested agent CLI (including `gemini-cli`) keeps its own ID
-  when inheriting the environment. This scoped observation does not establish
-  a vendor-wide injection guarantee or cover cloud task VMs, Windows, web or
-  mobile surfaces, or human terminals. Match presence only; ignore
-  `GEMINI_API_KEY` and other `GEMINI_` configuration variables.
+  Gemini macOS desktop app (version 1.147.6.1557) task-command sandbox on
+  2026-11-23. The variable was present and non-empty in the spawned command
+  process environment, while a fresh login shell, `/etc` shell profiles and
+  user shell startup files had neither `GEMINI_WORKSPACE_DIR` nor
+  `BASH_ENV`/`ENV`. The rule follows the CLI markers so a nested agent CLI
+  (including `gemini-cli`) keeps its own ID when inheriting the environment.
+  This scoped observation does not establish a vendor-wide injection guarantee
+  or cover other builds, cloud task VMs, Windows, web or mobile surfaces, or
+  human terminals. Match presence only; ignore `GEMINI_API_KEY` and other
+  `GEMINI_` configuration variables.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -686,7 +687,7 @@ contributions are not claims of upstream acceptance or deployed availability.
   environments on Linux cloud sandboxes (2026-10-31), Lingguang's agent command
   environments on Linux cloud sandboxes (2026-10-31), Today's task-command
   sandbox (2026-11-09), and Tasks in Gemini's macOS task-command sandbox
-  (2026-11-23).
+  (Gemini for Mac 1.147.6.1557, 2026-11-23).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
