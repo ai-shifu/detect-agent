@@ -1,6 +1,6 @@
 # detect-agent.md
 
-Version: **0.1.13** · Evidence reviewed: **2026-11-20** · License: **MIT**
+Version: **0.1.14** · Evidence reviewed: **2026-11-23** · License: **MIT**
 
 ## Purpose and instructions for implementing agents
 
@@ -148,8 +148,8 @@ First match wins within each stage. A runtime marker always wins over a context
 hint. Claude Cowork precedes Claude Code; Grok Bot and Grok Build precede their
 Cursor or Claude compatibility markers; Cursor CLI precedes the generic Cursor
 editor hint. The command-environment markers for Devin, Instinct, Lingguang,
-DeepSeek Harness and Today follow the CLI markers, so a nested agent CLI's own
-marker wins over these inherited command-environment markers.
+DeepSeek Harness, Today and Tasks in Gemini follow the CLI markers, so a nested
+agent CLI's own marker wins over these inherited command-environment markers.
 Other simultaneous runtime markers use the documented table order. The order is
 an implementation policy, not a claim about arbitrary nested-agent ancestry.
 
@@ -197,6 +197,7 @@ where the marker information came from; it is not a probability score.
 | 35 | `lingguang` | Lingguang | non-empty `EXEC_FROM` | reported-shell |
 | 36 | `deepseek-harness` | DeepSeek Harness | non-empty `DSH_SHELL` | public-source / static-distribution |
 | 37 | `today` | Today | non-empty `TODAY_ENV` | reported-shell (task-command sandbox) |
+| 38 | `gemini-tasks` | Tasks in Gemini | non-empty `GEMINI_WORKSPACE_DIR` | reported-shell (macOS task-command sandbox) |
 
 Important boundaries:
 
@@ -316,6 +317,18 @@ Important boundaries:
   injection guarantee or coverage across other versions and launch paths.
   Match only non-empty `TODAY_ENV`. Ignore `TODAY_SKILL_DIR` and other
   `TODAY_` configuration variables.
+- Tasks in Gemini (formerly Gemini Spark, distinct from `gemini-cli`) uses
+  non-empty `GEMINI_WORKSPACE_DIR`, based on a redacted observation of the
+  Gemini macOS desktop app (version 1.147.6.1557) task-command sandbox on
+  2026-11-23. The variable was present and non-empty in the spawned command
+  process environment, while a fresh login shell, `/etc` shell profiles and
+  user shell startup files had neither `GEMINI_WORKSPACE_DIR` nor
+  `BASH_ENV`/`ENV`. The rule follows the CLI markers so a nested agent CLI
+  (including `gemini-cli`) keeps its own ID when inheriting the environment.
+  This scoped observation does not establish a vendor-wide injection guarantee
+  or cover other builds, cloud task VMs, Windows, web or mobile surfaces, or
+  human terminals. Match presence only; ignore `GEMINI_API_KEY` and other
+  `GEMINI_` configuration variables.
 
 ## 5. Context hints — only after all runtime rules fail
 
@@ -355,7 +368,7 @@ not a bit-for-bit reproduction of any one upstream library.
 
 ## 6. Canonical IDs and declaration-only products
 
-The runtime and context tables together define 42 unique canonical IDs.
+The runtime and context tables together define 43 unique canonical IDs.
 Also recognize the following two IDs **only when explicitly declared**:
 
 | Canonical ID | Product | Reference |
@@ -364,7 +377,7 @@ Also recognize the following two IDs **only when explicitly declared**:
 | `sandbase-harness` | SandBase Harness | [Official repository](https://github.com/sandbaseai/sandbase-harness) |
 
 No automatic marker is asserted for those two products in this version.
-The complete catalog therefore has **44 IDs**. Explicit declaration also works
+The complete catalog therefore has **45 IDs**. Explicit declaration also works
 for every product in the runtime and context tables.
 
 ### Product metadata
@@ -390,6 +403,7 @@ later-review table below, which use their own date:
 | Later-reviewed ID | Reviewed |
 | --- | --- |
 | `bolt` | 2026-11-20 |
+| `gemini-tasks` | 2026-11-23 |
 | `muse-code` | 2026-11-20 |
 | `rork` | 2026-11-20 |
 
@@ -410,6 +424,7 @@ later-review table below, which use their own date:
 | `devin` | Devin | Autonomous software engineer that works in cloud or local environments, tests changes and prepares pull requests. | 自主软件工程师，可在云端或本地环境工作、测试改动并准备拉取请求。 | [Website](https://devin.ai/) |
 | `doubao-work` | Doubao Work | AI work platform for individuals and teams that executes tasks and creates documents, spreadsheets, presentations and applications with Feishu integration. | 面向个人和团队的智能体工作平台，可执行任务、生成文档、表格、演示与应用，并接入飞书协作。 | [Website](https://www.feishu.cn/content/article/7677519271848610746) |
 | `gemini-cli` | Gemini CLI | An open-source AI agent that brings the power of Gemini directly into your terminal. | 将 Gemini 能力直接带入终端的开源 AI Agent。 | [GitHub About](https://github.com/google-gemini/gemini-cli) |
+| `gemini-tasks` | Tasks in Gemini | Google’s personal AI agent in the Gemini app that completes multi-step tasks across local files, desktop apps, the web, and Google Workspace. | Google Gemini 应用中的个人 AI Agent，可跨本地文件、桌面应用、网页和 Google Workspace 完成多步骤任务。 | [Company announcement](https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/) |
 | `github-copilot` | GitHub Copilot CLI | GitHub Copilot CLI brings the power of Copilot coding agent directly to your terminal. | 将 Copilot 编程 Agent 的能力直接带入终端。 | [GitHub About](https://github.com/github/copilot-cli) |
 | `goose` | Goose | an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM | 开源、可扩展的 AI Agent，不仅提供代码建议，还能使用任意大语言模型安装、执行、编辑和测试。 | [GitHub About](https://github.com/aaif-goose/goose) |
 | `grok-bot` | Grok Bot | AI teammates that retain context and complete tasks across apps and websites on a persistent cloud computer. | 保留上下文、在持久云电脑上跨应用和网站完成任务的 AI 队友。 | [Documentation](https://cursor.com/docs/grok-bot) |
@@ -604,6 +619,9 @@ All values below are synthetic, except fixed product/sentinel constants.
 | `BOLT_SERVER_URL="synthetic"` | `(bolt, context-hint)` |
 | `RORK_API_URL="synthetic"` | `(rork, context-hint)` |
 | `FACTORY_ENV="production"` | `(null, none)` |
+| `GEMINI_WORKSPACE_DIR="synthetic-workspace"` | `(gemini-tasks, runtime-marker)` |
+| `GEMINI_WORKSPACE_DIR="synthetic-workspace"`, `GEMINI_CLI="1"` | `(gemini-cli, runtime-marker)` |
+| `GEMINI_API_KEY="synthetic-key"` | `(null, none)` |
 
 The supplementary [`conformance/cases.json`](conformance/cases.json) is portable
 input/output data, not another source of rules. The optional `env_name_case`
@@ -667,8 +685,9 @@ contributions are not claims of upstream acceptance or deployed availability.
   redacted task-command observations cover Cue (2026-10-30), Devin's agent
   command tool on a Linux cloud VM (2026-10-31), Instinct's agent command
   environments on Linux cloud sandboxes (2026-10-31), Lingguang's agent command
-  environments on Linux cloud sandboxes (2026-10-31), and Today's task-command
-  sandbox (2026-11-09).
+  environments on Linux cloud sandboxes (2026-10-31), Today's task-command
+  sandbox (2026-11-09), and Tasks in Gemini's macOS task-command sandbox
+  (Gemini for Mac 1.147.6.1557, 2026-11-23).
 - **registry**: a rule appears in the referenced open-source detector snapshots.
   This attribution alone does not establish an official vendor contract.
 
@@ -789,6 +808,9 @@ rules; marker evidence and execution coverage remain separate from descriptions.
 - [Instinct](https://instinct.com/).
 - [Today](https://today.ai), [Google Play listing](https://play.google.com/store/apps/details?id=ai.today.android.app).
 - [Lingguang](https://www.lingguang.com/).
+- [Tasks in Gemini](https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/),
+  [Gemini for desktop](https://gemini.google/desktop/) and
+  [Computer use in the Gemini app for Mac](https://blog.google/innovation-and-ai/products/gemini-app/computer-use-mac/).
 
 ### Declaration-format references
 

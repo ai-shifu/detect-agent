@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.13",
+  "spec_version": "0.1.14",
   "cases": [
     {
       "name": "isolated runtime crush",
@@ -1865,7 +1865,8 @@
         "INSTINCT_OUTER_TOOL_USE_ID": "synthetic",
         "EXEC_FROM": "synthetic",
         "DSH_SHELL": "1",
-        "TODAY_ENV": "synthetic"
+        "TODAY_ENV": "synthetic",
+        "GEMINI_WORKSPACE_DIR": "synthetic"
       },
       "expected": [
         {
@@ -2015,6 +2016,10 @@
         {
           "agent_id": "today",
           "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-tasks",
+          "evidence": "runtime-marker"
         }
       ]
     },
@@ -2059,6 +2064,7 @@
         "EXEC_FROM": "synthetic",
         "DSH_SHELL": "1",
         "TODAY_ENV": "synthetic",
+        "GEMINI_WORKSPACE_DIR": "synthetic",
         "PATH": "/tmp/.pi/agent/bin:/usr/bin",
         "TERM_PROGRAM": "kiro",
         "GOOSE_PROVIDER": "synthetic",
@@ -2221,6 +2227,10 @@
         },
         {
           "agent_id": "today",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-tasks",
           "evidence": "runtime-marker"
         },
         {
@@ -2454,6 +2464,59 @@
       "name": "factory environment setting has no match",
       "env": {
         "FACTORY_ENV": "production"
+      },
+      "expected": []
+    },
+    {
+      "name": "isolated runtime gemini-tasks",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace"
+      },
+      "expected": [
+        {
+          "agent_id": "gemini-tasks",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "gemini-tasks coexists with gemini-cli",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace",
+        "GEMINI_CLI": "1"
+      },
+      "expected": [
+        {
+          "agent_id": "gemini-cli",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-tasks",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "gemini-tasks coexists with today",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace",
+        "TODAY_ENV": "synthetic"
+      },
+      "expected": [
+        {
+          "agent_id": "today",
+          "evidence": "runtime-marker"
+        },
+        {
+          "agent_id": "gemini-tasks",
+          "evidence": "runtime-marker"
+        }
+      ]
+    },
+    {
+      "name": "gemini api key only has no match",
+      "env": {
+        "GEMINI_API_KEY": "synthetic-key"
       },
       "expected": []
     }

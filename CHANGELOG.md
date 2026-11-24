@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.14 — 2026-11-23
+
+- Add `gemini-tasks` (Tasks in Gemini) as a lowest-priority runtime rule at
+  priority 38, using non-empty `GEMINI_WORKSPACE_DIR`, based on a redacted
+  observation of the Gemini macOS app task-command sandbox; add product
+  metadata, synthetic boundary, configuration-only negative, declaration,
+  coexistence and match-matrix regressions.
+
 ## 0.1.13 — 2026-11-20
 
 - Add `muse-code` (Meta Muse Code) as a registry runtime rule at priority 26,

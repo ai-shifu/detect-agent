@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.13",
+  "spec_version": "0.1.14",
   "cases": [
     {
       "name": "empty environment",
@@ -4096,6 +4096,119 @@
       "name": "factory environment setting is not adopted",
       "env": {
         "FACTORY_ENV": "production"
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "gemini-tasks non-empty marker",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace"
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks zero value counts",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "0"
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks false value counts",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "false"
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks whitespace value counts",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": " "
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks empty marker fails",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": ""
+      },
+      "expected": {
+        "agent_id": null,
+        "evidence": "none"
+      }
+    },
+    {
+      "name": "gemini-tasks declaration",
+      "env": {
+        "AGENT": "gemini-tasks"
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "gemini-tasks versioned declaration",
+      "env": {
+        "AI_AGENT": "gemini-tasks@1.0"
+      },
+      "expected": {
+        "agent_id": "gemini-tasks",
+        "evidence": "declared"
+      }
+    },
+    {
+      "name": "gemini-tasks coexists with gemini-cli",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace",
+        "GEMINI_CLI": "1"
+      },
+      "expected": {
+        "agent_id": "gemini-cli",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks coexists with codex",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace",
+        "CODEX_THREAD_ID": "synthetic-thread"
+      },
+      "expected": {
+        "agent_id": "codex",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini-tasks coexists with today",
+      "env": {
+        "GEMINI_WORKSPACE_DIR": "synthetic-workspace",
+        "TODAY_ENV": "synthetic"
+      },
+      "expected": {
+        "agent_id": "today",
+        "evidence": "runtime-marker"
+      }
+    },
+    {
+      "name": "gemini api key only is not a marker",
+      "env": {
+        "GEMINI_API_KEY": "synthetic-key"
       },
       "expected": {
         "agent_id": null,
